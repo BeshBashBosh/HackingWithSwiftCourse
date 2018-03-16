@@ -326,6 +326,73 @@ let anotherPossibleNilOrString = canReturnOptional(switchOn: 0)?.uppercased()
 // ?? is the NCO
 let unpackedOptionalOrNCO = (canReturnOptional(switchOn: 3) ?? "unknown").uppercased()
 
+
+// ==============================
+// Structs
+// ==============================
+// Complex data types made up of multiple values (properties) and components
+// Think of one as some kind of object (e.g. a Person that has heigh, weight, name etc.)
+struct Person {
+    // Note: Structs get a free memberwise initialiser, so below can be defined when struct object instantiated
+    let name: String
+    var height: Double
+    var age: Int
+}
+
+var Ben = Person(name: "Ben", height: 185, age: 28)
+print("Created a Person called \(Ben.name), who is \(Ben.age) years old, and has a height of \(Ben.height)cm")
+// Note that if 'Ben: Person' was created as a let value, the memeber properties (even if vars) will NOT be editable
+var myBirthday = true
+if myBirthday {
+    Ben.age = 29
+    print("\(Ben.name) has had his birthday and is now \(Ben.age) years old")
+}
+
+// IMPORTANT: Structs are COPY ON WRITE types. That is:
+var Ben10 = Ben // Ben10 would now it's own instance
+Ben10.age = 10
+print("\(Ben10.age) != \(Ben.age)")
+
+// Can also put functions, called TYPE METHODS, inside structs
+struct Dog {
+    var name: String
+    var sound: String
+    
+    func makesSound() -> String {
+        return sound
+    }
+}
+
+var Fido = Dog(name: "Fido", sound: "Woof!")
+print("The dog called \(Fido.name) makes the sound \"\(Fido.makesSound())\"")
+
+// METHODS ASIDE: If you want to get part of iOS operating system call a struct (or class) method, have to add a "@objc" to start of func definition.\
+// This makes the method available to Objective-C to call.
+// Alternatively "@objcMembers" can be prepended to the struct template to make all its methods available to iOS.
+
+// ==============================
+// Classes
+// ==============================
+
+
+// ==============================
+// Properties
+// ==============================
+
+
+// ==============================
+// Access Control
+// ==============================
+
+
+// ==============================
+// Polymorphism and typecasting
+// ==============================
+
+// ==============================
+// Closures
+// ==============================
+
 // so the constant possibleOptional will be an optional in this case
-print("Done")
+print("Fin.")
 
