@@ -392,7 +392,7 @@ print("The dog called \(Fido.name) makes the sound \"\(Fido.makesSound())\"")
 // ==============================
 // Closures
 // ==============================
-
+print("test ipad playgrounds with working copy")
 // so the constant possibleOptional will be an optional in this case
 print("Fin.")
 
