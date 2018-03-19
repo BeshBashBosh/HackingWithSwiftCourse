@@ -49,6 +49,7 @@ class ViewController: UITableViewController {
         }
     }
     
+    // MARK: view*Load/Appear() methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -67,6 +68,12 @@ class ViewController: UITableViewController {
                 pictures.append(item)
             }
         }
+        
+        // Set navigation controller title
+        title = "Storm Viewer"
+        
+        // Anable iOS11 large titles
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     override func didReceiveMemoryWarning() {
