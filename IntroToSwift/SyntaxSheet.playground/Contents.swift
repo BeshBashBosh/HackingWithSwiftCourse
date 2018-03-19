@@ -372,13 +372,150 @@ print("The dog called \(Fido.name) makes the sound \"\(Fido.makesSound())\"")
 
 // ==============================
 // Classes
-// ==============================
+// =============================
+
+"""
+Classes are like structs (or rather structs are like classes...)
+but have some important differences:
+1. No automatic memberwise initialiser
+2. Inheritance (class can be based off another class, not possible in structs)
+3. Creating an instance of a class is called an object, e.g.
+object = Class()
+Copying this class will point to the same instance, so:
+object2 = object
+object2.property = someValue // object.property will also change!
+"""
+
+// Initializing
+class PersonClass {
+    var name: String
+    var age: Int
+    var height: Float
+    
+    init(name: String, age: Int, height: Float) {
+        self.name = name
+        self.age = age 
+        self.height = height
+        // the self differentiates the age argument of init 
+        // the class memeber variable by the same name. 
+        // In the init case we are using it to make it clear we are
+        // referring to the class properties.
+    }
+    
+    func speak() {
+        print("Hello World")
+    }
+}
+
+// IMPORTANT: Swift requires all non-optional properties have a
+// value by the end of the init(), or by the time the init calls
+// any other method, whatever comes first.
+
+// Inheritance
+class Programmer: PersonClass {
+    var language: String
+    
+    // New properties must be initialized before passing other
+    // values to superclass initialiser. Can create custom
+    // init() to deal with this like so:
+    init(name: String, age: Int, height: Float, language: String) {
+        self.language = language
+        super.init(name: name, age: age, height: height)
+    }
+    
+    override func speak() {
+        print("print(\"Hello World\")")
+    }
+}
+
+let human = PersonClass(name: "A. Joe", age: 28, height: 182.4)
+human.speak()
+
+let swiftUser = Programmer(name: "Ben", age: 28, height: 185.0, language: "Swift")
+swiftUser.speak()
 
 
 // ==============================
 // Properties
 // ==============================
 
+"""
+Structs and Classes are collectively known as "Types".
+They can have their own variable and constants, collectively known 
+as "Type Properties".
+Since Types can also have Methods, you can have the Types behave with respect to their own Properties. e.g.
+"""
+extension PersonClass {
+    func describe() {
+        print("My name is \(name). I am \(age) years old and \(height) cm tall")
+    }
+}
+// NOTE: 'extension' syntax lets us add functionality to already existing classes/structs etc.
+
+let newHuman = PersonClass(name: "A. Jane", age: 28, height: 165.5)
+newHuman.describe()
+
+// PROPERTY OBSERVERS
+// Can add code to a Type property that will run when its value is modified, e.g.
+struct PropObserver {
+    var property: Int {
+        willSet {
+            updateUI(msg: "Changing from \(property) to \(newValue)")
+        }
+        didSet {
+            updateUI(msg: "Changed from \(oldValue) to \(property)")
+        }
+    }
+    
+    func updateUI(msg: String) {
+        print(msg)
+    }
+}
+
+var anObservable = PropObserver(property: 10)
+anObservable.property = 5
+
+// COMPUTED PROPERTIES
+// Computed properties evaluate actual code when accessed, e.g.
+struct ComputedProperty {
+    var property: Int
+    var compProp: Int {
+        get {
+            return property
+        } 
+        set {
+            property = newValue
+        }
+    }
+}
+
+var aComputedProp = ComputedProperty(property: 10)
+print(aComputedProp.compProp)
+aComputedProp.compProp = 5
+print(aComputedProp.compProp)
+
+// Note: When using a computed property for just READING data,
+// no need to put the 'get' (there will be no 'set').
+
+
+// STATIC PROPERTIES & METHODS 
+"""
+Static properties and methods are those that
+BELONG TO THE TYPE AND NOT THE INSTANCE.
+Could think of it as shared functionality between Types (i.e. all electrons have the same charge!)
+"""
+
+struct StaticPropMeth {
+    static var staticProp: String = "This is shared across all instances"
+    var property: String
+    
+    static func describe() {
+        print("This is a static method")
+    }
+}
+
+print(StaticPropMeth.staticProp)
+StaticPropMeth.describe()
 
 // ==============================
 // Access Control
