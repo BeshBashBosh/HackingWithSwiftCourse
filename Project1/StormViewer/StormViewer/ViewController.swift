@@ -36,6 +36,19 @@ class ViewController: UITableViewController {
         return cell
     }
     
+    // Instantiate the detail screen on cell selection
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Try to case instantiated VC as a DetailViewController
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            // If worked can access the detailVC properties
+            // Set the detailVC selectedImage property to the imagePath to load
+            vc.selectedImage = pictures[indexPath.row]
+            // Load the detailVC
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
