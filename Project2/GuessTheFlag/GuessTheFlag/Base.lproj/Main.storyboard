@@ -18,6 +18,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KY9-n0-3Zb">
+                                <rect key="frame" x="87.666666666666686" y="100" width="200" height="100"/>
+                                <state key="normal" image="us"/>
+                                <connections>
+                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hNz-9c-GH4"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AXU-dM-sx0">
                                 <rect key="frame" x="87.666666666666686" y="230" width="200" height="100"/>
                                 <state key="normal" image="us"/>
@@ -32,11 +39,18 @@
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gx8-ui-gcH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KY9-n0-3Zb">
-                                <rect key="frame" x="87.666666666666686" y="100" width="200" height="100"/>
-                                <state key="normal" image="us"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2V1-gZ-RiV">
+                                <rect key="frame" x="138.33333333333334" y="640" width="98.666666666666657" height="43"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lnu-sK-cUq">
+                                <rect key="frame" x="161" y="538" width="53" height="44"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="Next"/>
                                 <connections>
-                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hNz-9c-GH4"/>
+                                    <action selector="nextButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zHC-sw-lV9"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -44,23 +58,35 @@
                         <constraints>
                             <constraint firstItem="AXU-dM-sx0" firstAttribute="top" secondItem="KY9-n0-3Zb" secondAttribute="bottom" constant="30" id="0k3-i1-frk"/>
                             <constraint firstItem="KY9-n0-3Zb" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="7m8-a2-xS5"/>
+                            <constraint firstItem="lnu-sK-cUq" firstAttribute="top" secondItem="VGL-eu-WDV" secondAttribute="bottom" constant="78" id="DKW-5H-kL2"/>
+                            <constraint firstItem="lnu-sK-cUq" firstAttribute="centerX" secondItem="VGL-eu-WDV" secondAttribute="centerX" id="DWC-s8-Gto"/>
+                            <constraint firstItem="2V1-gZ-RiV" firstAttribute="top" secondItem="lnu-sK-cUq" secondAttribute="bottom" constant="58" id="HKF-p3-vxX"/>
                             <constraint firstItem="VGL-eu-WDV" firstAttribute="top" secondItem="AXU-dM-sx0" secondAttribute="bottom" constant="30" id="HTR-5K-dyC"/>
                             <constraint firstItem="VGL-eu-WDV" firstAttribute="centerX" secondItem="AXU-dM-sx0" secondAttribute="centerX" id="S8N-Ln-dV8"/>
                             <constraint firstItem="AXU-dM-sx0" firstAttribute="centerX" secondItem="KY9-n0-3Zb" secondAttribute="centerX" id="XP6-8m-mDi"/>
                             <constraint firstItem="KY9-n0-3Zb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="uqs-Za-IpB"/>
+                            <constraint firstItem="2V1-gZ-RiV" firstAttribute="centerX" secondItem="VGL-eu-WDV" secondAttribute="centerX" id="vNk-Ws-Rz2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="7UU-ul-R6B"/>
+                    <navigationItem key="navigationItem" id="7UU-ul-R6B">
+                        <barButtonItem key="rightBarButtonItem" title="Skip" id="RfH-Gl-I1d">
+                            <connections>
+                                <action selector="skipButton:" destination="BYZ-38-t0r" id="3DA-3Z-5eX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="button1" destination="KY9-n0-3Zb" id="q4c-aq-N39"/>
                         <outlet property="button2" destination="AXU-dM-sx0" id="kCT-tc-Bce"/>
                         <outlet property="button3" destination="VGL-eu-WDV" id="SFF-41-bzD"/>
+                        <outlet property="nextButtonOutlet" destination="lnu-sK-cUq" id="2JY-qj-GEE"/>
+                        <outlet property="scoreOutlet" destination="2V1-gZ-RiV" id="fLw-F9-i03"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="318" y="134"/>
+            <point key="canvasLocation" x="317.60000000000002" y="133.74384236453201"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pFx-Xh-OoI">
