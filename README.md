@@ -9,3 +9,8 @@ IntroToSwift - Swift Playground with overview of Swift Syntax
 Project 1 - StormViewer: UITableView, UIImageView, FileManager, NavigationController
 
 Project 2 - GuessTheFlag: Assets, UIButton, CALayer, UIColor, UIAlertController
+
+Project 3 - StormViewrShare: Project 1 + social media sharing, UIBarButtonItem, 
+UIActivityViewController, URL
+
+
