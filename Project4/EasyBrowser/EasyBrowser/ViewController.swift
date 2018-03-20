@@ -15,6 +15,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     // Create property reference to a web view
     var webView: WKWebView!
     var progressView: UIProgressView!
+    var websites = ["apple.com", "hackingwithswift.com"]
 
     // MARK: Outlets
     
@@ -26,8 +27,35 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.load(URLRequest(url: url))
     }
     
+    // MARK: - WebKit Delegate Methods
+    // Set title of navigation bar to website title
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         title = webView.title
+    }
+    
+    // Method for determining whether we let navigation happen every time something happens
+    // (e.g. which part of page started the navigation,
+    // whether it was triggered a link being clicked or form being submitted etc.)
+    // When this is triggered, get passed the decisionHandler
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        // Going to check whether url being directed to is in our safelist
+        // Get the url being navigated to
+        let url = navigationAction.request.url
+        // Access and unwrap the host (i.e. website domain apple.com) of this url
+        if let host = url!.host {
+            // Loop through the sites in the safelist
+            for website in websites {
+                // Check to see if safesites in this host
+                // range(of:) tells us where a substring was found or nil if not at all
+                if host.range(of: website) != nil {
+                    // Allow the page transition
+                    decisionHandler(.allow)
+                    return
+                }
+            }
+        }
+        // Host not if safelist, reject change
+        decisionHandler(.cancel)
     }
     
     // MARK: - Selector Methods
@@ -36,8 +64,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let ac = UIAlertController(title: "Open page...", message: nil,
                                    preferredStyle: .actionSheet)
         // add actions (opening a website from list)
-        ac.addAction(UIAlertAction(title: "apple.com", style: .default, handler: openPage))
-        ac.addAction(UIAlertAction(title: "hackingwithswift.com", style: .default, handler: openPage))
+        for website in websites {
+            ac.addAction(UIAlertAction(title: website, style: .default, handler: openPage))
+        }
         // add cancel action
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         // Anchor the actionSheet to the bar button item pressed (for iPad)
@@ -77,7 +106,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
         // create a URL - in this example directing to a webpage
-        let url = URL(string: "https://www.hackingwithswift.com")!
+        let url = URL(string: websites[0])!
         // Create a URL load request and pass that to the webView to load
         webView.load(URLRequest(url: url))
         // Enable swiping for back/forward page navigation in the web view
