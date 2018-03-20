@@ -13,4 +13,7 @@ Project 2 - GuessTheFlag: Assets, UIButton, CALayer, UIColor, UIAlertController
 Project 3 - StormViewrShare: Project 1 + social media sharing, UIBarButtonItem, 
 UIActivityViewController, URL
 
+Project 4 - EasyBrowser: loadView(), WKWebView, URLRequest, UIToolbar, UIProgressView, 
+KVO
+
 
