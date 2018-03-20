@@ -14,6 +14,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     // MARK: - Variables, Constants, Views
     // Create property reference to a web view
     var webView: WKWebView!
+    var progressView: UIProgressView!
 
     // MARK: Outlets
     
@@ -43,6 +44,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
         ac.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         // present the actionSheet
         present(ac, animated: true)
+    }
+    
+    // MARK: - KVO Methods
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        // What to do when observer noted a change in the progress of loading a page
+        if keyPath == "estimatedProgress" {
+            // Update the loading bar (progressView) with the webViews estimatedProgess
+            progressView.progress = Float(webView.estimatedProgress)
+        }
     }
     
     // MARK: load overrides
@@ -76,6 +86,36 @@ class ViewController: UIViewController, WKNavigationDelegate {
         // Give user option to select a website by pressing a navigation bar button
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open", style: .plain,
                                                             target: self, action: #selector(openTapped))
+       
+        // Create a progress bar for showing how much of page has loaded
+        // Instantaite a UIProgressView with default styling
+        progressView = UIProgressView(progressViewStyle: .default)
+        // Set the progressView layout to take up as much space in its container as it can
+        progressView.sizeToFit()
+        // Wrap the progressView in a UIBarButtonItem for use in the navigationtoolbar
+        let progressButton = UIBarButtonItem(customView: progressView)
+        
+        // To watch for how much of a the page has loaded, need to speak with webView.estimatedProgess property
+        // Whilst this property tells us how much has changed, it doesn't tell us WHEN it has changed.
+        // To do this we use KVO (Key-Value Observing)
+        // 1. Add an observer to some property with arguments specifying:
+        // i. who is the observer, ii. what the property is we want to observe,
+        // iii. which value we want (e.g. value just set or old value prior to change)
+        // iv. a context that is used to identify which observer reported a change
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress),
+                            options: .new, context: nil)
+        // 2. In more complex KVO, should really also have a .removeObserver when done with the observations
+        // 3. implement method for dealing with observerValue (above)
+        
+        // Create a tool bar spacer and refresh button
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        // Add spacer and refresh button to toolbar
+        toolbarItems = [progressButton, spacer, refresh]
+        // Make sure toolbar is shown
+        navigationController?.isToolbarHidden = false
+        
+
     }
 
     override func didReceiveMemoryWarning() {
