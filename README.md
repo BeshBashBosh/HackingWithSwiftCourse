@@ -16,4 +16,4 @@ UIActivityViewController, URL
 Project 4 - EasyBrowser: loadView(), WKWebView, URLRequest, UIToolbar, UIProgressView, 
 KVO
 
-
+Project 5 - Word Scramble: Closures, method return values, booleans, NSRange
