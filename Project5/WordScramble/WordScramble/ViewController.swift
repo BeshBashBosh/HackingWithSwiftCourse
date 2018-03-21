@@ -123,10 +123,16 @@ class ViewController: UITableViewController {
         return mispelledRange.location == NSNotFound
     }
     
+    // Method for showing an error message
     func showErrorMessage(title: String, message: String) {
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
+    }
+    
+    // Method for loading default word list if loading from file fails
+    func loadDefaultWords() {
+        allWords = ["silkworm"]
     }
     
     // MARK: - Selector Methods
@@ -159,11 +165,13 @@ class ViewController: UITableViewController {
                 // 3. Split contents of file into components separated by new line character
                 // and assign it to the VC property storing allWords in the game.
                 allWords = startWords.components(separatedBy: "\n")
+            } else {
+                loadDefaultWords()
             }
         } else {
             // 4. For some reason couldn't get at the file so manually add element to allWords array so game
             // doesn't completely break.
-            allWords = ["silkworm"]
+            loadDefaultWords()
         }
         
         
