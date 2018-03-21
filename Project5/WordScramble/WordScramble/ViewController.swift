@@ -95,6 +95,11 @@ class ViewController: UITableViewController {
     
     // Answer Logic Parse 2 - An original anagram not already used
     func isOriginal(word: String) -> Bool {
+        // Check the answer word isn't just the question word
+        if word.contains(title!.lowercased()) {
+            return false
+        }
+        
         // Simple check to see if usedWords array contains the newly input answer
         return !usedWords.contains(word)
     }
