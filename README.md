@@ -17,3 +17,5 @@ Project 4 - EasyBrowser: loadView(), WKWebView, URLRequest, UIToolbar, UIProgres
 KVO
 
 Project 5 - Word Scramble: Closures, method return values, booleans, NSRange
+
+Project 6 - AutoLayout: NSLayoutConstraint, Visual Format Language, layout anchors

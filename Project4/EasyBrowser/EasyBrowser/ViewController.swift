@@ -126,7 +126,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         // To watch for how much of a the page has loaded, need to speak with webView.estimatedProgess property
         // Whilst this property tells us how much has changed, it doesn't tell us WHEN it has changed.
-        // To do this we use KVO (Key-Value Observing)
+        // To do this we use KVO (Key-Value Observing)wo
         // 1. Add an observer to some property with arguments specifying:
         // i. who is the observer, ii. what the property is we want to observe,
         // iii. which value we want (e.g. value just set or old value prior to change)
