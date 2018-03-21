@@ -14,6 +14,19 @@ class ViewController: UITableViewController {
     // MARK: - Properties
     var allWords = [String]() // Will store all words that can be played
     var usedWords = [String]() // Will store the words that have been played
+    var gameState = 0 {
+        willSet {
+            print("Changing from \(gameState) to \(newValue)")
+        }
+        didSet {
+            if oldValue == allWords.count - 1 {
+                print("Resetting game state")
+                gameState = 0
+            }
+            print("Changed from \(oldValue) to \(gameState)")
+        }
+    }
+
     
     // MARK: - tableView Methods
     // Set the number of rows
@@ -32,8 +45,16 @@ class ViewController: UITableViewController {
     
     // Starting the game
     func startGame() {
-        allWords = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: allWords) as! [String]
-        title = allWords[0]
+        // Randomise the word list if initial start of game
+        if gameState == 0 || gameState == allWords.count {
+            allWords = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: allWords) as! [String]
+        }
+        
+        title = allWords[gameState]
+        
+        // Increment the gamestate
+        gameState += 1
+        
         usedWords.removeAll(keepingCapacity: true)
         tableView.reloadData()
     }
@@ -55,7 +76,6 @@ class ViewController: UITableViewController {
                     // Update the tableView by inserting this new answer (no need to reload the entire table)
                     let indexPath = IndexPath(row: 0, section: 0)
                     tableView.insertRows(at: [indexPath], with: .automatic)
-                    
                     return
                 } else {
                     showErrorMessage(title: "Word not recognised or too short",
@@ -88,7 +108,6 @@ class ViewController: UITableViewController {
                 return false
             }
         }
-        
         // If we get to here, the answer is a possible anagram
         return true
     }
@@ -136,6 +155,7 @@ class ViewController: UITableViewController {
     }
     
     // MARK: - Selector Methods
+    // Method for positng an answer navbar
     @objc func promptForAnswer() {
         let ac = UIAlertController(title: "Enter Answer", message: nil, preferredStyle: .alert)
         ac.addTextField()
@@ -149,6 +169,11 @@ class ViewController: UITableViewController {
         present(ac, animated: true)
     }
     
+    // Method for starting a new game from navbaR
+    @objc func newGame() {
+        startGame()
+    }
+    
     // MARK: - Load Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -156,6 +181,8 @@ class ViewController: UITableViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                                             action: #selector(promptForAnswer))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self,
+                                                           action: #selector(newGame))
         
         // Extract words from file of all words in game
         // 1. Find the path to the resource (start.txt is located within the main bundle)
@@ -173,7 +200,6 @@ class ViewController: UITableViewController {
             // doesn't completely break.
             loadDefaultWords()
         }
-        
         
         startGame()
     }
