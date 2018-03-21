@@ -61,8 +61,8 @@ class ViewController: UITableViewController {
                     
                     return
                 } else {
-                    errorTitle = "Word Not Recognised"
-                    errorMessage = "You can't just make up words, you know!"
+                    errorTitle = "Word not recognised or too short"
+                    errorMessage = "You can't just make up words, you know! Also they should have more than three letters"
                 }
             } else {
                 errorTitle = "Word used already"
@@ -106,6 +106,11 @@ class ViewController: UITableViewController {
     
     // Answer Logic Parse 3 - Is the answer a real word?
     func isReal(word: String) -> Bool {
+        // Check answer is >3 characters
+        if word.count <= 3 {
+            return false
+        }
+        
         // Create an instance of the UITextChecker that can be used to spot spelling errors
         let checker = UITextChecker()
         // Create a string with some range
