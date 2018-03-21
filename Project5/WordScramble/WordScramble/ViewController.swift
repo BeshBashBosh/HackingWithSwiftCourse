@@ -42,9 +42,6 @@ class ViewController: UITableViewController {
     func submit(answer: String) {
         // For easier parsing convert answer to all lower case
         let lowerAnswer = answer.lowercased()
-        // parameters for holding error messages
-        let errorTitle: String
-        let errorMessage: String
         
         // Logic tests to see if user answer is an anagram
         // 1. Does input contain same set of letters as question word?
@@ -61,21 +58,19 @@ class ViewController: UITableViewController {
                     
                     return
                 } else {
-                    errorTitle = "Word not recognised or too short"
-                    errorMessage = "You can't just make up words, you know! Also they should have more than three letters"
+                    showErrorMessage(title: "Word not recognised or too short",
+                                     message: "You can't just make up words, you know! Also they should have more than three letters")
                 }
             } else {
-                errorTitle = "Word used already"
-                errorMessage = "Be more original!"
+                showErrorMessage(title: "Word used already",
+                                 message: "Be more original!")
             }
         } else {
-            errorTitle = "Word not possible"
-            errorMessage = "You can't spell that word from the letters in \(title!.lowercased())!"
+            showErrorMessage(title: "Word not possible",
+                             message: "You can't spell that word from the letters in \(title!.lowercased())!")
         }
         
-        let ac = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
+
     }
     
     // Answer Logic Parse 1 - Answer contains correct letters c.f. question
@@ -121,6 +116,12 @@ class ViewController: UITableViewController {
         // If no misspelling/incorrect answer, above method returns NSNotFound, i.e. the answer is a correct word
         
         return mispelledRange.location == NSNotFound
+    }
+    
+    func showErrorMessage(title: String, message: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
     }
     
     // MARK: - Selector Methods
