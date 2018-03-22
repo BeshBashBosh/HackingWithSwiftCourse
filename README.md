@@ -23,3 +23,4 @@ Project 6 - AutoLayout: NSLayoutConstraint, Visual Format Language, layout ancho
     Proj6b - AutoLayout in code
 
 Project 7 - WhiteHouse: JSON, Data, UITabBarController
+    Includes SwiftyJSON.swift that makes parsing JSON easier
