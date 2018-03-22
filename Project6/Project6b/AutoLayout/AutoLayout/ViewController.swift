@@ -15,45 +15,7 @@ class ViewController: UIViewController {
         return true
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        // Make some custom views
-        let label1  = UILabel()
-        // Prohibit iOS from automatically deciding what the auto-layout constraints should be.
-        // Will be doing these manually.
-        label1.translatesAutoresizingMaskIntoConstraints = false
-        label1.backgroundColor = UIColor.red
-        label1.text = "THESE"
-
-        let label2 = UILabel()
-        label2.translatesAutoresizingMaskIntoConstraints = false
-        label2.backgroundColor = UIColor.red
-        label2.text = "ARE"
-
-        let label3 = UILabel()
-        label3.translatesAutoresizingMaskIntoConstraints = false
-        label3.backgroundColor = UIColor.yellow
-        label3.text = "SOME"
-
-        let label4 = UILabel()
-        label4.translatesAutoresizingMaskIntoConstraints = false
-        label4.backgroundColor = UIColor.green
-        label4.text = "AWESOME"
-
-        let label5 = UILabel()
-        label5.translatesAutoresizingMaskIntoConstraints = false
-        label5.backgroundColor = UIColor.orange
-        label5.text = "LABELS"
-
-        // Add views to main view
-        view.addSubview(label1)
-        view.addSubview(label2)
-        view.addSubview(label3)
-        view.addSubview(label4)
-        view.addSubview(label5)
-        
+    func autoLayoutVFL(subviews viewsDictionary: [String: UILabel]) {
         // Add constraints using Auto Layout's Visual Formatting Language (VFL)
         
         // The Auto Layout VFL which has following syntax:
@@ -85,23 +47,84 @@ class ViewController: UIViewController {
         
         
         // 1. Make a dictionary of views to be constrained
-        let viewsDictionary = ["label1": label1, "label2": label2, "label3": label3,
-                               "label4": label4, "label5": label5]
+        //let viewsDictionary = subviews
         // 2. Loop through this dictionary adding constraints to each subview
         for label in viewsDictionary.keys {
-
+            
             // Horizontal layout
             view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[\(label)]|", options: [],
-                                                              metrics: nil, views: viewsDictionary))
+                                                               metrics: nil, views: viewsDictionary))
         }
         let metrics = ["labelHeight": 88]
         // Vertical layout
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[label1(labelHeight@999)]-[label2(label1)]-[label3(label1)]-[label4(label1)]-[label5(label1)]-(>=10)-|", options: [], metrics: metrics, views: viewsDictionary))
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
         
-        
+        // Make some custom views
+        let label1  = UILabel()
+        // Prohibit iOS from automatically deciding what the auto-layout constraints should be.
+        // Will be doing these manually.
+        label1.translatesAutoresizingMaskIntoConstraints = false
+        label1.backgroundColor = UIColor.red
+        label1.text = "THESE"
 
-        
+        let label2 = UILabel()
+        label2.translatesAutoresizingMaskIntoConstraints = false
+        label2.backgroundColor = UIColor.cyan
+        label2.text = "ARE"
 
+        let label3 = UILabel()
+        label3.translatesAutoresizingMaskIntoConstraints = false
+        label3.backgroundColor = UIColor.yellow
+        label3.text = "SOME"
+
+        let label4 = UILabel()
+        label4.translatesAutoresizingMaskIntoConstraints = false
+        label4.backgroundColor = UIColor.green
+        label4.text = "AWESOME"
+
+        let label5 = UILabel()
+        label5.translatesAutoresizingMaskIntoConstraints = false
+        label5.backgroundColor = UIColor.orange
+        label5.text = "LABELS"
+
+        // Add views to main view
+        view.addSubview(label1)
+        view.addSubview(label2)
+        view.addSubview(label3)
+        view.addSubview(label4)
+        view.addSubview(label5)
+        
+//        autoLayoutVFL(subviews: ["label1": label1, "label2": label2, "label3": label3,
+//                                 "label4": label4, "label5": label5])
+        
+        
+        // AutoLayout using anchors
+        // Anchors belong to the view and include:
+        // widthAnchor, heightAnchor, topAnchor, bottomAnchor, leftAnchor, rightAnchor
+        // leadingAnchor, trailingAnchor, centerXAnchor, centerYAnchor
+        // The importance difference between leading + trailing, and left + right anchors
+        // is that the form the former pair are better used for international languages that may
+        // read text from right -> left (e.g. Hebrew, Arabic) rather than the left -> right languages (e.g. English).
+
+        var previous: UILabel!
+        
+        for label in [label1, label2, label3, label4, label5] {
+            label.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true //label width set to superviews width
+            label.heightAnchor.constraint(equalToConstant: 88).isActive = true //label height set to constant value
+            
+            if previous != nil {
+                // Previous label now exists so we can set a top anchor based on the bottom anchor of the previous label
+                label.topAnchor.constraint(equalTo: previous.bottomAnchor, constant: 10).isActive = true
+            }
+            
+            // Create the previous label
+            previous = label
+        }
     }
 
     override func didReceiveMemoryWarning() {
