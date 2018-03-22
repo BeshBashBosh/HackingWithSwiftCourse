@@ -19,3 +19,5 @@ KVO
 Project 5 - Word Scramble: Closures, method return values, booleans, NSRange
 
 Project 6 - AutoLayout: NSLayoutConstraint, Visual Format Language, layout anchors
+    Proj6a - Modifying Project 2 to work in landscape mode
+    Proj6b - AutoLayout in code
