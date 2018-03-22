@@ -47,12 +47,25 @@ class ViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    // Error messages if processing link to JSON fails
+    func showError() {
+        let ac = UIAlertController(title: "Loading Error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         // Assign url string of JSON file
-        let urlString = "https://api.whitehouse.gov/v1/petitions.json?limit=100"
+        let urlString: String
+        
+        if navigationController?.tabBarItem.tag == 0 {
+            urlString = "https://api.whitehouse.gov/v1/petitions.json?limit=100"
+        } else {
+            urlString = "https://api.whitehouse.gov/v1/petitions.json?signatureCountFloor=10000&limit=100"
+        }
         
         // Try to convert above url string into a URL object - that is, check URL is valid
         if let url = URL(string: urlString) {
@@ -65,9 +78,12 @@ class ViewController: UITableViewController {
                 if json["metadata"]["responseInfo"]["status"].intValue == 200 {
                     print("Good to go!")
                     parse(json: json)
+                    return
                 }
             }
         }
+        
+        showError()
     }
 
     override func didReceiveMemoryWarning() {

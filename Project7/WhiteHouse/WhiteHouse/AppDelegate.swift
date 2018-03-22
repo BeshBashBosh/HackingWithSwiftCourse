@@ -16,6 +16,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Create second ViewController for tab bar
+        // Storyboard creates a 'window' where we can access the 'rootViewController'.
+        // In our app here that is a tabBarController
+        if let tabBarController = window?.rootViewController as? UITabBarController {
+            // Get access to the storyboard
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            // Create a new view controller within this storyboard wrt the nav controller
+            let vc = storyboard.instantiateViewController(withIdentifier: "NavController")
+            // Create a tab bar item for this new tab
+            vc.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: 1)
+            // Add this new controller onto the current list of tab bar vcs
+            tabBarController.viewControllers?.append(vc)
+        }
+        
         return true
     }
 
@@ -40,7 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 
