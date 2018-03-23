@@ -75,6 +75,24 @@ class ViewController: UIViewController {
         }
         
         // Configure labels and buttons
+        // Set the text of the clue label to that of the clues]
+        // the trimmingCharacters part is removing white space and newlines
+        // from start and end of string
+        cluesLabel.text = clueString.trimmingCharacters(in: .whitespacesAndNewlines)
+        // And the same for the answers label
+        answersLabel.text = solutionString.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Shuffle up the letter segments
+        letterBits = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: letterBits) as! [String]
+        
+        // If we have same number of letter bits as buttons...
+        if letterBits.count == letterButtons.count {
+            // Loop through the bits and assign the text to each button
+            for i in 0 ..< letterBits.count {
+                letterButtons[i].setTitle(letterBits[i], for: .normal)
+            }
+        }
+        
     }
     
     // MARK: - VC Load methods
@@ -90,6 +108,9 @@ class ViewController: UIViewController {
             btn.addTarget(self, action: #selector(letterTapped),
                           for: .touchUpInside)
         }
+        
+        // load the level
+        loadLevel()
     }
 
     override func didReceiveMemoryWarning() {
