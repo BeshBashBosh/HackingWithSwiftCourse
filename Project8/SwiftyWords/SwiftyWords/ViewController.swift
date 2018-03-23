@@ -16,7 +16,12 @@ class ViewController: UIViewController {
     var activatedButtons = [UIButton]()
     var solutions = [String]()
     
-    var score = 0 // The users score
+    // The users score - prop observer to increment score label
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
     var level = 1 // The game level the user is on
     
     // MARK: -  Outlets
@@ -113,15 +118,12 @@ class ViewController: UIViewController {
                     solutionString += "\(solutionWord.count) letters\n"
                     // Store solution in class property
                     solutions.append(solutionWord)
+                    print(solutions)
                     
                     let bits = answer.components(separatedBy: "|")
                     letterBits += bits
                 }
             }
-        }
-        
-        func levelUp() {
-            
         }
         
         // Configure labels and buttons
@@ -142,7 +144,21 @@ class ViewController: UIViewController {
                 letterButtons[i].setTitle(letterBits[i], for: .normal)
             }
         }
+    }
+    
+    func levelUp(action: UIAlertAction) {
+        // Increment level
+        level += 1
+        // Reset the solutions array
+        solutions.removeAll(keepingCapacity: true)
         
+        // Load the next level
+        loadLevel()
+        
+        // Re-enable all buttons
+        for btn in letterButtons {
+            btn.isHidden = false
+        }
     }
     
     // MARK: - VC Load methods
