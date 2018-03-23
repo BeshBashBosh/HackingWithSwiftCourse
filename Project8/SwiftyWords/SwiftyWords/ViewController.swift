@@ -27,13 +27,59 @@ class ViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction func submitTapped(_ sender: UIButton) {
+        // Find if solution exists as one of the answers
+        if let solutionPosition = solutions.index(of: currentAnswer.text!) {
+            // Have found the position of the submitted answer in solutions
+            
+            // Remove activated buttons
+            activatedButtons.removeAll()
+            
+            // Split the current answers label (e.g. X letters\nY letters\n) into parts by newline character
+            var splitAnswers = answersLabel.text!.components(separatedBy: "\n")
+            // At the index of the correct clue, change text to submitted answer
+            splitAnswers[solutionPosition] = currentAnswer.text!
+            // Rejoing the array into a string with newline characters after each answer
+            answersLabel.text = splitAnswers.joined(separator: "\n")
+            
+            // Reset the current answer field
+            currentAnswer.text = ""
+            // Increment the score
+            score += 1
+            
+            
+            // If the score has divisible by 7 alert user that all solutions
+            // have been found!
+            if score % 7 == 0 {
+                let ac = UIAlertController(title: "Well done!",
+                                           message: "Are you ready for the next level?",
+                                           preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "Let's go!", style: .default,
+                                           handler: levelUp))
+                present(ac, animated: true)
+            }
+            
+        }
     }
     
     @IBAction func clearTapped(_ sender: UIButton) {
+        // Clear the current answer textfield
+        currentAnswer.text = ""
+        
+        // Re-activate used buttons
+        for btn in activatedButtons {
+            btn.isHidden = false
+        }
+        // Prep storage (clear it) of active buttons for next game attempt
+        activatedButtons.removeAll()
     }
     
+    // Deal with letter bits button presses
     @objc func letterTapped(btn: UIButton) {
-        
+        // Add button bit text to current answer textfield
+        currentAnswer.text = currentAnswer.text! + btn.titleLabel!.text!
+        // Remove that button from play
+        activatedButtons.append(btn) // This array we be used to re-enable disabled button on clear button click
+        btn.isHidden = true
     }
     
     //MARK: - Methods
@@ -72,6 +118,10 @@ class ViewController: UIViewController {
                     letterBits += bits
                 }
             }
+        }
+        
+        func levelUp() {
+            
         }
         
         // Configure labels and buttons
