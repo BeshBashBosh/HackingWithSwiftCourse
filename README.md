@@ -28,3 +28,4 @@ Project 7 - WhiteHouse: JSON, Data, UITabBarController
 Project 8 - SwiftyWords: addTarget(), enumerated(), count(), index(of:), joined(), 
                          property observers, range operators
 
+Project 9 - GrandCentralDispatch: DispatchQueue, perform(inBackground:)
