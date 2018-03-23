@@ -11,6 +11,10 @@ import GameplayKit
 
 class ViewController: UIViewController {
 
+    // TODO: - 1. Negative scoring for incorrect answers.
+    // TODO: - 2. AutoLayout for larger screen devices.
+    // TODO: - 3. Game over (all levels complete) state.
+    
     // MARK: - Properties
     var letterButtons = [UIButton]() // This will be connected to buttons in code
     var activatedButtons = [UIButton]()
