@@ -32,3 +32,7 @@ Project 9 - GrandCentralDispatch: DispatchQueue, perform(inBackground:)
 
 Project 10 - NamesToFaces: UICollectionView, UIImagePickerController, UUID, classes, 
              iOS Photo Library 
+    Includes custom view (CollectionView cell) and custom Class (model style)
+
+Project 11 - Pachinko: SpriteKit, physics, blend modes, radians, CGFloat, 
+NSKeyedUnarchiver
