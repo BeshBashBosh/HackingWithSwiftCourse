@@ -12,6 +12,8 @@ import UIKit
 // Note: When asking for access to photolibrary need to modify the plist appropriately
 class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    // MARK: Properties
+    var people = [Person]()
     
     // MARK: - CollectionView Set up
     // Data Source
@@ -51,6 +53,12 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         if let jpegData = UIImageJPEGRepresentation(image, 80) {
             try? jpegData.write(to: imagePath) // this is a Data object
         }
+        
+        // Implementation of Person custom class
+        let person = Person(name: "Unknown", image: imageName)
+        people.append(person)
+        collectionView?.reloadData()
+        
         // 4. Dismiss picker view controller
         dismiss(animated: true)
     }
