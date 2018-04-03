@@ -48,6 +48,14 @@ class GameScene: SKScene {
         // Add the nodes to the scene
         addChild(slotBase)
         addChild(slotGlow)
+        
+        // Add rotating action to slots glow
+        // Create the spinning action (rotate through 180deg over 10secs
+        let spin = SKAction.rotate(byAngle: .pi, duration: 10)
+        // Wrap in another SKAction to repeat the spinning 'forever'
+        let spinForever = SKAction.repeatForever(spin)
+        // Run the action on the desired scene nodes
+        slotGlow.run(spinForever)
     }
     
     override func didMove(to view: SKView) {
