@@ -36,14 +36,21 @@ class GameScene: SKScene {
             // Create the nodes from images
             slotBase = SKSpriteNode(imageNamed: "slotBaseGood")
             slotGlow = SKSpriteNode(imageNamed: "slotGlowGood")
+            // Add a name to the node to keep track of it
+            slotBase.name = "good"
         } else {
             slotBase = SKSpriteNode(imageNamed: "slotBaseBad")
             slotGlow = SKSpriteNode(imageNamed: "slotGlowBad")
+            slotBase.name = "bad"
         }
         
         // Set the positions of the nodes within the scene
         slotBase.position = position
         slotGlow.position = position
+        
+        // Add physics hitbox to the slot
+        slotBase.physicsBody = SKPhysicsBody(rectangleOf: slotBase.size)
+        slotBase.physicsBody?.isDynamic = false
         
         // Add the nodes to the scene
         addChild(slotBase)
@@ -107,6 +114,8 @@ class GameScene: SKScene {
             ball.physicsBody?.restitution = 0.4
             // Set position of ball to touch event location
             ball.position = location
+            // Add name to ball to keep track of it
+            ball.name = "ball"
             // Add the ball to the scene
             addChild(ball)
             
