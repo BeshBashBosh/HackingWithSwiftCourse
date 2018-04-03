@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
  
     // Create an inelastic object for bouncy balls to hit
     func makeBouncer(at position: CGPoint) {
@@ -66,6 +66,10 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        
+        // Make this scene the delegate to the "physics world's" contact delegate
+        physicsWorld.contactDelegate = self
+        
         // Add a background
         // Create the background from an image file
         let background = SKSpriteNode(imageNamed: "background.jpg")
@@ -110,6 +114,14 @@ class GameScene: SKScene {
             let ball = SKSpriteNode(imageNamed: "ballRed")
             // Set the hit box size of the ball
             ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
+            
+            // collisionBitMask - What nodes should a node bump into (default: everything)
+            // contactTestBitMask - What collisions between nodes should be reported (default: nothing)
+            // Set it so that all ball collisions with other nodes will be reported.
+            // NOTE: We still need to determine the answers to
+            // whether the ball touched the slot or slot touched the ball, for example.
+            ball.physicsBody!.contactTestBitMask = ball.physicsBody!.collisionBitMask
+            
             // Set how bouncy the ball is
             ball.physicsBody?.restitution = 0.4
             // Set position of ball to touch event location
