@@ -36,3 +36,7 @@ Project 10 - NamesToFaces: UICollectionView, UIImagePickerController, UUID, clas
 
 Project 11 - Pachinko: SpriteKit, physics, blend modes, radians, CGFloat, 
 NSKeyedUnarchiver
+
+Project 12 - UserDefaults: UserDefaults, NSCoding, Codable, NSKeyedArchiver
+        12a - Uses NSCoding, NSKeyedArchiver, NSKeyedUnarchiver (objC)
+        12b - Uses Codable, JSONEncoder, JSONDecoder (swift)
