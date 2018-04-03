@@ -9,6 +9,21 @@
 import SpriteKit
 
 class GameScene: SKScene {
+ 
+    // Create an inelastic object for bouncy balls to hit
+    func makeBouncer(at position: CGPoint) {
+        // Create the bouncer
+        let bouncer = SKSpriteNode(imageNamed: "bouncer")
+        // Set the position
+        bouncer.position = position
+        // Give the bouncer a hitbox
+        bouncer.physicsBody = SKPhysicsBody(circleOfRadius: bouncer.size.width / 2.0)
+        // Make it inelastic
+        bouncer.physicsBody?.isDynamic = false
+        // Add it to the scene
+        addChild(bouncer)
+
+    }
     
     override func didMove(to view: SKView) {
         // Add a background
@@ -23,8 +38,16 @@ class GameScene: SKScene {
         // Add this node as a child to the scene
         addChild(background)
         
-        // Adda 'hitbox' physics body to the frame of the scene
+        // Add a 'hitbox' physics body to the frame of the scene
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        
+        // Create bouncers
+        makeBouncer(at: CGPoint(x: 0, y: 0))
+        makeBouncer(at: CGPoint(x: 256, y: 0))
+        makeBouncer(at: CGPoint(x: 512, y: 0))
+        makeBouncer(at: CGPoint(x: 768, y: 0))
+        makeBouncer(at: CGPoint(x: 1024, y: 0))
+
     }
     
     // This method is called in both UI and SpriteKit wenever someone starts touching the device screen
@@ -34,14 +57,31 @@ class GameScene: SKScene {
         if let touch = touches.first {
             // Get the location of the touch
             let location = touch.location(in: self)
-            // Create a red box with size 64x64 points
-            let box = SKSpriteNode(color: .red, size: CGSize(width: 64, height: 64))
-            // Add physics to the box with 'hitbox' same size as the box
-            box.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 64, height: 64))
-            // Set the boxes centre position to that of the touch
-            box.position = location
-            // Add the box to the scene
-            addChild(box)
+            
+            
+            // BOUNCY BALLS
+            // Create ball from image asset
+            let ball = SKSpriteNode(imageNamed: "ballRed")
+            // Set the hit box size of the ball
+            ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
+            // Set how bouncy the ball is
+            ball.physicsBody?.restitution = 0.4
+            // Set position of ball to touch event location
+            ball.position = location
+            // Add the ball to the scene
+            addChild(ball)
+            
+            
+            // BOXES
+            
+//            // Create a red box with size 64x64 points
+//            let box = SKSpriteNode(color: .red, size: CGSize(width: 64, height: 64))
+//            // Add physics to the box with 'hitbox' same size as the box
+//            box.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 64, height: 64))
+//            // Set the boxes centre position to that of the touch
+//            box.position = location
+//            // Add the box to the scene
+//            addChild(box)
         }
     }
     
