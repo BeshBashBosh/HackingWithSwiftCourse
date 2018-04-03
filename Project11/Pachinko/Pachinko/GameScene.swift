@@ -24,7 +24,20 @@ class GameScene: SKScene {
         addChild(background)
     }
     
+    // This method is called in both UI and SpriteKit wenever someone starts touching the device screen
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        // Find out where the screen was touched
+        if let touch = touches.first {
+            // Get the location of the touch
+            let location = touch.location(in: self)
+            // Create a red box with size 64x64 points
+            let box = SKSpriteNode(color: .red, size: CGSize(width: 64, height: 64))
+            // Set the boxes centre position to that of the touch
+            box.position = location
+            // Add the box to the scene
+            addChild(box)
+        }
     }
     
 }
