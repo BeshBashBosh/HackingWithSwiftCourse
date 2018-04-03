@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
  
@@ -15,6 +16,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
+        }
+    }
+    
+    var editLabel: SKLabelNode!
+    var editingMode: Bool = false {
+        didSet {
+            if editingMode {
+                editLabel.text = "Done"
+            } else {
+                editLabel.text = "Edit"
+            }
         }
     }
     
@@ -134,6 +146,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.position = CGPoint(x: 980, y: 700)
         addChild(scoreLabel)
         
+        editLabel = SKLabelNode(fontNamed: "Chalkduster")
+        editLabel.text = "Edit"
+        editLabel.position = CGPoint(x: 80, y: 700)
+        addChild(editLabel)
+        
         
         // Add a 'hitbox' physics body to the frame of the scene
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
@@ -161,29 +178,60 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Get the location of the touch
             let location = touch.location(in: self)
             
+            // Determine what nodes were touched
+            let object = nodes(at: location)
             
-            // BOUNCY BALLS
-            // Create ball from image asset
-            let ball = SKSpriteNode(imageNamed: "ballRed")
-            // Set the hit box size of the ball
-            ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
+            if object.contains(editLabel) {
+                // Edit label touched, toggle edit state
+                editingMode = !editingMode
+            } else {
+                // Add random blocks if in edit mode, otherwise add ball
+                if editingMode {
+                    // EDIT MODE
+                    // This uses the provided Helper.swift file to generate random colours
+                    // Create a random size (uses GamePlayKit)
+                    let size = CGSize(width: GKRandomDistribution(lowestValue: 16, highestValue: 128).nextInt(),
+                                      height: 16)
+                    // Create a box node
+                    let box = SKSpriteNode(color: RandomColor(), size: size)
+                    // Random rotation of box
+                    box.zRotation = RandomCGFloat(min: 0, max: 3)
+                    // Set location to touch location
+                    box.position = location
+                    // Give it a hitbox
+                    box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
+                    // Make it inelastic
+                    box.physicsBody?.isDynamic = false
+                    // Add to scene
+                    addChild(box)
+                } else {
+                    // BOUNCY BALLS
+                    // Create ball from image asset
+                    let ball = SKSpriteNode(imageNamed: "ballRed")
+
+                    // Set the hit box size of the ball
+                    ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
+                    
+                    // collisionBitMask - What nodes should a node bump into (default: everything)
+                    // contactTestBitMask - What collisions between nodes should be reported (default: nothing)
+                    // Set it so that all ball collisions with other nodes will be reported.
+                    // NOTE: We still need to determine the answers to
+                    // whether the ball touched the slot or slot touched the ball, for example.
+                    ball.physicsBody!.contactTestBitMask = ball.physicsBody!.collisionBitMask
+                    
+                    // Set how bouncy the ball is
+                    ball.physicsBody?.restitution = 0.4
+                    // Set position of ball to touch event location - forced to near top of screen
+                    ball.position = CGPoint(x: location.x, y: 700)
+                    // Add name to ball to keep track of it
+                    ball.name = "ball"
+                    // Add the ball to the scene
+                    addChild(ball)
+                }
+            }
             
-            // collisionBitMask - What nodes should a node bump into (default: everything)
-            // contactTestBitMask - What collisions between nodes should be reported (default: nothing)
-            // Set it so that all ball collisions with other nodes will be reported.
-            // NOTE: We still need to determine the answers to
-            // whether the ball touched the slot or slot touched the ball, for example.
-            ball.physicsBody!.contactTestBitMask = ball.physicsBody!.collisionBitMask
             
-            // Set how bouncy the ball is
-            ball.physicsBody?.restitution = 0.4
-            // Set position of ball to touch event location
-            ball.position = location
-            // Add name to ball to keep track of it
-            ball.name = "ball"
-            // Add the ball to the scene
-            addChild(ball)
-            
+
             
             // BOXES
             
