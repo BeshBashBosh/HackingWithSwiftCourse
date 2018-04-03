@@ -5,6 +5,11 @@
 //  Created by Ben Hall on 29/03/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Generate random number to select a different image for balls (there are several coloured ones)
+// TODO: - Give limit on no of balls in game.
+// TODO: - Remove obstacles as they are hit (can the game be cleared with only n balls?). Green slot could give extra ball
+// TODO: - Clicking on obstacle box also removes it.
+
 
 import SpriteKit
 import GameplayKit
@@ -101,6 +106,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Function for removing the balls from play
     func destroy(ball: SKNode) {
+        // SPECIAL FX!!!!!!
+        // SKEmitterNode is a powerful class for high-performance particle effects
+        if let fireParticles = SKEmitterNode(fileNamed: "FireParticles") {
+            fireParticles.position = ball.position
+            addChild(fireParticles)
+        }
         ball.removeFromParent()
     }
     
