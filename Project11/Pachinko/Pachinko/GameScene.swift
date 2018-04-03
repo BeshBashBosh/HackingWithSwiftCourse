@@ -25,6 +25,31 @@ class GameScene: SKScene {
 
     }
     
+    // Creates visual representation of where user needs to aim
+    func makeSlot(at position: CGPoint, isGood: Bool) {
+        // initialise nodes for the slot base and visual flair (glow)
+        var slotBase: SKSpriteNode
+        var slotGlow: SKSpriteNode
+        
+        // Determine if good or bad slot
+        if isGood {
+            // Create the nodes from images
+            slotBase = SKSpriteNode(imageNamed: "slotBaseGood")
+            slotGlow = SKSpriteNode(imageNamed: "slotGlowGood")
+        } else {
+            slotBase = SKSpriteNode(imageNamed: "slotBaseBad")
+            slotGlow = SKSpriteNode(imageNamed: "slotGlowBad")
+        }
+        
+        // Set the positions of the nodes within the scene
+        slotBase.position = position
+        slotGlow.position = position
+        
+        // Add the nodes to the scene
+        addChild(slotBase)
+        addChild(slotGlow)
+    }
+    
     override func didMove(to view: SKView) {
         // Add a background
         // Create the background from an image file
@@ -40,6 +65,12 @@ class GameScene: SKScene {
         
         // Add a 'hitbox' physics body to the frame of the scene
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        
+        // Create slots
+        makeSlot(at: CGPoint(x: 128, y: 0), isGood: true)
+        makeSlot(at: CGPoint(x: 384, y: 0), isGood: false)
+        makeSlot(at: CGPoint(x: 640, y: 0), isGood: true)
+        makeSlot(at: CGPoint(x: 896, y: 0), isGood: false)
         
         // Create bouncers
         makeBouncer(at: CGPoint(x: 0, y: 0))
