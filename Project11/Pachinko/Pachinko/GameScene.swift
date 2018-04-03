@@ -22,6 +22,9 @@ class GameScene: SKScene {
         background.zPosition = -1
         // Add this node as a child to the scene
         addChild(background)
+        
+        // Adda 'hitbox' physics body to the frame of the scene
+        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
     }
     
     // This method is called in both UI and SpriteKit wenever someone starts touching the device screen
@@ -33,6 +36,8 @@ class GameScene: SKScene {
             let location = touch.location(in: self)
             // Create a red box with size 64x64 points
             let box = SKSpriteNode(color: .red, size: CGSize(width: 64, height: 64))
+            // Add physics to the box with 'hitbox' same size as the box
+            box.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 64, height: 64))
             // Set the boxes centre position to that of the touch
             box.position = location
             // Add the box to the scene
