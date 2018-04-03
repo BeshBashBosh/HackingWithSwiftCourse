@@ -10,6 +10,14 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
  
+    // Score tracking properties
+    var scoreLabel: SKLabelNode! // This is like a UILabel for SpriteKit
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
+    
     // Create an inelastic object for bouncy balls to hit
     func makeBouncer(at position: CGPoint) {
         // Create the bouncer
@@ -70,8 +78,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Since we are interrogating the objects name as good or bad, we are ignoring cases of ball-ball collisions
         if object.name == "good" {
             destroy(ball: ball)
+            // Increment score
+            score += 1
         } else if object.name == "bad" {
             destroy(ball: ball)
+            // Decrement score
+            score -= 1
         }
     }
     
@@ -114,6 +126,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.zPosition = -1
         // Add this node as a child to the scene
         addChild(background)
+        
+        // Create score label and add flair
+        scoreLabel = SKLabelNode(fileNamed: "Chalkduster")
+        scoreLabel.text = "Score: 0"
+        scoreLabel.horizontalAlignmentMode = .right
+        scoreLabel.position = CGPoint(x: 980, y: 700)
+        addChild(scoreLabel)
+        
         
         // Add a 'hitbox' physics body to the frame of the scene
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
