@@ -128,7 +128,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(background)
         
         // Create score label and add flair
-        scoreLabel = SKLabelNode(fileNamed: "Chalkduster")
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.text = "Score: 0"
         scoreLabel.horizontalAlignmentMode = .right
         scoreLabel.position = CGPoint(x: 980, y: 700)
