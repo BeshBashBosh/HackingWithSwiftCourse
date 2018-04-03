@@ -65,6 +65,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         slotGlow.run(spinForever)
     }
     
+    // Function for tracking what a ball node collides with
+    func collisionBetween(ball: SKNode, object: SKNode) {
+        // Since we are interrogating the objects name as good or bad, we are ignoring cases of ball-ball collisions
+        if object.name == "good" {
+            destroy(ball: ball)
+        } else if object.name == "bad" {
+            destroy(ball: ball)
+        }
+    }
+    
+    // Function for removing the balls from play
+    func destroy(ball: SKNode) {
+        ball.removeFromParent()
+    }
+    
+    // Physics contact checking method
+    // This deals with whether the ball contacted a slot, or slot contacted a node question
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        // Guard check nodes exist and clean exit if one doesn't.
+        // This is important if a contact is reported of nodeA contacted nodeB AND nodeB contacted nodeA
+        // If this isn't caught, the second of thhese contact reports will result in a crash as the ball would
+        // have already been removed!
+        guard let nodeA = contact.bodyA.node else { return }
+        guard let nodeB = contact.bodyB.node else { return }
+        
+        if nodeA.name == "ball" {
+            collisionBetween(ball: nodeA, object: nodeB)
+        } else if nodeB.name == "ball" {
+            collisionBetween(ball: nodeB, object: nodeA)
+        }
+    }
+    
     override func didMove(to view: SKView) {
         
         // Make this scene the delegate to the "physics world's" contact delegate
