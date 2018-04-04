@@ -38,7 +38,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Intensity" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vc1-ZA-gAO">
                                 <rect key="frame" x="16" y="673" width="72" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="72" id="WS6-W0-VxY"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="72" id="WS6-W0-VxY"/>
                                     <constraint firstAttribute="height" constant="21" id="qyN-dw-z3W"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -55,7 +55,7 @@
                                 <rect key="frame" x="16" y="716" width="120" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="92a-oS-qt0"/>
-                                    <constraint firstAttribute="width" constant="120" id="FTn-PC-07g"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="FTn-PC-07g"/>
                                 </constraints>
                                 <state key="normal" title="Change Filter"/>
                                 <connections>
@@ -65,7 +65,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tSM-JM-FRb">
                                 <rect key="frame" x="300" y="716" width="60" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="swO-Z8-EhL"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="swO-Z8-EhL"/>
                                 </constraints>
                                 <state key="normal" title="Save"/>
                                 <connections>
@@ -81,6 +81,7 @@
                             <constraint firstItem="vc1-ZA-gAO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="MuP-h6-NM8"/>
                             <constraint firstItem="2uZ-wF-thc" firstAttribute="top" secondItem="tSM-JM-FRb" secondAttribute="top" id="OFD-nL-RmJ"/>
                             <constraint firstItem="fy9-DD-ecE" firstAttribute="leading" secondItem="vc1-ZA-gAO" secondAttribute="trailing" constant="10" id="Qim-ZN-q1D"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2uZ-wF-thc" secondAttribute="trailing" constant="20" symbolic="YES" id="fcN-xD-RQv"/>
                             <constraint firstItem="lnH-ke-zUr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fhK-cp-1Mz"/>
                             <constraint firstItem="vc1-ZA-gAO" firstAttribute="centerY" secondItem="fy9-DD-ecE" secondAttribute="centerY" id="hyA-Hd-IQK"/>
                             <constraint firstItem="2uZ-wF-thc" firstAttribute="top" secondItem="fy9-DD-ecE" secondAttribute="bottom" constant="18" id="kHz-hP-bi7"/>
@@ -88,6 +89,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fy9-DD-ecE" secondAttribute="trailing" constant="19" id="qFt-ly-a4H"/>
                             <constraint firstItem="2uZ-wF-thc" firstAttribute="baseline" secondItem="tSM-JM-FRb" secondAttribute="firstBaseline" id="r4S-aT-zan"/>
                             <constraint firstItem="vc1-ZA-gAO" firstAttribute="leading" secondItem="2uZ-wF-thc" secondAttribute="leading" id="rll-aJ-kB8"/>
+                            <constraint firstItem="tSM-JM-FRb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="t5w-56-u69"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2uZ-wF-thc" secondAttribute="bottom" constant="18" id="uwF-bi-4wv"/>
                             <constraint firstItem="lnH-ke-zUr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="xMr-NI-sr8"/>
                         </constraints>

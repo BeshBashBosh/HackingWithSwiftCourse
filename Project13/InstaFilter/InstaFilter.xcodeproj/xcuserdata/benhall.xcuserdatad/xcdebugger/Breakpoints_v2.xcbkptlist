@@ -6,15 +6,95 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "InstaFilter/ViewController.swift"
-            timestampString = "544529115.3035589"
+            timestampString = "544529808.926854"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34">
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "InstaFilter/ViewController.swift"
+            timestampString = "544529808.9276969"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "ViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "InstaFilter.ViewController.currentImage2.getter : Swift.Optional&lt;__ObjC.UIImage&gt;"
+                  moduleName = "InstaFilter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Team/BenHall/src/github.com/beshbashbosh/HackingWithSwiftCourse/Project13/InstaFilter/InstaFilter/ViewController.swift"
+                  timestampString = "544529819.396703"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "109">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "InstaFilter.ViewController.currentImage2.setter : Swift.Optional&lt;__ObjC.UIImage&gt;"
+                  moduleName = "InstaFilter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Team/BenHall/src/github.com/beshbashbosh/HackingWithSwiftCourse/Project13/InstaFilter/InstaFilter/ViewController.swift"
+                  timestampString = "544529819.402559"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "112">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "InstaFilter.ViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; InstaFilter.ViewController"
+                  moduleName = "InstaFilter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Team/BenHall/src/github.com/beshbashbosh/HackingWithSwiftCourse/Project13/InstaFilter/InstaFilter/ViewController.swift"
+                  timestampString = "544529819.405009"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "467">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "InstaFilter.ViewController.init(coder: __ObjC.NSCoder) -&gt; Swift.Optional&lt;InstaFilter.ViewController&gt;"
+                  moduleName = "InstaFilter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Team/BenHall/src/github.com/beshbashbosh/HackingWithSwiftCourse/Project13/InstaFilter/InstaFilter/ViewController.swift"
+                  timestampString = "544529819.409318"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "367">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
