@@ -7,7 +7,7 @@
 //
 
 import SpriteKit
-
+import GameplayKit
 
 class GameScene: SKScene {
     
@@ -22,6 +22,9 @@ class GameScene: SKScene {
     // Create array to store slots
     var slots = [WhackSlot]()
     
+    // What initial delay to show penguins?
+    var popupTime = 0.85
+    
     // MARK: - Custom methods
     // Function for creating slots
     func createSlot(at position: CGPoint) {
@@ -33,6 +36,34 @@ class GameScene: SKScene {
         addChild(slot)
         // Add slot to array of slots
         slots.append(slot)
+    }
+    
+    // Function for creating enemies
+    func createEnemy() {
+        // Decrease the popup time (game gets quicker as it progresses)
+        popupTime *= 0.991
+        
+        // Shuffle the array of slots
+        slots = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: slots) as! [WhackSlot]
+        // Pick the first of these shuffled slots to display an enemy from
+        slots[0].show(hideTime: popupTime)
+        
+        // Randomly determine if multiple other enemies should appear
+        if RandomInt(min: 0, max: 12) > 4 { slots[1].show(hideTime: popupTime) }
+        if RandomInt(min: 0, max: 12) > 8 { slots[2].show(hideTime: popupTime) }
+        if RandomInt(min: 0, max: 12) > 10 { slots[3].show(hideTime: popupTime) }
+        if RandomInt(min: 0, max: 12) > 11 { slots[4].show(hideTime: popupTime) }
+        
+        // Determine the appearance delay from a random value between popupTime/2 to popupTime * 2
+        let minDelay = popupTime / 2.0
+        let maxDelay = popupTime * 2
+        let delay = RandomDouble(min: minDelay, max: maxDelay)
+        
+        // Delay the appearance of enemies by the random delay. This will recursively keep calling the method
+        // continuing the game ad infinitum
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [unowned self] in
+            self.createEnemy()
+        }
     }
     
     override func didMove(to view: SKView) {
@@ -56,6 +87,12 @@ class GameScene: SKScene {
         for i in 0 ..< 4 { createSlot(at: CGPoint(x: 180 + (i * 170), y: 320)) }
         for i in 0 ..< 5 { createSlot(at: CGPoint(x: 100 + (i * 170), y: 230)) }
         for i in 0 ..< 4 { createSlot(at: CGPoint(x: 180 + (i * 170), y: 140)) }
+        
+        // Start the game with a 1 set delay so user can acclimatise
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [unowned self] in
+            self.createEnemy()
+        }
+
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
