@@ -58,6 +58,9 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             person.name = newName.text!
             
             self.collectionView?.reloadData()
+            
+            // Save to userdefaults
+            self.save()
         })
         
         // Then present it
@@ -100,6 +103,9 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         
         // 4. Dismiss picker view controller
         dismiss(animated: true)
+        
+        // Save to userdefaults
+        save()
     }
     
     // MARK: - Custom methods
@@ -112,6 +118,17 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         return documentsDirectory
     }
     
+    // Function for easily saving a person the the UserDefaults
+    func save() {
+        // Use NSKeyedArchiver archived Data method to turn an object graph into Data object
+        // Uses the objects implementation of NSCoder
+        let savedData = NSKeyedArchiver.archivedData(withRootObject: people)
+        // Access the userdefaults
+        let defaults = UserDefaults.standard
+        // Save the person array to the userdefaults
+        defaults.set(savedData, forKey: "people")
+    }
+    
     // MARK: - load methds
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,6 +137,13 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         // Add a navigation button to add photos
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                                            action: #selector(addNewPerson))
+        
+        // Load saved data
+        let defaults = UserDefaults.standard
+        if let savedPeople = defaults.object(forKey: "people") as? Data {
+            people = NSKeyedUnarchiver.unarchiveObject(with: savedPeople) as! [Person]
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
