@@ -36,8 +36,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(ac, animated: true)
     }
     
-    
+    // Saving to camera roll
     @IBAction func save(_ sender: UIButton) {
+        UIImageWriteToSavedPhotosAlbum(imageView.image!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
     
@@ -96,6 +97,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         picker.allowsEditing = true
         picker.delegate = self
         present(picker, animated: true)
+    }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // An error has occurred when trying to save, alert the user
+            let ac = UIAlertController(title: "Save Error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            // Saving worked, tell the user
+            let ac = UIAlertController(title: "Saved!", message: "Your altered image has been saved to your photos", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
     }
     
     // MARK: - Load methods
