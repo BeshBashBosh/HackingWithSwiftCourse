@@ -13,6 +13,8 @@ class WhackSlot: SKNode {
     
     // MARK: - Properties
     var charNode: SKSpriteNode! // A property to store a penguin node
+    var isVisible = false // Tracks if penguin is visiable and can be hit
+    var isHit = false // Tracks if penguin has been hit already
     
     // Function to add a hole at some input position
     func configure(at position: CGPoint) {
@@ -49,6 +51,29 @@ class WhackSlot: SKNode {
         
         // Add the cropBode to the scene
         addChild(cropNode)
+    }
+    
+    // Method for showing and activating a penguin from a slot
+    func show(hideTime: Double) {
+        // If penguin is already visible quick exit the method
+        if isVisible { return }
+        
+        // Create an action to move the penguin character over a duration of 0.05 sec
+        charNode.run(SKAction.moveBy(x: 0, y: 80, duration: 0.05))
+        // Set the penguin node visibility to true
+        isVisible = true
+        // Set the penguin's hit status to false
+        isHit = false
+        
+        // Only show a good penguin (positive points) 1/3 of the time, otherwise bad penguin
+        if RandomInt(min: 0, max: 2) == 0 {
+            // Use SKTexture to change the appearance of the penguin character node
+            charNode.texture = SKTexture(imageNamed: "penguinGood")
+            charNode.name = "charFriend"
+        } else {
+            charNode.texture = SKTexture(imageNamed: "penguinEvil")
+            charNode.name = "charEnemy"
+        }
     }
 
 }
