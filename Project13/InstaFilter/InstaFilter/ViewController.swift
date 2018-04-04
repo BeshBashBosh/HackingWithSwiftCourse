@@ -10,6 +10,23 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: - Outlets
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var intensity: UISlider!
+    
+    // MARK: - Actions
+    @IBAction func changeFilter(_ sender: UIButton) {
+    }
+    
+    
+    @IBAction func save(_ sender: UIButton) {
+    }
+    
+    
+    @IBAction func intensityChanged(_ sender: UISlider) {
+    }
+    
+    // MARK: - Load methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
