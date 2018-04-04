@@ -42,3 +42,5 @@ Project 12 - UserDefaults: UserDefaults, NSCoding, Codable, NSKeyedArchiver
         12b - Uses Codable, JSONEncoder, JSONDecoder (swift)
 
 Project 13 - Instafilter: Core Image, UISlider, writing to the photo library
+
+Project 14 - Whack-a-Penguin: SKCropNode, SKTexture, asyncAfter()
