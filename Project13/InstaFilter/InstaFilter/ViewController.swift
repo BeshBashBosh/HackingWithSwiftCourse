@@ -61,15 +61,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // MARK: - CoreImage Methods
     func applyProcessing() {
+        
+        // Extract the input keys for the CIFilter
+        let inputKeys = currentFilter.inputKeys
+        
+        // Check to see if the currently selected filter supports different keys, and those which it does set how the intensity slider relates
+        if inputKeys.contains(kCIInputIntensityKey) { currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey) }
+        if inputKeys.contains(kCIInputRadiusKey) { currentFilter.setValue(intensity.value * 200, forKey: kCIInputRadiusKey) }
+        if inputKeys.contains(kCIInputScaleKey) { currentFilter.setValue(intensity.value * 10, forKey: kCIInputScaleKey) }
+        if inputKeys.contains(kCIInputCenterKey) { currentFilter.setValue(CIVector(x: currentImage.size.width / 2, y: currentImage.size.height / 2),
+                                                                          forKey: kCIInputCenterKey) }
         // Assign the sliders 'intensity' to control the filters intensity
-        currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
-        // Create a CGImage from the output of the currentFilter, this command actually does the CI processing
         if let cgimg = context.createCGImage(currentFilter.outputImage!, from: currentFilter.outputImage!.extent) {
             // Recreate a UIImage of the processed image
             let processedImage = UIImage(cgImage: cgimg)
             // Set this processed image to the image view
-            imageView.image = processedImage
+            self.imageView.image = processedImage
         }
+        
     }
     
     func setFilter(action: UIAlertAction) {
