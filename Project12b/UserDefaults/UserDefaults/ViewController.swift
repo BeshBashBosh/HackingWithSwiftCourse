@@ -58,6 +58,9 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             person.name = newName.text!
             
             self.collectionView?.reloadData()
+            
+            // Save the people object
+            self.save()
         })
         
         // Then present it
@@ -100,6 +103,9 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         
         // 4. Dismiss picker view controller
         dismiss(animated: true)
+        
+        // Save the people object
+        save()
     }
     
     // MARK: - Custom methods
@@ -112,6 +118,19 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         return documentsDirectory
     }
     
+    
+    // Saving [Person] object using Codable and Swift JSON encoder
+    func save() {
+        let jsonEncoder = JSONEncoder()
+        if let savedData = try? jsonEncoder.encode(people) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "people")
+        } else {
+            print("Failed to save people.")
+        }
+        
+    }
+    
     // MARK: - load methds
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,6 +139,18 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         // Add a navigation button to add photos
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                                            action: #selector(addNewPerson))
+        
+        // Load existing data
+        let defaults = UserDefaults.standard
+        if let savedPeople = defaults.object(forKey: "people") as? Data {
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                people = try jsonDecoder.decode([Person].self, from: savedPeople)
+            } catch {
+                print("Failed to load people")
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {

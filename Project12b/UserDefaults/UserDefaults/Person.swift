@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Person: NSObject {
+class Person: NSObject, Codable {
 
     // MARK: Properties
     var name: String
