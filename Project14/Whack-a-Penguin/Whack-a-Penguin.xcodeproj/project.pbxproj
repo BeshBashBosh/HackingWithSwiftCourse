@@ -29,6 +29,7 @@
 		E28474A920751EB8003AF404 /* whackMask.png in Resources */ = {isa = PBXBuildFile; fileRef = E284749B20751EB8003AF404 /* whackMask.png */; };
 		E28474AA20751EB8003AF404 /* whackMask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E284749C20751EB8003AF404 /* whackMask@2x.png */; };
 		E28474AC20751EC1003AF404 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28474AB20751EC1003AF404 /* Helper.swift */; };
+		E28474AE20752322003AF404 /* WhackSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28474AD20752322003AF404 /* WhackSlot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		E284749B20751EB8003AF404 /* whackMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whackMask.png; sourceTree = "<group>"; };
 		E284749C20751EB8003AF404 /* whackMask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whackMask@2x.png"; sourceTree = "<group>"; };
 		E28474AB20751EC1003AF404 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = "Whack-a-Penguin/Helper.swift"; sourceTree = SOURCE_ROOT; };
+		E28474AD20752322003AF404 /* WhackSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhackSlot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				E284747620751B5E003AF404 /* AppDelegate.swift */,
 				E284747820751B5F003AF404 /* GameScene.sks */,
 				E284747C20751B5F003AF404 /* GameScene.swift */,
+				E28474AD20752322003AF404 /* WhackSlot.swift */,
 				E284747E20751B5F003AF404 /* GameViewController.swift */,
 				E284748020751B5F003AF404 /* Main.storyboard */,
 				E284748320751B8D003AF404 /* Assets.xcassets */,
@@ -210,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E284747D20751B5F003AF404 /* GameScene.swift in Sources */,
+				E28474AE20752322003AF404 /* WhackSlot.swift in Sources */,
 				E284747F20751B5F003AF404 /* GameViewController.swift in Sources */,
 				E284747720751B5E003AF404 /* AppDelegate.swift in Sources */,
 				E28474AC20751EC1003AF404 /* Helper.swift in Sources */,
