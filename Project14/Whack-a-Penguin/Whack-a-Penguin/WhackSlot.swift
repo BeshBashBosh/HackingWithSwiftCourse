@@ -74,6 +74,22 @@ class WhackSlot: SKNode {
             charNode.texture = SKTexture(imageNamed: "penguinEvil")
             charNode.name = "charEnemy"
         }
+        
+        // Hide enemy after period of time
+        DispatchQueue.main.asyncAfter(deadline: .now() + (hideTime * 3.5)) { [unowned self] in
+            self.hide()
+        }
+    }
+    
+    // Method to hide an enemy/penguin
+    func hide() {
+        // Quick exit if enemy isn't visible
+        if !isVisible { return }
+        
+        // Move enemy back into hole
+        charNode.run(SKAction.moveBy(x: 0, y: -80, duration: 0.05))
+        // Make it no longer visible and interactable
+        isVisible = false
     }
 
 }
