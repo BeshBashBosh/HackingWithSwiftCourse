@@ -25,6 +25,9 @@ class GameScene: SKScene {
     // What initial delay to show penguins?
     var popupTime = 0.85
     
+    // Limit number of rounds in game so it doesn't go on ad infinitum
+    var numRounds = 0
+    
     // MARK: - Custom methods
     // Function for creating slots
     func createSlot(at position: CGPoint) {
@@ -40,6 +43,28 @@ class GameScene: SKScene {
     
     // Function for creating enemies
     func createEnemy() {
+        // Incrememnt number of rounds everytime an enemy is created
+        numRounds += 1
+        // After 30 enemies have been created end game
+        if numRounds >= 30 {
+            // Remove all slots from play
+            for slot in slots {
+                slot.hide()
+            }
+            
+            // Display gameover sprite/node
+            let gameOver = SKSpriteNode(imageNamed: "gameOver")
+            // Set position
+            gameOver.position = CGPoint(x: 512, y: 384)
+            // Set on foremost zlayer
+            gameOver.zPosition = 1
+            // Add to scene
+            addChild(gameOver)
+            
+            // exit
+            return
+        }
+        
         // Decrease the popup time (game gets quicker as it progresses)
         popupTime *= 0.991
         
