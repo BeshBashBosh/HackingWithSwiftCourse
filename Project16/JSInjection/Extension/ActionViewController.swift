@@ -11,7 +11,12 @@ import MobileCoreServices
 
 class ActionViewController: UIViewController {
 
+    // MARK: - Outlets
     @IBOutlet var script: UITextView!
+    
+    // MARK: - Properties
+    var pageTitle = ""
+    var pageURL = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +38,24 @@ class ActionViewController: UIViewController {
                     // a dictionary provided by the item provider and any error that may have occurred
                     let itemDictionary = dict as! NSDictionary
                     let javaScriptValues = itemDictionary[NSExtensionJavaScriptPreprocessingResultsKey] as! NSDictionary
-                    print(javaScriptValues)
+                   
+                    // Associate this data with class properties
+                    self.pageTitle = javaScriptValues["title"] as! String
+                    self.pageURL = javaScriptValues["URL"] as! String
+                    
+                    // Set nav bar title to the page title (use GCD)
+                    DispatchQueue.main.async {
+                        self.title = self.pageTitle
+                    }
+                    
                 }
             }
         }
+        
+        // Add navigation bar item
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
+                                                            action: #selector(done))
+        
 
     }
 
@@ -46,9 +65,20 @@ class ActionViewController: UIViewController {
     }
 
     @IBAction func done() {
-        // Return any edited content to the host app.
-        // This template doesn't do anything, so we just echo the passed in items.
-        self.extensionContext!.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
+        // Pass back text entered into textfield by user
+        let item = NSExtensionItem() // Create NSExtensionItem to host items
+        let argument: NSDictionary = ["customJavaScript": script.text] // Create NSDict to store custom JS
+        // ^^ and put this into another dictionary with extension related key
+        let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
+        // ^^ Then wrap this dictionary in an NSItemProbider object
+        let customJavaScript = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
+        // And pass this as an attachment
+        item.attachments = [customJavaScript]
+        
+        // return the NSExtensionItem
+        self.extensionContext!.completeRequest(returningItems: [item])
+        
+        // This is then sent back to safari and appear in the finalize() part of Action.js to be processed
     }
 
 }
