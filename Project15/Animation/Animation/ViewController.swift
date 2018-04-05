@@ -30,8 +30,32 @@ class ViewController: UIViewController {
                         // Switch on the animation number to decide which animation to run
                         switch self.currentAnimation {
                         case 0:
-                            break
-                            
+                            // Scale 2x in x and y dimension
+                            self.imageView.transform = CGAffineTransform(scaleX: 2, y: 2)
+                        case 1:
+                            // Use identity affine matrix to clear restore to default
+                            self.imageView.transform = CGAffineTransform.identity
+                        case 2:
+                            // Move image -256 points in x and y
+                            self.imageView.transform = CGAffineTransform(translationX: -256, y: -256)
+                        case 3:
+                            // Restore
+                            self.imageView.transform = CGAffineTransform.identity
+                        case 4:
+                            // Rotate by pi (180deg)
+                            self.imageView.transform = CGAffineTransform(rotationAngle: .pi)
+                        case 5:
+                            // Restore
+                            self.imageView.transform = .identity
+                        case 6:
+                            // Reduce transparency/alpha
+                            self.imageView.alpha = 0.1
+                            // Change background colour to green
+                            self.imageView.backgroundColor = .green
+                        case 7:
+                            // Restore
+                            self.imageView.alpha = 1
+                            self.imageView.backgroundColor = .clear
                         default:
                             break
                         }
