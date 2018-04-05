@@ -11,8 +11,8 @@ import MobileCoreServices
 
 class ActionViewController: UIViewController {
 
-    @IBOutlet weak var imageView: UIImageView!
-
+    @IBOutlet var script: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -31,6 +31,9 @@ class ActionViewController: UIViewController {
                 itemProvider.loadItem(forTypeIdentifier: kUTTypePropertyList as String) { [unowned self] (dict, error) in
                     // the loadItem will provide two parameters to the closure
                     // a dictionary provided by the item provider and any error that may have occurred
+                    let itemDictionary = dict as! NSDictionary
+                    let javaScriptValues = itemDictionary[NSExtensionJavaScriptPreprocessingResultsKey] as! NSDictionary
+                    print(javaScriptValues)
                 }
             }
         }
