@@ -18,6 +18,28 @@ class ActionViewController: UIViewController {
     var pageTitle = ""
     var pageURL = ""
     
+    // MARK: - Selector Methods
+    // Await a notification that the keyboard has appeared or changed state and adjust textview to accomodate it
+    @objc func adjustForKeyboard(notification: Notification) {
+        // Extract values from natification
+        let userInfo = notification.userInfo!
+        // Get frame of keyboard after it has been drawn, converting to a CGRect
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        // Convert frame coords to view coords
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        // Set insets of textview
+        if notification.name == Notification.Name.UIKeyboardWillHide {
+            script.contentInset = UIEdgeInsets.zero // This is for when hardware keyboards are connected
+        } else {
+            script.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        }
+        // Add scroll indicators within inset
+        script.scrollIndicatorInsets = script.contentInset
+        // Adjust textview to range shown in scrolled window after keyboard appeared/state changed
+        let selectedRange = script.selectedRange
+        script.scrollRangeToVisible(selectedRange)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -55,6 +77,15 @@ class ActionViewController: UIViewController {
         // Add navigation bar item
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self,
                                                             action: #selector(done))
+        
+        // Implementation of observers on keyboard state change so that text entered in the textfield will
+        // not dissapear under the keyboard
+        // Add observers to watch keyboard state changes via the NotificationCenter
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard),
+                                       name: .UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard),
+                                       name: .UIKeyboardWillChangeFrame, object: nil)
         
 
     }
