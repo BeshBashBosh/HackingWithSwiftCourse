@@ -58,6 +58,10 @@ class WhackSlot: SKNode {
         // If penguin is already visible quick exit the method
         if isVisible { return }
         
+        // Set the scale of the character to default
+        charNode.xScale = 1
+        charNode.yScale = 1
+        
         // Create an action to move the penguin character over a duration of 0.05 sec
         charNode.run(SKAction.moveBy(x: 0, y: 80, duration: 0.05))
         // Set the penguin node visibility to true
@@ -90,6 +94,23 @@ class WhackSlot: SKNode {
         charNode.run(SKAction.moveBy(x: 0, y: -80, duration: 0.05))
         // Make it no longer visible and interactable
         isVisible = false
+    }
+    
+    
+    // Method for tracking and dealing with a user 'hit' on the penguin
+    func hit() {
+        // Record the penguin is hit
+        isHit = true
+        
+        // Set up sequence of events for when penguin is hit
+        // Wait for 0.25 sec (so user knows they hit it)
+        let delay = SKAction.wait(forDuration: 0.25)
+        // Hide the penguin by moving it back into the hole
+        let hide = SKAction.moveBy(x: 0, y: -80, duration: 0.5)
+        // Set the visible flag for the penguin to false so it can no longer be interacted with
+        let notVisible = SKAction.run { [unowned self] in self.isVisible = false }
+        // Run the above sequence of events
+        charNode.run(SKAction.sequence([delay, hide, notVisible]))
     }
 
 }

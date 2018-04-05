@@ -95,7 +95,59 @@ class GameScene: SKScene {
 
     }
 
+    // Here we deal with user interactions
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Get first touch
+        if let touch = touches.first {
+            // get location of touch
+            let location = touch.location(in: self)
+            // Determine nodes that were touched at this location
+            let tappedNodes = nodes(at: location)
+            
+            // Loop through the tapped nodes to determine what was touched
+            for node in tappedNodes {
+                if node.name == "charFriend" {
+                    // Shouldn't have hit this
+                    // Get the parent WhackSlot node of this penguin
+                    let whackSlot = node.parent!.parent as! WhackSlot
+                    // If this slot is not visible, skip
+                    if !whackSlot.isVisible { continue }
+                    // If the penguin has been hit, skip
+                    if whackSlot.isHit { continue }
+                    
+                    // Run the hit method of whackSlot to make the penguin hide itself
+                    whackSlot.hit()
+                    // Subtract from the score
+                    score -= 5
+                    
+                    // Play a sound related to bad hit
+                    run(SKAction.playSoundFileNamed("whackBad.caf", waitForCompletion: false))
+                    
+                } else if node.name == "charEnemy" {
+                    // Bonza!
+                    // Get parent node again
+                    let whackSlot = node.parent!.parent as! WhackSlot
+                    // Check if it is not visible (exit if so)
+                    if !whackSlot.isVisible { continue }
+                    // Check if it has been hit (exit if so)
+                    if whackSlot.isHit { continue }
+                    
+                    // Scale the enemy node down to give impression it has been hit
+                    whackSlot.charNode.xScale = 0.85
+                    whackSlot.charNode.yScale = 0.85
+                    
+                    // Play the hitting method
+                    whackSlot.hit()
+                    
+                    // Increment the score
+                    score += 1
+                    
+                    // Play victory sound
+                    run(SKAction.playSoundFileNamed("whack.caf", waitForCompletion: false))
+                }
+            }
+        }
+        
     }
     
 
