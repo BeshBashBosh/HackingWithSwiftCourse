@@ -5,6 +5,11 @@
 //  Created by Ben Hall on 04/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// MARK: - Future ideas
+// TODO: - Start new game and save high score to user defaults
+// TODO: - Particle effects (e.g. smoke) when enemy hit and mud-like effect when re-entering a hole
+// TODO: - Record Game over sounds and play.
+// TODO: - Difficulty levels by slowing/speeding up animations
 
 import SpriteKit
 import GameplayKit
