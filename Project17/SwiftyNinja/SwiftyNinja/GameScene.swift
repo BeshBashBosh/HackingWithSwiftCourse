@@ -92,7 +92,27 @@ class GameScene: SKScene {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
+        // Remove all existing points in activeSlicePoints array
+        activeSlicePoints.removeAll(keepingCapacity: true)
+        
+        // Get first touch location and add to newly empties activeSlicePoints
+        if let touch = touches.first {
+            let location = touch.location(in: self)
+            activeSlicePoints.append(location)
+            
+            // Redraw the active slices
+            redrawActiveSlices()
+            
+            // Remove actions currently attached to slice shapes (e.g. if they are currently in the middle of fading out)
+            activeSliceBG.removeAllActions()
+            activeSliceFG.removeAllActions()
+            
+            // Set alpha of slice shapes to be fully visible
+            // (resets any fading out that may have happened during touchesEnded/Cancelled)
+            activeSliceBG.alpha = 1
+            activeSliceFG.alpha = 1
+        }
+ 
     }
     
     // Called as user touch transitions across screen
