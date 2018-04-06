@@ -293,6 +293,25 @@ class GameScene: SKScene {
         touchesEnded(touches, with: event)
     }
     
-    
+    // This method is run before each frame is drawn. Is a good place to update the game state
+    // Here we will stop the bomb fuse sound when none are on screen.
+    override func update(_ currentTime: TimeInterval) {
+        var bombCount = 0
+        
+        for node in activeEnemies {
+            if node.name == "bombContainer" {
+                bombCount += 1
+                break
+            }
+        }
+        
+        if bombCount == 0 {
+            // No bombs! - Stop the fuse sound!
+            if bombSoundEffect != nil {
+                bombSoundEffect.stop()
+                bombSoundEffect = nil
+            }
+        }
+    }
 
 }
