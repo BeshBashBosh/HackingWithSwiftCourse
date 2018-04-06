@@ -26,6 +26,8 @@ class GameScene: SKScene {
     var activeSliceFG: SKShapeNode! // Foreground of user swipe node
     var activeSlicePoints = [CGPoint]() // Object to store the slice points
     
+    var isSwooshSoundActive = false // Property for limiting number of swoosh sounds played at any one time
+    
     // MARK: - Custom Methods
     // Creates socre label node
     func createScore() {
@@ -95,6 +97,26 @@ class GameScene: SKScene {
         activeSliceFG.path = path.cgPath
     }
     
+    // Method for playing a swoosh sound
+    func playSwooshSound() {
+        // Set property specifying sound playing to true
+        isSwooshSoundActive = true
+        
+        // Get a random value to pick one of the 3 swoosh sounds to play
+        let randomNumber = RandomInt(min: 1, max: 3)
+        // Get swoosh file name
+        let soundName = "swoosh\(randomNumber).caf"
+        
+        // Play the swoosh sound
+        let swooshSound = SKAction.playSoundFileNamed(soundName, waitForCompletion: true)
+        
+        // Completion closure sets the sound active to false after sound has played. Above waitForCompletion param
+        // when set to true lets spritekit know it needs to wait for completion (duh!)
+        run(swooshSound) { [unowned self] in
+            self.isSwooshSoundActive = false
+        }
+    }
+    
     override func didMove(to view: SKView) {
         // Add background node to scene
         let background = SKSpriteNode(imageNamed: "sliceBackground")
@@ -150,6 +172,11 @@ class GameScene: SKScene {
         
         // Redraw the slice shape
         redrawActiveSlices()
+        
+        // Play 'swoosh' sound is it hasn't started
+        if !isSwooshSoundActive {
+            playSwooshSound()
+        }
     }
     
     // Called when user stops touching scene
