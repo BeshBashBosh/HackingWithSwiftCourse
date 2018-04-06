@@ -67,8 +67,32 @@ class GameScene: SKScene {
         addChild(activeSliceFG)
     }
     
+    // Draw slice using Bezier path
     func redrawActiveSlices() {
+        // Need three points to draw a line, if not clear shapes and exit
+        if activeSlicePoints.count < 2 {
+            activeSliceBG.path = nil
+            activeSliceFG.path = nil
+            return
+        }
         
+        // If more than 12 slice points in slice array need to remove oldest one until at most 12 exist
+        // This is purely to limit the length of the shown path
+        while activeSlicePoints.count > 12 {
+            activeSlicePoints.removeFirst() // Alternatively remove(at: 0)
+        }
+        
+        // Start drawing line at start of first slice point, conitnuing through each slice point
+        let path = UIBezierPath()
+        path.move(to: activeSlicePoints[0])
+        
+        for i in 1 ..< activeSlicePoints.count {
+            path.addLine(to: activeSlicePoints[i])
+        }
+        
+        // Update slice shape paths so they are drawn using their design (i.e. width+colour)
+        activeSliceBG.path = path.cgPath
+        activeSliceFG.path = path.cgPath
     }
     
     override func didMove(to view: SKView) {
