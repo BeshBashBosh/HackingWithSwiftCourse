@@ -379,6 +379,32 @@ class GameScene: SKScene {
     // This method is run before each frame is drawn. Is a good place to update the game state
     // Here we will stop the bomb fuse sound when none are on screen.
     override func update(_ currentTime: TimeInterval) {
+        // Remove enemies fallen off screen from play so next rounds can start
+        // 1. Check for any active enemies
+        if activeEnemies.count > 0 {
+            // Loop through the active enemies and find those that are off screen (below y:-140 is definitely off screen)
+            for node in activeEnemies {
+                if node.position.y < -140 {
+                    // Remove this enemy node from the parent scene
+                    node.removeFromParent()
+                    // Get the index of this enemy within the activeEnemies...
+                    if let index = activeEnemies.index(of: node) {
+                        // ... and remove this node from the activeEnemies array
+                        activeEnemies.remove(at: index)
+                    }
+                }
+            }
+        } else {
+            // Start a new round if the sequence hasn't been queued yet
+            if !nextSequenceQueued {
+                DispatchQueue.main.asyncAfter(deadline: .now() + popupTime) { [unowned self] in
+                    self.tossEnemies()
+                }
+            }
+            
+            nextSequenceQueued = true
+        }
+        
         var bombCount = 0
         
         for node in activeEnemies {
