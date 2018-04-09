@@ -317,6 +317,9 @@ class GameScene: SKScene {
         life.xScale = 1.3
         life.yScale = 1.3
         life.run(SKAction.scale(to: 1, duration: 0.1))
+        
+        // If lives == 0 end game
+        if lives == 0 { endGame(triggeredByBomb: false) }
     }
     
     // Ending the game
