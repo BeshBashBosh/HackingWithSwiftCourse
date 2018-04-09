@@ -287,13 +287,35 @@ class GameScene: SKScene {
         nextSequenceQueued = false
     }
     
-    // Ending the game
-    func endGame(triggeredByBomb: Bool) {
-        return
-    }
-    
     // Subtracting a life if a swipe on an enemy is missed
     func subtractLife() {
+        // Subtract from lives property
+        lives -= 1
+        // Play sound notifying user life lost
+        run(SKAction.playSoundFileNamed("wrong.caf", waitForCompletion: false))
+        // Edit life node display
+        var life: SKSpriteNode
+        
+        // Set which life image needs changing
+        if lives == 2 {
+            life = livesImages[0]
+        } else if lives == 1 {
+            life = livesImages[1]
+        } else {
+            life = livesImages[2]
+        }
+        
+        // Edit the texture of the life rather than reloading a node
+        life.texture = SKTexture(imageNamed: "sliceLifeGone")
+        
+        // Scale up the life then scale down to give user more idea what has happened
+        life.xScale = 1.3
+        life.yScale = 1.3
+        life.run(SKAction.scale(to: 1, duration: 0.1))
+    }
+    
+    // Ending the game
+    func endGame(triggeredByBomb: Bool) {
         return
     }
     
