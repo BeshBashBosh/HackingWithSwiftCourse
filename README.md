@@ -50,3 +50,5 @@ Project 15 - Animation: Core Animation, CGAffineTransform
 Project 16 - JSInjection: Safari extensions, UITextView, NotificationCenter
 
 Project 17 - SwiftyNinja: SKShapeNode, AVAudioPlayer, UIBezierPath, custom enums
+
+Project 18 - Debugging: print(), assert(), breakpoints, and view debugging
