@@ -24,6 +24,14 @@ class ViewController: UIViewController {
         print(1, 2, 3, 4, 5, separator: "-") // Can provide a string the separates the printing of the variadic inputs
         print("Some message", terminator: "") // Can also specify how the line is terminated (defuault line breaks character \n)
         
+        // MARK: - Assertions
+        // These debug-only checks force the app to crash if the required condition is not met
+        // When the app is shipped to the App Store, xcode automatically disables the assertions
+        assert(1 == 1, "Maths failure!")
+        //assert(1 == 2, "Maths failure!") // this will crash and display the message input as the second parameter
+        // Function calls can also be used in the assert(mySlowMethod() == true, "#oops crashed")
+        // These are better than print because they will be completely negated in production code whereas print is technically
+        // still run in production code.
         
     }
 
