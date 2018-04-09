@@ -13,6 +13,7 @@
 		E2A382B5207BC6D800585E17 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2A382B4207BC6D800585E17 /* Assets.xcassets */; };
 		E2A382B8207BC6D800585E17 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2A382B6207BC6D800585E17 /* LaunchScreen.storyboard */; };
 		E2A382C1207BCA6900585E17 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2A382C0207BCA6900585E17 /* MapKit.framework */; };
+		E2A382C3207BCBB900585E17 /* Capital.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A382C2207BCBB900585E17 /* Capital.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		E2A382B7207BC6D800585E17 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E2A382B9207BC6D800585E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2A382C0207BCA6900585E17 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		E2A382C2207BCBB900585E17 /* Capital.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capital.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				E2A382AD207BC6CD00585E17 /* AppDelegate.swift */,
 				E2A382AF207BC6CD00585E17 /* ViewController.swift */,
 				E2A382B1207BC6CE00585E17 /* Main.storyboard */,
+				E2A382C2207BCBB900585E17 /* Capital.swift */,
 				E2A382B4207BC6D800585E17 /* Assets.xcassets */,
 				E2A382B6207BC6D800585E17 /* LaunchScreen.storyboard */,
 				E2A382B9207BC6D800585E17 /* Info.plist */,
@@ -154,6 +157,7 @@
 			files = (
 				E2A382B0207BC6CD00585E17 /* ViewController.swift in Sources */,
 				E2A382AE207BC6CD00585E17 /* AppDelegate.swift in Sources */,
+				E2A382C3207BCBB900585E17 /* Capital.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
