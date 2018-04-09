@@ -287,6 +287,11 @@ class GameScene: SKScene {
         nextSequenceQueued = false
     }
     
+    // Ending the game
+    func endGame(triggeredByBomb: Bool) {
+        return
+    }
+    
     // MARK: - SceneKit Methods
     override func didMove(to view: SKView) {
         // Add background node to scene
@@ -399,6 +404,27 @@ class GameScene: SKScene {
                 
             } else if node.name == "bomb" {
                 // destroy bomb
+                // Similar to how Penguin is handled except we need to reference the container the node named "bomb" is in
+                let emitter = SKEmitterNode(fileNamed: "sliceHitBomb")!
+                emitter.position = node.parent!.position
+                addChild(emitter)
+                
+                node.name = ""
+                node.parent?.physicsBody!.isDynamic = false
+                
+                let scaleOut = SKAction.scale(to: 0.001, duration: 0.2)
+                let fadeOut = SKAction.fadeOut(withDuration: 0.2)
+                let group = SKAction.group([scaleOut, fadeOut])
+                let seq = SKAction.sequence([group, SKAction.removeFromParent()])
+                node.parent?.run(seq)
+                
+                let index = activeEnemies.index(of: node.parent as! SKSpriteNode)!
+                activeEnemies.remove(at: index)
+                
+                run(SKAction.playSoundFileNamed("explosion.caf", waitForCompletion: false))
+                
+                // END THE GAME
+                endGame(triggeredByBomb: true)
             }
         }
     }
