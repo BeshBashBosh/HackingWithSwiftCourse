@@ -36,6 +36,7 @@ class ViewController: UIViewController {
         // MARK: - Breakpoints
         for i in 1 ... 100 {
             print("Got number \(i)") // Click in the gutter to add a breakpoint! Code will stop can be inspected in debugger
+            // click breakpoint again to disable/activate
         }
         
         
@@ -57,6 +58,16 @@ class ViewController: UIViewController {
         //      Brkpoints can be used to say, if error thrown, pause execution
         //      To enable, Cmd+8 (breakpoint navigatior) -> + button in buttom left, choose exception breakpoint
         
+        
+        // MARK: - View debugging
+        // 1. Show View Frames
+        //      Draws lines around all views so you can see where they are
+        //      Debug menu -> View Debugging -> Show View Frames
+        //
+        // 2. Capture View Hierarchy
+        //      See current view layout indide xcode with thin gray lines around all views
+        //      Different to (1) since you can click and drag inside the hierarchy display which essentially shows a
+        //      3D representation of the view. Can see the layers of the views (activation found in same place as (1) )
         
     }
 
