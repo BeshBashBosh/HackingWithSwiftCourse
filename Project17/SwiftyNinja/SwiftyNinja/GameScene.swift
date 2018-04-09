@@ -7,6 +7,12 @@
 //
 
 // MARK: - Custom Types
+// Enum for what objects/enemies will appear in the round
+enum SequenceType: Int {
+    case oneNoBomb, one, twoWithOneBomb, two, three, four, chain, fastChain
+}
+
+// Enum for setting state of bomb appearance
 enum ForceBomb {
     case never, always, random
 }
@@ -36,6 +42,12 @@ class GameScene: SKScene {
     var bombSoundEffect: AVAudioPlayer! // Sound effect for bomb's fuse
     
     var activeEnemies = [SKSpriteNode]() // Object to store enemies in scene
+    
+    var popupTime = 0.9 //Amount of time to wait before last enemy destroyed to creation of new one
+    var sequence: [SequenceType]! // Array object for storing sequence of game
+    var sequencePosition = 0 // Which round of the game we are in
+    var chainDelay = 3.0 // How long to create a new enemy when .chain or .fastChain mode active
+    var nextSequenceQueued = true // Parameter to notify when all enemies cleared and ready to create new ones
     
     // MARK: - Custom Methods
     // Creates socre label node
@@ -198,6 +210,7 @@ class GameScene: SKScene {
         addChild(enemy)
         activeEnemies.append(enemy)
     }
+    
     // Method for playing a swoosh sound
     func playSwooshSound() {
         // Set property specifying sound playing to true
@@ -218,6 +231,63 @@ class GameScene: SKScene {
         }
     }
     
+    //
+    func tossEnemies() {
+        // Decrease time between new round and the chain mode appearance of enemies to gradually make the game harder
+        popupTime *= 0.991
+        chainDelay *= 0.99
+        physicsWorld.speed *= 1.02 // Increase the speed of the physics world as well so things move quicker
+        
+        // Set the sequence type using the current sequencePosition
+        let sequenceType = sequence[sequencePosition]
+        
+        // Switch on the sequence type to deal with how enemies will be created
+        switch sequenceType {
+        case .oneNoBomb:
+            // Create an enemy, forcing no bomb to exist
+            createEnemy(forceBomb: .never)
+        case .one:
+            // Create an enemy or bomb, let the function determine which
+            createEnemy()
+        case .twoWithOneBomb:
+            // Create two enemies, one won't be a bomb, the other definitely will
+            createEnemy(forceBomb: .never)
+            createEnemy(forceBomb: .always)
+        case .two:
+            // Create two enemies or bombs (function decides)
+            for _ in 0 ..< 2 { createEnemy() }
+        case .three:
+            // Create three enemies or bombs (function decides)
+            for _ in 0 ... 2 { createEnemy() }
+        case .four:
+            // Create four enemies or bombs (function decides)
+            for _ in 0 ... 3 { createEnemy() }
+        case .chain:
+            // Create one enemy, then  create another 4 with a delay
+            createEnemy()
+            for i in 1 ... 4 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 5.0 * Double(i))) { [unowned self] in
+                    self.createEnemy()
+                }
+            }
+        case .fastChain:
+            // Create one enemy, then  create another 4 with a delay (less than .chain)
+            createEnemy()
+            for i in 1 ... 4 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + (chainDelay / 10.0 * Double(i))) { [unowned self] in
+                    self.createEnemy()
+                }
+            }
+        }
+        
+        // Increment the sequence round
+        sequencePosition += 1
+        // When this is false, we won't have a call to this method, so doing this essentially halts a round until
+        // it is set to true (which will be the case when all enemies removed from the scene)
+        nextSequenceQueued = false
+    }
+    
+    // MARK: - SceneKit Methods
     override func didMove(to view: SKView) {
         // Add background node to scene
         let background = SKSpriteNode(imageNamed: "sliceBackground")
@@ -236,7 +306,6 @@ class GameScene: SKScene {
         createSlices()
 
     }
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Remove all existing points in activeSlicePoints array
