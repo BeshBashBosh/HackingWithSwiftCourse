@@ -33,6 +33,31 @@ class ViewController: UIViewController {
         // These are better than print because they will be completely negated in production code whereas print is technically
         // still run in production code.
         
+        // MARK: - Breakpoints
+        for i in 1 ... 100 {
+            print("Got number \(i)") // Click in the gutter to add a breakpoint! Code will stop can be inspected in debugger
+        }
+        
+        
+        // F6 (or Fn+F6 if keyboard F6 is mapped to something by default) -> stepover and continue to next line
+        // Ctrl+Cmd+Y -> Continue to execture programming until another breakpoint hit
+        // To the left window of xcode is a backtrace, which will say where bug occurred
+        // (i.e. bug in func d() which was called by c() in turn by b() in turn by a()
+        
+        // Bottom window of xcode gives an interactive LLDB debugger window.
+        // Commands can be typed to query values and run methods.
+        // for example; to print the value of parameter i, type "p i"
+        
+        // Breakpoints have two other awesome features:
+        //  1. They can be conditional (right-click brkpoint, edit, condition value)
+        //      i.e. i % 10 == 0 above to stop every 10 iters
+        //  Conditional break points can in turn be used to 'automatically continue' from the condition (set in same place)
+        //  2. They can be automatically triggered when an exception is thrown
+        //      Exception = errors that aren't handled
+        //      Brkpoints can be used to say, if error thrown, pause execution
+        //      To enable, Cmd+8 (breakpoint navigatior) -> + button in buttom left, choose exception breakpoint
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
