@@ -49,6 +49,8 @@ class GameScene: SKScene {
     var chainDelay = 3.0 // How long to create a new enemy when .chain or .fastChain mode active
     var nextSequenceQueued = true // Parameter to notify when all enemies cleared and ready to create new ones
     
+    var gameEnded = false // Tracks whether the game has ended or not
+    
     // MARK: - Custom Methods
     // Creates socre label node
     func createScore() {
@@ -233,6 +235,9 @@ class GameScene: SKScene {
     
     // Method for enemy/bomb spawning for each specific sequence type. Halts spawning each round until ready for new round
     func tossEnemies() {
+        // Check if game has ended and quick exit if so
+        if gameEnded { return }
+        
         // Decrease time between new round and the chain mode appearance of enemies to gradually make the game harder
         popupTime *= 0.991
         chainDelay *= 0.99
@@ -316,7 +321,28 @@ class GameScene: SKScene {
     
     // Ending the game
     func endGame(triggeredByBomb: Bool) {
-        return
+        // Check if game has already ended and quick exit
+        if gameEnded {
+            return
+        }
+        
+        // Set game state to ended
+        gameEnded = true
+        // Stop the physics speed
+        physicsWorld.speed = 0
+        // Stop user interaction
+        isUserInteractionEnabled = false
+        
+        // Kill any bomb sound effects
+        if bombSoundEffect != nil {
+            bombSoundEffect.stop()
+            bombSoundEffect = nil
+        }
+        
+        // Set all lives to lost if this state is triggered by the bomb
+        if triggeredByBomb {
+            for i in 0 ..< 3 { livesImages[i].texture = SKTexture(imageNamed: "sliceLifeGone") }
+        }
     }
     
     // MARK: - SceneKit Methods
@@ -379,6 +405,9 @@ class GameScene: SKScene {
     
     // Called as user touch transitions across screen
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Check if game ended and exit
+        if gameEnded { return }
+        
         // Figure out where in scene user touched.
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
