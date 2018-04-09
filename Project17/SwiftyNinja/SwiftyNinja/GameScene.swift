@@ -193,10 +193,10 @@ class GameScene: SKScene {
             randomXVelocity = RandomInt(min: 3, max: 5)
         } else if randomPosition.x < 768 {
             // 3rd (right-center) column
-            randomXVelocity = RandomInt(min: 3, max: 5)
+            randomXVelocity = -RandomInt(min: 3, max: 5)
         } else {
             // 4th (rightmost) column
-            randomXVelocity = RandomInt(min: 8, max: 15)
+            randomXVelocity = -RandomInt(min: 8, max: 15)
         }
         
         // 4. Create random Y velocity to make things fly at different speeds
