@@ -5,6 +5,10 @@
 //  Created by Ben Hall on 06/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Game Over screen
+// TODO: - High score screen (UserDefaults?)
+// TODO: - Remove the "magic numbers" in createEnemy and put them properly as class properties with useful names
+// TODO: - Add enemy variety (sprite, fast, large, small, etc.) for bonus points
 
 // MARK: - Custom Types
 // Enum for what objects/enemies will appear in the round
