@@ -231,7 +231,7 @@ class GameScene: SKScene {
         }
     }
     
-    //
+    // Method for enemy/bomb spawning for each specific sequence type. Halts spawning each round until ready for new round
     func tossEnemies() {
         // Decrease time between new round and the chain mode appearance of enemies to gradually make the game harder
         popupTime *= 0.991
@@ -303,7 +303,21 @@ class GameScene: SKScene {
         // Initialise the game with custom methods
         createScore() // Create score node
         createLives() // create no of lives node
-        createSlices()
+        createSlices() // Create the slicing animation based on user touch input
+        
+        // Create sequence of rounds
+        sequence = [.oneNoBomb, .oneNoBomb, .twoWithOneBomb, .twoWithOneBomb, .three, .one, .chain]
+        
+        // Build 1001 more interations of this sequence randomly
+        for _ in 0 ... 1000 {
+            let nextSequence = SequenceType(rawValue: RandomInt(min: 2, max: 7))!
+            sequence.append(nextSequence)
+        }
+        
+        // Wait 2sec for user to aclimatise, then start
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [unowned self] in
+            self.tossEnemies()
+        }
 
     }
     
