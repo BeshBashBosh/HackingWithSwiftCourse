@@ -75,6 +75,8 @@ class GameScene: SKScene {
         
     }
     
+    // Determines what was touched, and if a firework puts it in a selected state.
+    // Also removes selected state if firework is not of same color as already selected set.
     func checkTouches(_ touches: Set<UITouch>) {
         // Find where user touched (if touched at all)
         guard let touch = touches.first else { return }
@@ -111,6 +113,57 @@ class GameScene: SKScene {
             }
         }
     }
+    
+    // Method for exploding
+    func explode(firework: SKNode) {
+        // Create Explosion emitter
+        let emitter = SKEmitterNode(fileNamed: "explode")!
+        // Set its position to that of the firework
+        emitter.position = firework.position
+        // Add to scene
+        addChild(emitter)
+        // Remove firework from play
+        firework.removeFromParent()
+    }
+    
+    // Method for exploding multiple fireworks (calls explode)
+    func explodeFireworks() {
+        // Initialise a counter for number of fireworks exploded
+        var numExploded = 0
+        
+        // Loop through the firework (containers)
+        for (index, fireworkContainer) in fireworks.enumerated().reversed() {
+            // Extract the firework node from the fireworkContainer
+            let firework = fireworkContainer.children[0] as! SKSpriteNode
+            // If firework has been selected when this method is called, destroy it!
+            if firework.name == "selected" {
+                // DESTROY!
+                explode(firework: fireworkContainer)
+                fireworks.remove(at: index)
+                // Increment the amount exploded
+                numExploded += 1
+            }
+        }
+        
+        // Switch on how many exploded in this call and update the score!
+        switch numExploded {
+        case 0:
+            break
+        case 1:
+            score += 200
+        case 2:
+            score += 500
+        case 3:
+            score += 1500
+        case 4:
+            score += 2500
+        case 5:
+            score += 4000
+        default:
+            break
+        }
+    }
+
     
     // MARK: - Selector Methods
     // Method to call createFirework() and launch one into scene
