@@ -171,9 +171,15 @@ class GameScene: SKScene {
         checkTouches(touches)
     }
     
-    
-    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        
+        // Remove any firework sprites from scene + fireworks array that are off screen
+        for (index, firework) in fireworks.enumerated().reversed() {
+            if firework.position.y > 900 {
+                fireworks.remove(at: index)
+                firework.removeFromParent()
+            }
+        }
     }
 }
