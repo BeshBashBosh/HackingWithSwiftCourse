@@ -5,6 +5,13 @@
 //  Created by Ben Hall on 10/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Add a score label to show the score
+// TODO: - Add more firework spread types
+// TODO: - Add a button to explode rather than shake (which is pretty crap on an iPad)
+// TODO: - Make game end after certain number of launches/misses
+// TODO: - Stop timer (invalidate) to stop more launches
+// TODO: - Power-ups? (slow time, delay next launch, speed up, explode on touch?)
+
 
 import SpriteKit
 import GameplayKit

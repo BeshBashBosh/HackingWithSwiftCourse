@@ -55,6 +55,8 @@ class GameViewController: UIViewController {
     
     // MARK: - Handle motion shakes to instantiate a firework explosion in the game
     override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        super.motionBegan(motion, with: event)
+        
         // Extract the gameScene
         let skView = view as! SKView
         let gameScene = skView.scene as! GameScene
