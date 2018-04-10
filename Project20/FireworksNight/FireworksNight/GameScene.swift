@@ -75,6 +75,30 @@ class GameScene: SKScene {
         
     }
     
+    func checkTouches(_ touches: Set<UITouch>) {
+        // Find where user touched (if touched at all)
+        guard let touch = touches.first else { return }
+        
+        // Find what nodes are in this point
+        let location = touch.location(in: self)
+        let nodesAtPoint = nodes(at: location)
+        
+        // Find if any of the touched nodes are of name "firework"
+        for node in nodesAtPoint {
+            // First check if the node is a sprite node (could be the background for example
+            if node is SKSpriteNode {
+                let sprite = node as! SKSpriteNode
+                // Change name to "selected"
+                // Change color blend to 0 (will make it white to show a selection)
+                if sprite.name == "firework" {
+                    sprite.name = "selected"
+                    sprite.colorBlendFactor = 0
+                }
+            }
+        }
+    }
+    
+    // MARK: - Selector Methods
     // Method to call createFirework() and launch one into scene
     @objc func launchFirework() {
         let movementAmount: CGFloat = 1800
@@ -121,6 +145,14 @@ class GameScene: SKScene {
                                         userInfo: nil, repeats: true)
         
         
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        checkTouches(touches)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        return
     }
     
     
