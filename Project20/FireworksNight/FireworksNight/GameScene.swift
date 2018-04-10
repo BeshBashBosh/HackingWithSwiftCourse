@@ -29,7 +29,49 @@ class GameScene: SKScene {
     
     // MARK: - Custom Methods
     // Creates firework node in scene
-    func createFirework() {
+    // 3 inputs: horizontal movement speed (xMovement), horizontal (x) and vertical (y) spawn location
+    func createFirework(xMovement: CGFloat, x: Int, y: Int) {
+        // 1a. Create Node to act as firework container
+        let node = SKNode()
+        // 1b. Position container node with inputs
+        node.position = CGPoint(x: x, y: y)
+        // 2a. Create rocket sprite node
+        let firework = SKSpriteNode(imageNamed: "rocket")
+        // 2b. Give rocket sprite node a name ("firework")
+        firework.name = "firework"
+        // 2c. Adjust its colorBlendFactor property so it can be coloured
+        firework.colorBlendFactor = 1
+        // 2d. Add to container node
+        node.addChild(firework)
+        // 3. Give firework sprite node a random colour from (cyan, green, or red)
+        switch GKRandomSource.sharedRandom().nextInt(upperBound: 3) {
+        case 0:
+            firework.color = .cyan
+        case 1:
+            firework.color = .green
+        case 2:
+            firework.color = .red
+        default:
+            break
+        }
+        
+        // 4.  Create UIBezierPath to represent firework movement
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: xMovement, y: 1000))
+        
+        // 5. Tell container node to follow path described bt 4. (turning if neccessary)
+        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: true, speed: 200)
+        node.run(move)
+        
+        // 6. Create particles behind the rocket
+        let emitter = SKEmitterNode(fileNamed: "fuse")!
+        emitter.position = CGPoint(x: 0, y: -22)
+        node.addChild(emitter)
+        
+        // 7. Add firework to fireworks array and scene
+        fireworks.append(node)
+        addChild(node)
         
     }
     
