@@ -5,6 +5,13 @@
 //  Created by Ben Hall on 09/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Add UIAlertController action sheet so user can specify how map is viewd (mapType -> .satellite etc.)
+// TODO: - Typecast dequeueReusableAnnotationView() return value as MKPinAnnotationView.
+//         Allows changing of pinTintColor. Then add favourite button to pins that changes
+//         pin to red (regular) or green (favourite)
+// TODO: - Store TODO2 in UserDefaults
+// TODO: - Let user dynamically add new pins (e.g. cities they want to visit?)
+
 
 import UIKit
 import MapKit
