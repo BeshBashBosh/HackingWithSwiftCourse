@@ -77,6 +77,33 @@ class GameScene: SKScene {
     
     // Method to call createFirework() and launch one into scene
     @objc func launchFirework() {
+        let movementAmount: CGFloat = 1800
+        // Launch five fireworks at a time in four different shapes
+
+        // USe RNG for a value between 0 ... 3
+        switch GKRandomSource.sharedRandom().nextInt(upperBound: 4) {
+        case 0:
+            // 0 -> Launch firework straight up
+            for xOffset in [0, -200, -100, 100, 200] { createFirework(xMovement: 0, x: 512 + xOffset, y: bottomEdge) }
+        case 1:
+            // 1 -> Fire in a fan from center outwards
+            for xOffset in [0, -200, -100, 100, 200] {
+                createFirework(xMovement: CGFloat(xOffset), x: 512 + xOffset, y: bottomEdge)
+            }
+        case 2:
+            // 2 -> Fire left - right
+            for yOffset in [400, 300, 200, 100, 0] {
+                createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + yOffset)
+            }
+        case 3:
+            // 3 -> Fire right - left
+            for yOffset in [400, 300, 200, 100, 0] {
+                createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + yOffset)
+            }
+        default:
+            break
+        }
+
         
     }
     
