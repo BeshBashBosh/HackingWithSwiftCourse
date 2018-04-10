@@ -14,27 +14,47 @@ class ViewController: UIViewController, MKMapViewDelegate {
     // MARK: - Outlets
     @IBOutlet var mapView: MKMapView!
     
-    // MARK: - MapView Delegate MEthods
+    // MARK: - MapView Delegate Methods
     // Every time map needs to show an annotation, this method is called
     // Like Table/CollectionViews, MapView reuses annotations views to make best use of memory
     // BUT, if none available to use, have to create one using MKPinAnnotationView class.
     // NOTE: viewFor method is called for custom annotations, and Apple's. If Apple's not wanted return nil from viewFor.
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 1. Define reuse identifier for annotation
-        
+        let identifier = "Capital"
         // 2. Check whether annotation being created is custom of one of Apple's.
-        
-        // 3a. Try to dequeue an annotation view from MapView's pool of unused vies
-        
-        // 3b. else create a new one using MKPinAnnotationView and set canShowCallout property to true
-        // (triggers popup of city name)
-        
-        // 4. Create UIButton (.detailDisclosure type, small blue 'i' with circle around it)
-        
-        // 5. If reuse view, update view to use different annotation
+        if annotation is Capital {
+            // 3a. Try to dequeue an annotation view from MapView's pool of unused vies
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            // 3b. else create a new one using MKPinAnnotationView and set canShowCallout property to true
+            // (triggers popup of city name)
+            if annotationView == nil {
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                annotationView!.canShowCallout = true // Boolean to say annotation can show more info in callout bubble
+                // 4. Create UIButton (.detailDisclosure type, small blue 'i' with circle around it)
+                let btn = UIButton(type: .detailDisclosure)
+                annotationView!.rightCalloutAccessoryView = btn
+            } else {
+                // 5. If reuse view, update view to use different annotation
+                annotationView!.annotation = annotation
+            }
+            // Return this annotationView
+            return annotationView
+        }
         
         // 6. If not a Capital annotation, return nil so iOS can use default view
         return nil
+    }
+    
+    // Presenting the annotation info when disclosure tapped
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let capital = view.annotation as! Capital
+        let placeName = capital.title
+        let placeInfo = capital.info
+        
+        let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(ac, animated: true)
     }
     
     override func viewDidLoad() {
