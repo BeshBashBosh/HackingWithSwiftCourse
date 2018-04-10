@@ -58,3 +58,7 @@ CLLocationCoordinate2D
 
 Project 20 - FireworksNight - Timer, follow(path:), sprite color blending, shake 
 gestures
+
+Project 21 - LocalNotification - UNUserNotificationCenter, UNNotificationRequest, 
+UNMutableNotificationContent, UNCalendarNotificationTrigger, and 
+UNTimeIntervalNotificationTrigger
