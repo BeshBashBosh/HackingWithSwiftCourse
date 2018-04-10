@@ -35,6 +35,35 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         center.setNotificationCategories([category])
     }
     
+    // MARK: - UN methods
+    // Triggered when coming from notif due to setting this vc to be the UN delegate
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        // Can read the notifications actionIdentifier to find out what the user did
+        
+        // 1. extract the userInfo dict
+        let userInfo = response.notification.request.content.userInfo
+        
+        // 2. Can extract the customData saved to it in creation
+        if let customData = userInfo["customData"] as? String {
+            print("Custom data received: \(customData)")
+            
+            // 3. Switch on the actionIdentifier to determine what to do next
+            switch response.actionIdentifier {
+            case UNNotificationDefaultActionIdentifier:
+                // The default action (user swiped on the notif) that apple implements for free
+                print("Default action identifier")
+            case "show":
+                // User tapped the custom action identifier we added
+                print("Show more info")
+            default:
+                break
+            }
+        }
+        
+        // 4. MUST call completion handler when done
+        completionHandler()
+    }
+    
     // MARK: - Selector Methods
     // This method will request permission to post local notifications
     @objc func registerLocal() {
