@@ -52,4 +52,13 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    // MARK: - Handle motion shakes to instantiate a firework explosion in the game
+    override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        // Extract the gameScene
+        let skView = view as! SKView
+        let gameScene = skView.scene as! GameScene
+        gameScene.explodeFireworks()
+    }
+    
 }

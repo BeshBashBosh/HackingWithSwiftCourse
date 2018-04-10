@@ -163,7 +163,6 @@ class GameScene: SKScene {
             break
         }
     }
-
     
     // MARK: - Selector Methods
     // Method to call createFirework() and launch one into scene
