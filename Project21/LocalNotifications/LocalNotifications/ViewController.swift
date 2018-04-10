@@ -9,8 +9,32 @@
 import UIKit
 import UserNotifications
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
+    // MARK: - UN custom methods
+    // Give categories of options user can clik in the notif
+    func registerCategories() {
+        // Get UN instance
+        let center = UNUserNotificationCenter.current()
+        // Set delegate to this VC
+        center.delegate = self
+        
+        // Create UNNotificationAction
+        // Requires inputs of: 1. unique identifier (gets sent when button tapped)
+        //                     2. title (this is what user sees in the interface)
+        //                     3. options (describes any special options that relate to the action
+        //                                 e.g. .authenticationRequired, .destructive, .foreground)
+        let show = UNNotificationAction(identifier: "show", title: "Tell me more...", options: .foreground)
+        
+        // Now group (as many as you want) UNNotifActions into a UNNotificationCategory
+        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [])
+        // NOTE: The identifier is what was set in scheduleLocal as the content.categoryIdentifier property
+        // NOTE: intentIdentifiers lets you connect notifications to intents if created
+        
+        // Add to the notif center
+        center.setNotificationCategories([category])
+    }
+    
     // MARK: - Selector Methods
     // This method will request permission to post local notifications
     @objc func registerLocal() {
@@ -30,6 +54,9 @@ class ViewController: UIViewController {
     
     // Configures all data needed to schedule a notification
     @objc func scheduleLocal() {
+        // Set notif categories
+        registerCategories()
+        
         // Get instance of NC
         let center = UNUserNotificationCenter.current()
         
