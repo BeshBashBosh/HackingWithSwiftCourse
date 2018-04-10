@@ -85,12 +85,26 @@ class GameScene: SKScene {
         
         // Find if any of the touched nodes are of name "firework"
         for node in nodesAtPoint {
+            print(node)
             // First check if the node is a sprite node (could be the background for example
             if node is SKSpriteNode {
                 let sprite = node as! SKSpriteNode
                 // Change name to "selected"
                 // Change color blend to 0 (will make it white to show a selection)
                 if sprite.name == "firework" {
+                    
+                    // Check to see if this selected firework is of the same color as those already selected
+                    // If not reset the already selected fireworks back to default state.
+                    for parent in fireworks {
+                        let firework = parent.children[0] as! SKSpriteNode
+                        
+                        if firework.name == "selected" && firework.color != sprite.color {
+                            firework.name = "firework"
+                            firework.colorBlendFactor = 1
+                        }
+                    }
+                    
+                    // Set current selected firework to white and change name to selected
                     sprite.name = "selected"
                     sprite.colorBlendFactor = 0
                 }
