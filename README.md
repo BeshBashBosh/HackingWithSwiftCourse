@@ -69,3 +69,5 @@ Project 23 - SpaceRace - Per-pixel collision detection, advancing particle syste
 linear and angular damping
 
 Project 24 - SwiftExtensions - Language extensions, Swift playgrounds
+
+Project 25 - SelfieShare - Multipeer Connectivity Framework
