@@ -7,18 +7,24 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 class ViewController: UICollectionViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     // MARK: - Properties
     var images = [UIImage]() // Storage for images
     
+    // MultipeerConnectivity properties
+    var peerID: MCPeerID! // identifies each user uniquely in a session
+    var mcSession: MCSession! // Manager class that handles all multipeer connectivity
+    var mcAdvertiserAssistant: MCAdvertiserAssistant! // Used when creating session. Tells others we exist and handling invitations
+    
     // MARK: - Custom Methods
-    func startHosting() {
+    func startHosting(action: UIAlertAction) {
         return
     }
     
-    func joinSession() {
+    func joinSession(action: UIAlertAction) {
         return
     }
     
