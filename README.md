@@ -64,3 +64,6 @@ UNMutableNotificationContent, UNCalendarNotificationTrigger, and
 UNTimeIntervalNotificationTrigger
 
 Project 22 - DetectABeacon - CLLocationManager, CLBeaconRegion, CLProximity
+
+Project 23 - SpaceRace - Per-pixel collision detection, advancing particle systems, 
+linear and angular damping
