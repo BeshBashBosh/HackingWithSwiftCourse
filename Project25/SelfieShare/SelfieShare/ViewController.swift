@@ -14,8 +14,12 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     var images = [UIImage]() // Storage for images
     
     // MARK: - Custom Methods
+    // Grabs the image picker
     @objc func importPicture() {
-        return
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
     }
     
     // MARK: - CollectionView methods
