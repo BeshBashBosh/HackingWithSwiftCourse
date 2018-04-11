@@ -92,8 +92,17 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     }
     
     // MARK: - MCSession delegate methods
+    // This is called when user connects or disconnects to session. Useful for debugging a connection
+    // Which is basically how it is implemented in this app!
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        return
+        switch state {
+        case MCSessionState.connected:
+            print("Connected: \(peerID.displayName)")
+        case MCSessionState.connecting:
+            print("Connecting: \(peerID.displayName)")
+        case MCSessionState.notConnected:
+            print("Not connecting: \(peerID.displayName)")
+        }
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
@@ -101,24 +110,28 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-        return
+        // No code needed for this method in this app
     }
     
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-        return
+        // No code needed for this method in this app
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        return
+        // No code needed for this method in this app
     }
     
     // MARK: - MCBrowserViewController delegate methods
     func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
-        return
+        // called when browser finishes successfully
+        // Dismiss browser VC
+        dismiss(animated: true)
     }
     
     func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
-        return
+        // called when browser cancelled by user
+        // Dismiss browser VC
+        dismiss(animated: true)
     }
     
     // MARK: - VC methods
