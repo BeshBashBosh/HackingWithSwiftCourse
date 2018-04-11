@@ -25,6 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager: CLLocationManager! // will hold an instance to the CoreLocation manager
 
     // MARK: - Custom methods
+    // Initialises a beacon to discover and adds to locationManger for monitoring and ranging
     func startScanning() {
         // Create UUID for beacon to discover
         let uuid = UUID(uuidString: "5A4BCFCE-174E-4BAC-A814-092E77F6B7E5")!
@@ -36,6 +37,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Start ranging (measuring distance) for this beacon
         locationManager.startRangingBeacons(in: beaconRegion)
         
+    }
+    
+    // Animates the label and view to change color and text with proximity to the beacon
+    func update(distance: CLProximity) {
+        UIView.animate(withDuration: 0.8) { [unowned self] in
+            switch distance {
+            case .unknown:
+                self.view.backgroundColor = .gray
+                self.distanceReading.text = "UNKNOWN"
+            case .far:
+                self.view.backgroundColor = .blue
+                self.distanceReading.text = "FAR"
+            case .near:
+                self.view.backgroundColor = .orange
+                self.distanceReading.text = "NEAR"
+            case .immediate:
+                self.view.backgroundColor = .red
+                self.distanceReading.text = "RIGHT HERE!"
+            }
+        }
     }
     
     // MARK: - CoreLocation Delegate Methods
