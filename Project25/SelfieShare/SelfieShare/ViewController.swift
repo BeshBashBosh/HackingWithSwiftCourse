@@ -40,6 +40,22 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         return cell
     }
     
+    // MARK: - UIImagePicker delegate methods
+    // Called when image picked
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        // Get the picked image
+        guard let image = info[UIImagePickerControllerEditedImage] as? UIImage else { return }
+        
+        // Dismiss the picker
+        dismiss(animated: true)
+        
+        // Add to images array
+        images.insert(image, at: 0)
+        
+        // Reload collection view
+        collectionView?.reloadData()
+    }
+    
     // MARK: - VC methods
     override func viewDidLoad() {
         super.viewDidLoad()
