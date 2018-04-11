@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Properties
     // Basic Elements
@@ -24,12 +24,34 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        // Set up basic game elements
-        // Dynamic background
+        // Set up the background
+        backgroundColor = .black
+        starField = SKEmitterNode(fileNamed: "Starfield")
+        starField.position = CGPoint(x: 1027, y: 384)
+        starField.advanceSimulationTime(10) // This essentially shows the emitter 10s after it has already started
+        addChild(starField)
+        starField.zPosition = -1
         
-        // Score label
+        // Add the player node
+        player = SKSpriteNode(imageNamed: "player")
+        player.position = CGPoint(x: 100, y: 384)
+        player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size) // Approx hitbox to shape of sprite
+        player.physicsBody?.contactTestBitMask = 1 // This will match the junk later so they can collide
+        addChild(player)
         
-        //
+        // Add the score node
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.position = CGPoint(x: 16, y: 16)
+        scoreLabel.horizontalAlignmentMode = .left
+        addChild(scoreLabel)
+        
+        // Update the score label
+        score = 0
+        
+        // Remove gravity from the scene (we are in space!)
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        physicsWorld.contactDelegate = self // So we can communicate with physicsWorld when collisions occur
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
