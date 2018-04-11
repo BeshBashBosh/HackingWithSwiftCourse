@@ -23,6 +23,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // Gameplay elements
+    var possibleEnemies = ["ball", "hammer", "tv"]
+    var gameTimer: Timer!
+    var isGameOver = false
+    
+    // MARK: - Custom methods
+    @objc func createEnemy() {
+        // Shuffle the possible enemy types
+        possibleEnemies = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleEnemies) as! [String]
+        
+        // Create a random distribution between two values that will specify the vertical position
+        // of where the enemy appears
+        let randomDistribution = GKRandomDistribution(lowestValue: 50, highestValue: 736)
+        
+        // Create sprite node for the enemy
+        let sprite = SKSpriteNode(imageNamed: possibleEnemies[0])
+        sprite.position = CGPoint(x: 1200, y: randomDistribution.nextInt())
+        addChild(sprite)
+        
+        // Give some collision physics to the sprite
+        sprite.physicsBody = SKPhysicsBody(texture: sprite.texture!, size: sprite.size) //per-pixel approx again
+        sprite.physicsBody?.categoryBitMask = 1 // belong to same category as plater contactTestBitMask
+        sprite.physicsBody?.velocity = CGVector(dx: -500, dy: 0) // give it some speed
+        sprite.physicsBody?.angularVelocity = 5 // give it some spin
+        sprite.physicsBody?.linearDamping = 0
+        sprite.physicsBody?.angularDamping = 0
+        
+        
+    }
+    
     override func didMove(to view: SKView) {
         // Set up the background
         backgroundColor = .black
@@ -51,6 +81,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Remove gravity from the scene (we are in space!)
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self // So we can communicate with physicsWorld when collisions occur
+        
+        
+        // Create timer
+        gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self,
+                                         selector: #selector(createEnemy), userInfo: nil,
+                                         repeats: true)
         
     }
     
