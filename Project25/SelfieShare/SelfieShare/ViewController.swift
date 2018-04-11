@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class ViewController: UICollectionViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, MCSessionDelegate {
+class ViewController: UICollectionViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, MCSessionDelegate, MCBrowserViewControllerDelegate {
 
     // MARK: - Properties
     var images = [UIImage]() // Storage for images
@@ -21,11 +21,21 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     
     // MARK: - Custom Methods
     func startHosting(action: UIAlertAction) {
-        return
+        // Set up the advertiser for the service
+        // The service type is used so users of same app connect to each other.
+        // It must be a 15 digit string uniquely identifying the service (only aA-zZ, numbers, hyphens)
+        // Apple example is "companyname-appname"
+        mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "hws-project25", discoveryInfo: nil,
+                                                      session: mcSession)
+        // Start the advertiser
+        mcAdvertiserAssistant.start()
     }
     
     func joinSession(action: UIAlertAction) {
-        return
+        // Create instance of the MCBrowserVC
+        let mcBrowser = MCBrowserViewController(serviceType: "hws-project25", session: mcSession)
+        mcBrowser.delegate = self
+        present(mcBrowser, animated: true)
     }
     
     // MARK: - Selector Methods
@@ -99,6 +109,15 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+        return
+    }
+    
+    // MARK: - MCBrowserViewController delegate methods
+    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        return
+    }
+    
+    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
         return
     }
     
