@@ -14,6 +14,13 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     var images = [UIImage]() // Storage for images
     
     // MARK: - Custom Methods
+    func startHosting() {
+        return
+    }
+    
+    func joinSession() {
+        return
+    }
     
     // MARK: - Selector Methods
     // Grabs the image picker
@@ -26,8 +33,14 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     
     // This will prompt user to decide how they want to connect to peers over network
     @objc func showConnectionPrompt() {
-        return
+        // present action sheet
+        let ac = UIAlertController(title: "Connect to others", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "Host a session", style: .default, handler: startHosting))
+        ac.addAction(UIAlertAction(title: "Join a session", style: .default, handler: joinSession))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(ac, animated: true)
     }
+    
     // MARK: - CollectionView methods
     // Number of cells
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
