@@ -24,6 +24,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Properties
     var locationManager: CLLocationManager! // will hold an instance to the CoreLocation manager
 
+    // MARK: - Custom methods
+    func startScanning() {
+        // Create UUID for beacon to discover
+        let uuid = UUID(uuidString: "5A4BCFCE-174E-4BAC-A814-092E77F6B7E5")!
+        // Build the remainder of the unique beacon region
+        let beaconRegion = CLBeaconRegion(proximityUUID: uuid, major: 123, minor: 456, identifier: "MyBeacon")
+        
+        // Start monitoring for this unique beacon
+        locationManager.startMonitoring(for: beaconRegion)
+        // Start ranging (measuring distance) for this beacon
+        locationManager.startRangingBeacons(in: beaconRegion)
+        
+    }
+    
     // MARK: - CoreLocation Delegate Methods
     // This is called when user makes a decision on authorization request
     // Can handle the change in authorization here
@@ -32,7 +46,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) { // can the device monitor iBeacons?
                 if CLLocationManager.isRangingAvailable() { // Is ranging of iBeacons possible?
                     // do stuff
-                    print("Yarp")
+                    startScanning()
                 }
             }
         } else {
