@@ -67,3 +67,5 @@ Project 22 - DetectABeacon - CLLocationManager, CLBeaconRegion, CLProximity
 
 Project 23 - SpaceRace - Per-pixel collision detection, advancing particle systems, 
 linear and angular damping
+
+Project 24 - SwiftExtensions - Language extensions, Swift playgrounds
