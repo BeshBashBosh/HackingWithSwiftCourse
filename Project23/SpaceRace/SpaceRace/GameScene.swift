@@ -11,8 +11,25 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    // MARK: - Properties
+    // Basic Elements
+    var starField: SKEmitterNode! // Dynamic background
+    var player: SKSpriteNode! // Player sprite
+    
+    var scoreLabel: SKLabelNode! // Score label
+    var score = 0 { // property observer that updates score label
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
+    
     override func didMove(to view: SKView) {
-
+        // Set up basic game elements
+        // Dynamic background
+        
+        // Score label
+        
+        //
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
