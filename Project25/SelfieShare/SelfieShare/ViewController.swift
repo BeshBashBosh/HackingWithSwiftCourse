@@ -8,11 +8,46 @@
 
 import UIKit
 
-class ViewController: UICollectionViewController {
+class ViewController: UICollectionViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
+    // MARK: - Properties
+    var images = [UIImage]() // Storage for images
+    
+    // MARK: - Custom Methods
+    @objc func importPicture() {
+        return
+    }
+    
+    // MARK: - CollectionView methods
+    // Number of cells
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return images.count
+    }
+    
+    // Dequeuing cells
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageView", for: indexPath)
+        
+        // Access the imageview within the cell
+        if let imageView = cell.viewWithTag(1000) as? UIImageView {
+            imageView.image = images[indexPath.item]
+        }
+        
+        return cell
+    }
+    
+    // MARK: - VC methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // Edit nav controller title
+        title = "SelfieShare"
+        
+        // Add right bar button item showing camera item and links to selector method importPicture
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self,
+                                                            action: #selector(importPicture))
+        //
     }
 
     override func didReceiveMemoryWarning() {
