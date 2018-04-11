@@ -47,10 +47,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprite.physicsBody?.categoryBitMask = 1 // belong to same category as plater contactTestBitMask
         sprite.physicsBody?.velocity = CGVector(dx: -500, dy: 0) // give it some speed
         sprite.physicsBody?.angularVelocity = 5 // give it some spin
-        sprite.physicsBody?.linearDamping = 0
-        sprite.physicsBody?.angularDamping = 0
-        
-        
+        sprite.physicsBody?.linearDamping = 0 // stop movement from slowing with time
+        sprite.physicsBody?.angularDamping = 0 // stop rotation from slowing with time
+  
     }
     
     override func didMove(to view: SKView) {
@@ -105,5 +104,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        
+        // Remove nodes out of scene from play
+        for node in children {
+            if node.position.x < -300 {
+                node.removeFromParent()
+            }
+        }
+        
+        // If the game isn't over, update the score!
+        if !isGameOver {
+            score += 1
+        }
     }
 }
