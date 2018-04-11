@@ -75,6 +75,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    // Called when beacon ranging changes
+    // This is passed the array of beacons found
+    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        // Check beacons have been ranged
+        if beacons.count > 0 {
+            // Grab the first (remember we are only ranging those we have specified in startScanning() )
+            let beacon = beacons[0]
+            // Update the ui
+            update(distance: beacon.proximity)
+        } else {
+            // Else just pass the .unknown
+            update(distance: .unknown)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
