@@ -5,6 +5,10 @@
 //  Created by Ben Hall on 11/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: GameOver screen
+// TODO: High score recording
+// TODO: Firing lasers to destroy junk
+// TODO: New game
 
 import SpriteKit
 import GameplayKit
