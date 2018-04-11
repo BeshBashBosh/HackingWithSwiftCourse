@@ -52,6 +52,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
     }
     
+    // This method checks for contact between physics bodies and acts when it happens
+    func didBegin(_ contact: SKPhysicsContact) {
+        // Will end the game when collision between space junk and player occurs
+        // Don't have to check what is colliding at this point as the junk wont collide with each other until
+        // after colliding with player, so first collision will also be player+junk
+        // Create particle emitter that will show explosion
+        let explosion = SKEmitterNode(fileNamed: "explosion")!
+        // Position where player was
+        explosion.position = player.position
+        // Add explosion to scene and remove player form scene
+        addChild(explosion)
+        player.removeFromParent()
+        // set isGameOver to true
+        isGameOver = true
+        // Invalidate timer
+        gameTimer.invalidate()
+    }
+    
     override func didMove(to view: SKView) {
         // Set up the background
         backgroundColor = .black
@@ -89,9 +107,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    }
-    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Grab the first touch
         guard let touch = touches.first else { return }
@@ -110,14 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = location
         
     }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-    }
-    
-    
+
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
