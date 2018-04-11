@@ -62,3 +62,5 @@ gestures
 Project 21 - LocalNotification - UNUserNotificationCenter, UNNotificationRequest, 
 UNMutableNotificationContent, UNCalendarNotificationTrigger, and 
 UNTimeIntervalNotificationTrigger
+
+Project 22 - DetectABeacon - CLLocationManager, CLBeaconRegion, CLProximity
