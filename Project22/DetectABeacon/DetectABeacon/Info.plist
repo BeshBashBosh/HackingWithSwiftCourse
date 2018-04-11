@@ -18,8 +18,10 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>Pri]ion Always and When In Use Usage Description</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Because why not?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>How about only when in use?</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
