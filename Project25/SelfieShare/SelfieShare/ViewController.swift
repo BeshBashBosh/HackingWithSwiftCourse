@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class ViewController: UICollectionViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ViewController: UICollectionViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, MCSessionDelegate {
 
     // MARK: - Properties
     var images = [UIImage]() // Storage for images
@@ -81,6 +81,27 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         collectionView?.reloadData()
     }
     
+    // MARK: - MCSession delegate methods
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        return
+    }
+    
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        return
+    }
+    
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        return
+    }
+    
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+        return
+    }
+    
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+        return
+    }
+    
     // MARK: - VC methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +116,14 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         // Add left bar button item showing add button that links to selector showConnectionPrompt
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
                                                            action: #selector(showConnectionPrompt))
+        
+        // Set up the multipeer connection
+        // Set a peer id
+        peerID = MCPeerID(displayName: UIDevice.current.name)
+        // Set up the session
+        mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+        // Set delegate of session
+        mcSession.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
