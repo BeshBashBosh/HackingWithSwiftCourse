@@ -14,6 +14,8 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
     var images = [UIImage]() // Storage for images
     
     // MARK: - Custom Methods
+    
+    // MARK: - Selector Methods
     // Grabs the image picker
     @objc func importPicture() {
         let picker = UIImagePickerController()
@@ -22,6 +24,10 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         present(picker, animated: true)
     }
     
+    // This will prompt user to decide how they want to connect to peers over network
+    @objc func showConnectionPrompt() {
+        return
+    }
     // MARK: - CollectionView methods
     // Number of cells
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -67,7 +73,9 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         // Add right bar button item showing camera item and links to selector method importPicture
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self,
                                                             action: #selector(importPicture))
-        //
+        // Add left bar button item showing add button that links to selector showConnectionPrompt
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self,
+                                                           action: #selector(showConnectionPrompt))
     }
 
     override func didReceiveMemoryWarning() {
