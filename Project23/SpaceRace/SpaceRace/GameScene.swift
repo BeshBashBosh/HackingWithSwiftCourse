@@ -93,6 +93,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Grab the first touch
+        guard let touch = touches.first else { return }
+        
+        // Get the touch location
+        var location = touch.location(in: self)
+        
+        // Fix the location bounds (no overlapping score label with symmetry at top of screen)
+        if location.y < 100 {
+            location.y = 100
+        } else if location.y > 668 {
+            location.y = 668
+        }
+        
+        // update the player sprites location
+        player.position = location
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
