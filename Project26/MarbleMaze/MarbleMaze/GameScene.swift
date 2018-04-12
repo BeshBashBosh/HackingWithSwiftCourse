@@ -94,16 +94,22 @@ class GameScene: SKScene {
                             node.physicsBody?.collisionBitMask = 0
                             addChild(node)
                         }
-                        
-                        
+
                     }
                 }
-                
             }
         }
     }
     
     override func didMove(to view: SKView) {
+        // Set the background of the scene
+        let background = SKSpriteNode(imageNamed: "background")
+        background.position = CGPoint(x: 512, y: 384)
+        background.blendMode = .replace
+        background.zPosition = -1
+        addChild(background)
+        
+        // Load the level
         loadLevel()
     }
     
