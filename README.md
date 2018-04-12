@@ -74,3 +74,5 @@ Project 25 - SelfieShare - Multipeer Connectivity Framework
 
 Project 26 - MarbleMaze - Core Motion, collision bitmasks, array reversing, compiler 
 directives
+
+Project 27 - CoreGraphics - Draw 2D shapes using Apple's high-speed drawing framework
