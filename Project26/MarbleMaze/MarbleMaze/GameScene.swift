@@ -5,6 +5,10 @@
 //  Created by Ben Hall on 12/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Refactor loadLevel() to be less, well, dense... (i.e. several smaller methods)
+// TODO: - New levels loaded when finish flag reached
+// TODO: - More gameplay elements (teleport?)
+
 
 // NOTES
 // categoryBitMask - number that defines the type of object this is for considering collisions
@@ -30,7 +34,7 @@ enum CollisionTypes: UInt32 {
     case finish = 16
 }
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // MARK: - Game control properties
     var motionManager: CMMotionManager!
@@ -43,6 +47,8 @@ class GameScene: SKScene {
             scoreLabel.text = "Score: \(score)"
         }
     }
+    
+    var isGameOver = false // Tracks whether the game has ended
     
     // MARK: - Game methods
     // This long function handles loading a level and all nodes within it
@@ -129,7 +135,51 @@ class GameScene: SKScene {
         addChild(player)
     }
     
+    // Runs when player collides with something
+    func playerCollided(with node: SKNode) {
+        // If collide with VORTEX
+        if node.name == "vortex" {
+            // Stop ball from being dynamic (stops)
+            player.physicsBody?.isDynamic = false
+            isGameOver = true // set game over state
+            score -= 1 // decrement score
+            
+            // Animate ball to being sucked into vortex
+            let move = SKAction.move(to: node.position, duration: 0.25) // move ball over vortes
+            let scale = SKAction.scale(to: 0.0001, duration: 0.25) // scale ball down
+            let remove = SKAction.removeFromParent() // remove ball from scene
+            let sequence = SKAction.sequence([move,scale,remove])
+
+            player.run(sequence) { [unowned self] in
+                self.createPlayer() // Reccreate player after sequence
+                self.isGameOver = false // Set game over state to false
+            }
+            
+            // Create player ball again and re-enable control
+        } else if node.name == "star" {
+            // Remove star from game and increment score
+            node.removeFromParent()
+            score += 1
+        } else if node.name == "finish" {
+            // Reached end of level, reload level?
+            // TODO: Implement gameover, new levels to load etc.
+        }
+    }
+    
+    // MARK: -  Physics World contactDelegate methods
+    // Determine what contacted what?
+    func didBegin(_ contact: SKPhysicsContact) {
+        if contact.bodyA.node == player {
+            playerCollided(with: contact.bodyB.node!)
+        } else if contact.bodyB.node == player {
+            playerCollided(with: contact.bodyA.node!)
+        }
+    }
+    
     override func didMove(to view: SKView) {
+        // Decome contactDelegate to the physicsworld (i.e. we want to know when contact between nodes occcurs)
+        physicsWorld.contactDelegate = self
+        
         // Remove the default gravity of the game
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
@@ -177,6 +227,8 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        // Don't update anymore if game has ended
+        guard isGameOver == false else { return }
         
         // Poll the motion manager to see what the current tilt data is
         if let accelerometerData = motionManager.accelerometerData {
