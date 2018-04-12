@@ -5,6 +5,11 @@
 //  Created by Ben Hall on 11/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Disconnect from session?
+// TODO: - Button that on-press shows tableview of names of all devices conenction to session
+// TODO: - Sending text messages (data(using:) method for strings to convert them to Data object)
+//          Recommended to use this with String.Encoding.utf8 to send safely
+// TODO: - Persistence.
 
 import UIKit
 import MultipeerConnectivity
