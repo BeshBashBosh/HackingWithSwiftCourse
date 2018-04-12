@@ -31,6 +31,9 @@ enum CollisionTypes: UInt32 {
 
 class GameScene: SKScene {
 
+    // MARK: - Game properties
+    var player: SKSpriteNode!
+    
     // MARK: - Game methods
     // This long function handles loading a level and all nodes within it
     func loadLevel() {
@@ -101,6 +104,21 @@ class GameScene: SKScene {
         }
     }
     
+    // This will create the player node and add it to the scene
+    func createPlayer() {
+        player = SKSpriteNode(imageNamed: "player")
+        player.position = CGPoint(x: 96, y: 672)
+        player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width / 2)
+        player.physicsBody?.allowsRotation = false //(stop rotation around z axis)
+        player.physicsBody?.linearDamping = 0.5 // Give the ball some friction
+        player.physicsBody?.categoryBitMask = CollisionTypes.player.rawValue
+        // Player can contact Star, Vortex, and Finish
+        player.physicsBody?.contactTestBitMask = CollisionTypes.star.rawValue | CollisionTypes.vortex.rawValue | CollisionTypes.finish.rawValue
+        // Player can collide with walls
+        player.physicsBody?.collisionBitMask = CollisionTypes.wall.rawValue
+        addChild(player)
+    }
+    
     override func didMove(to view: SKView) {
         // Set the background of the scene
         let background = SKSpriteNode(imageNamed: "background")
@@ -111,6 +129,9 @@ class GameScene: SKScene {
         
         // Load the level
         loadLevel()
+        
+        // Load the player
+        createPlayer()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
