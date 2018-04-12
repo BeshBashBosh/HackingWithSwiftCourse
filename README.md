@@ -71,3 +71,6 @@ linear and angular damping
 Project 24 - SwiftExtensions - Language extensions, Swift playgrounds
 
 Project 25 - SelfieShare - Multipeer Connectivity Framework
+
+Project 26 - MarbleMaze - Core Motion, collision bitmasks, array reversing, compiler 
+directives
