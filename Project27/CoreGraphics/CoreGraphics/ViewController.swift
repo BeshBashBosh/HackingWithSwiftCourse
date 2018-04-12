@@ -10,6 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: - Outlets
+    @IBOutlet var imageView: UIImageView!
+    
+    // MARK: - Actions
+    @IBOutlet var redrawTapped: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
