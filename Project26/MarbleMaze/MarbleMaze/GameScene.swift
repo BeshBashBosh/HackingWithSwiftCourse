@@ -17,6 +17,7 @@
 
 // Default behaviour - Every node has a collisionBitMask that means "everything" and contact of "nothing"
 
+import CoreMotion // For tracking tilts in this app
 import SpriteKit
 import GameplayKit
 
@@ -31,6 +32,9 @@ enum CollisionTypes: UInt32 {
 
 class GameScene: SKScene {
 
+    // MARK: - Game control properties
+    var motionManager: CMMotionManager!
+    
     // MARK: - Game properties
     var player: SKSpriteNode!
     
@@ -120,6 +124,9 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        // Remove the default gravity of the game
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        
         // Set the background of the scene
         let background = SKSpriteNode(imageNamed: "background")
         background.position = CGPoint(x: 512, y: 384)
@@ -132,6 +139,10 @@ class GameScene: SKScene {
         
         // Load the player
         createPlayer()
+        
+        // Implement player motion via CoreMotion tracking of accelerometer
+        motionManager = CMMotionManager() // Get instance of CM Motion manager
+        motionManager.startAccelerometerUpdates() // Start tracking accelerometer
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -153,5 +164,15 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        
+        // Poll the motion manager to see what the current tilt data is
+        if let accelerometerData = motionManager.accelerometerData {
+            // NOTE accelerometer X and Y axis are with respect to portrait orientation
+            //      we are in landscape where so  need to swap them arround.
+            physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.y * -50,
+                                            dy: accelerometerData.acceleration.x * 50)
+        }
+        
+        
     }
 }
