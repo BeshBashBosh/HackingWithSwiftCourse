@@ -15,7 +15,24 @@ class ViewController: UIViewController {
     
     // MARK: - Custom methods
     func drawRectangle() {
+        // Create a renderer
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
         
+        // call renderer image() method with closure which passes in a
+        // reference to the UIGraphicsImageRendererContext as the ctx parameter
+        let img = renderer.image { ctx in
+            // drawing code
+            let rectangle = CGRect(x: 0, y: 0, width: 512, height: 512)
+            
+            ctx.cgContext.setFillColor(UIColor.red.cgColor) // set the fill colour of the rectangle
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor) // set the stroke (edge) colour of rect
+            ctx.cgContext.setLineWidth(10) // set the stroke/edgewidth of the stroke
+            
+            ctx.cgContext.addRect(rectangle) // add the rectangle
+            ctx.cgContext.drawPath(using: .fillStroke) // draw the rectangles path
+        }
+        
+        imageView.image = img
     }
     
     // MARK: - Outlets
