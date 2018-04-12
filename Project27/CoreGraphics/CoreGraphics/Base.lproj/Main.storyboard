@@ -24,6 +24,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="khE-Kp-zob">
                                 <rect key="frame" x="161" y="625" width="52" height="30"/>
                                 <state key="normal" title="Redraw"/>
+                                <connections>
+                                    <action selector="redrawTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kTz-3a-rmg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -39,7 +42,6 @@
                     </view>
                     <connections>
                         <outlet property="imageView" destination="BOs-H0-Dgw" id="XVV-0C-BDd"/>
-                        <outlet property="redrawTapped" destination="khE-Kp-zob" id="eQn-oe-6QK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
