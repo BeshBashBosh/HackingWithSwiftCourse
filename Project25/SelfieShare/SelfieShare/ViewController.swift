@@ -105,8 +105,18 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         }
     }
     
+    // This is called when data is received from a connected peer session
+    // This receiving of data may not happen on the main thread so care must be taken
+    // with updating UIs based on this method
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        return
+        // Extract image from data (if an image)
+        if let image = UIImage(data: data) {
+            // Dispatch async to main queue as we are playing with the UI
+            DispatchQueue.main.async { [unowned self] in
+                self.images.insert(image, at: 0) // Add image to images array
+                self.collectionView?.reloadData() // Reload the collectionView
+            }
+        }
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
