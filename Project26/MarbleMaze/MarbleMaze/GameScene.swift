@@ -37,6 +37,12 @@ class GameScene: SKScene {
     
     // MARK: - Game properties
     var player: SKSpriteNode!
+    var scoreLabel: SKLabelNode!
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
     
     // MARK: - Game methods
     // This long function handles loading a level and all nodes within it
@@ -133,6 +139,13 @@ class GameScene: SKScene {
         background.blendMode = .replace
         background.zPosition = -1
         addChild(background)
+        
+        // Add a score label
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.position = CGPoint(x: 16, y: 16)
+        scoreLabel.text = "Score: 0"
+        scoreLabel.horizontalAlignmentMode = .left
+        addChild(scoreLabel)
         
         // Load the level
         loadLevel()
