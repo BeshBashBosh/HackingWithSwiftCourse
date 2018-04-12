@@ -6,8 +6,28 @@
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
 
+// NOTES
+// categoryBitMask - number that defines the type of object this is for considering collisions
+// collisionBitMask - number defining what categories of object this node should collide with
+// contactTestBitMask - number defining which collisions we want to be notified about
+
+// Every node to be registered by collisions needs a categoryBitMask
+// If you gave nodes a collision but not contact bit mask, nodes will bounce off each other, but won't be
+// notified about it. Vice versa, no collisions, but will be notified when they overlap.
+
+// Default behaviour - Every node has a collisionBitMask that means "everything" and contact of "nothing"
+
 import SpriteKit
 import GameplayKit
+
+// This enum is for describing the categoryBitMasks (what collides with what)
+enum CollisionTypes: UInt32 {
+    case player = 1
+    case wall = 2
+    case star = 4
+    case vortex = 8
+    case finish = 16
+}
 
 class GameScene: SKScene {
 
@@ -32,12 +52,47 @@ class GameScene: SKScene {
                         // Now get drawing the nodes
                         if letter == "x" {
                             // draw wall
+                            let node = SKSpriteNode(imageNamed: "block")
+                            node.position = position
+                            node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
+                            node.physicsBody?.categoryBitMask = CollisionTypes.wall.rawValue
+                            node.physicsBody?.isDynamic = false
+                            addChild(node)
                         } else if letter == "v" {
                             // draw vortex
+                            let node = SKSpriteNode(imageNamed: "vortex")
+                            node.name = "vortex"
+                            node.position = position
+                            node.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi, duration: 1)))
+                            node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+                            node.physicsBody?.isDynamic = false
+                            node.physicsBody?.categoryBitMask = CollisionTypes.vortex.rawValue
+                            // Want to be notified when player contacts with vortex
+                            node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+                            node.physicsBody?.collisionBitMask = 0
+                            addChild(node)
                         } else if letter == "s" {
                             // draw star
+                            let node = SKSpriteNode(imageNamed: "star")
+                            node.name = "star"
+                            node.position = position
+                            node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
+                            node.physicsBody?.isDynamic = false
+                            node.physicsBody?.categoryBitMask = CollisionTypes.star.rawValue
+                            node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+                            node.physicsBody?.collisionBitMask = 0
+                            addChild(node)
                         } else if letter == "f" {
                             // draw the finish
+                            let node = SKSpriteNode(imageNamed: "finish")
+                            node.name = "finish"
+                            node.position = position
+                            node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2 )
+                            node.physicsBody?.isDynamic = false
+                            node.physicsBody?.categoryBitMask = CollisionTypes.finish.rawValue
+                            node.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+                            node.physicsBody?.collisionBitMask = 0
+                            addChild(node)
                         }
                         
                         
@@ -49,7 +104,7 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-
+        loadLevel()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
