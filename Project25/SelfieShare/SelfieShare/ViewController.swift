@@ -89,6 +89,26 @@ class ViewController: UICollectionViewController, UINavigationControllerDelegate
         
         // Reload collection view
         collectionView?.reloadData()
+        
+        // Handle sending data to connected peers
+        // 1. Check if any peers to send to
+        if mcSession.connectedPeers.count > 0 {
+            // 2. Convert new image to Data object
+            if let imageData = UIImagePNGRepresentation(image) {
+                // 3. Send to all peers ensuring its delivery
+                do {
+                    try mcSession.send(imageData, toPeers: mcSession.connectedPeers,
+                                       with: .reliable) // if error thrown, try call throws straight to code in catch block
+                } catch {
+                    // 4. Show an error message if problem occurs
+                    let ac = UIAlertController(title: "Send error", message: error.localizedDescription,
+                                               preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                    present(ac, animated: true)
+                }
+            }
+        }
+
     }
     
     // MARK: - MCSession delegate methods
