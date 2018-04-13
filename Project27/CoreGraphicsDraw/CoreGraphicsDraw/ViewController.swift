@@ -35,6 +35,24 @@ class ViewController: UIViewController {
         imageView.image = img
     }
     
+    func drawCircle() {
+        // Circles and ellipses are drawn within the bounds of a specified rectangle
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            let rectangle = CGRect(x: 5, y: 5, width: 502, height: 502) // Made smaller than the renderer to take into account edge line width
+            ctx.cgContext.setFillColor(UIColor.red.cgColor)
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.setLineWidth(10)
+            
+            ctx.cgContext.addEllipse(in: rectangle)
+            ctx.cgContext.drawPath(using: .fillStroke)
+            
+        }
+        
+        imageView.image = img
+    }
+    
     // MARK: - Outlets
     @IBOutlet var imageView: UIImageView!
     
@@ -50,6 +68,8 @@ class ViewController: UIViewController {
         switch currentDrawType {
         case 0:
             drawRectangle()
+        case 1:
+            drawCircle()
         default:
             break
         }
@@ -60,7 +80,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
         drawRectangle()
     }
 
