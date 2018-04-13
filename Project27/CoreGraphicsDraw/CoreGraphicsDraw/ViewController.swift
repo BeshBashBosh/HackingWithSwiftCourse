@@ -133,6 +133,35 @@ class ViewController: UIViewController {
         imageView.image = img
     }
     
+    // Example of core graphics with UI images and tex
+    func drawImagesAndText() {
+        // 1. Create renderer at correct size
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            // 2. Define a paragraph style that aligns text to the center
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            
+            // 3. Create an attributes dictionary containing that paragraph stlye (and also font)
+            let attrs = [NSAttributedStringKey.font: UIFont(name: "HelveticaNeue-Thin", size: 36)!,
+                         NSAttributedStringKey.paragraphStyle: paragraphStyle]
+            
+            
+            // 4. Draw a string to the screen using attributes dictionary
+            let string: NSString = "The best-laid schemes o'\nmice an' men gang aft agley"
+            string.draw(with: CGRect(x: 32, y: 32, width: 448, height: 448), options: .usesLineFragmentOrigin,
+                        attributes: attrs, context: nil)
+            
+            // 5. Load an image from project and draw to context
+            let mouse = UIImage(named: "mouse")
+            mouse?.draw(at: CGPoint(x: 300, y: 150))
+        }
+        
+        // 6. Update image view with result
+        imageView.image = img
+    }
+    
     // MARK: - Outlets
     @IBOutlet var imageView: UIImageView!
     
@@ -156,6 +185,8 @@ class ViewController: UIViewController {
             drawRotatedSquares()
         case 4:
             drawLines()
+        case 5:
+            drawImagesAndText()
         default:
             break
         }
