@@ -18,17 +18,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CoreGraphics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RvY-GU-72F">
-                                <rect key="frame" x="86.5" y="323" width="202" height="41"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CoreGraphicsDraw" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sNs-22-NuD">
+                                <rect key="frame" x="73" y="326.5" width="229" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="RvY-GU-72F" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ILD-Lc-ktf"/>
-                            <constraint firstItem="RvY-GU-72F" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="guf-a5-Fp0"/>
+                            <constraint firstItem="sNs-22-NuD" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="1Fk-hY-wmU"/>
+                            <constraint firstItem="sNs-22-NuD" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Y0s-px-ehK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
