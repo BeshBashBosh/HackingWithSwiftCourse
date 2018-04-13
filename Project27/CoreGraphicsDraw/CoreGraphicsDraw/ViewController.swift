@@ -53,6 +53,25 @@ class ViewController: UIViewController {
         imageView.image = img
     }
     
+    func drawCheckerboard() {
+        // Note: Can actually make checkerboards using a Core Image filter CICheckerboardGenerator
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            ctx.cgContext.setFillColor(UIColor.black.cgColor)
+            
+            for row in 0 ..< 8 {
+                for col in 0 ..< 8 {
+                    if (row + col) % 2 == 0 {
+                        ctx.cgContext.fill(CGRect(x: col * 64, y: row * 64, width: 64, height: 64))
+                    }
+                }
+            }
+        }
+        
+        imageView.image = img
+    }
+    
     // MARK: - Outlets
     @IBOutlet var imageView: UIImageView!
     
@@ -70,6 +89,8 @@ class ViewController: UIViewController {
             drawRectangle()
         case 1:
             drawCircle()
+        case 2:
+            drawCheckerboard()
         default:
             break
         }
