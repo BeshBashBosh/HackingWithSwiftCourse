@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     var currentDrawType = 0 // This will be used to cycle through CoreGraphics
     
     // MARK: - Custom methods
+    // Example of drawing a rectangle
     func drawRectangle() {
         // Create a renderer
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
@@ -35,6 +36,7 @@ class ViewController: UIViewController {
         imageView.image = img
     }
     
+    // Example of drawing a circle
     func drawCircle() {
         // Circles and ellipses are drawn within the bounds of a specified rectangle
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
@@ -53,6 +55,7 @@ class ViewController: UIViewController {
         imageView.image = img
     }
     
+    // Example of drawing a checkerboard
     func drawCheckerboard() {
         // Note: Can actually make checkerboards using a Core Image filter CICheckerboardGenerator
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
@@ -70,6 +73,34 @@ class ViewController: UIViewController {
         }
         
         imageView.image = img
+    }
+    
+    // Example of applying transforms to CM context prior to drawing
+    func drawRotatedSquares() {
+        // Unlike CGAffineTransform, which rotates views about their center, cgContext transformations
+        // happen about top left corner of graphic. Can use cgContext.translateBy() to simulate
+        // moving the point we rotate about.
+        
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        let img = renderer.image { ctx in
+            ctx.cgContext.translateBy(x: 256, y: 256)
+            
+            let rotations = 16
+            let amount = Double.pi / Double(rotations)
+            
+            for _ in 0 ..< rotations {
+                ctx.cgContext.rotate(by: CGFloat(amount))
+                ctx.cgContext.addRect(CGRect(x: -128, y: -128, width: 256, height: 256))
+            }
+            
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+        }
+
+        imageView.image = img
+        
     }
     
     // MARK: - Outlets
@@ -91,6 +122,8 @@ class ViewController: UIViewController {
             drawCircle()
         case 2:
             drawCheckerboard()
+        case 3:
+            drawRotatedSquares()
         default:
             break
         }
