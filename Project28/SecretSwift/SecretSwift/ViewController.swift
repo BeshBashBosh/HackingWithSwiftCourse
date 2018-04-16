@@ -8,6 +8,8 @@
 // Note: - KeychainWrapper.swift is a open-source (MIT license) class that make Keychain a lot easier
 //         essentially making its operation similar to UserDefaults.
 
+// TODO: - Add a fallback for if biometric id doesn't work (e.g. a password created in app and stored in the keychain)
+
 import UIKit
 import LocalAuthentication
 
