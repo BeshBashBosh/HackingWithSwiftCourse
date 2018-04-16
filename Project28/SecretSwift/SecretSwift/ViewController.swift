@@ -9,6 +9,7 @@
 //         essentially making its operation similar to UserDefaults.
 
 import UIKit
+import LocalAuthentication
 
 class ViewController: UIViewController {
 
@@ -17,7 +18,36 @@ class ViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction func authenticateTapped(_ sender: UIButton) {
-        unlockSecretMessage()
+        // MARK: - Code for Touch/Face-ID
+        let context = LAContext() // part of Apple LocalAuthentication framework
+        var error: NSError?
+        
+        // Find out if biometric authentication is available on the device
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Identify yourself!" // This is for touch-ID, face-ID reason is put in the plist under Privacy - Face ID Usage Description
+            
+            // Now evaluate the user for authentication
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [unowned self] (success, authenticationError) in
+                
+                // This evaluation is not done on the main thread, so need to pass the outcome back
+                DispatchQueue.main.async {
+                    if success {
+                        // bio-ID passed!
+                        self.unlockSecretMessage()
+                    } else {
+                        // Error
+                        let ac = UIAlertController(title: "Authentication Failed",
+                                                   message: "You could not be verified; please try again.",
+                                                   preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self.present(ac, animated: true)
+                    }
+                }
+            }
+        } else {
+            print(error!.localizedDescription)
+            // No biometry
+        }
     }
     
     // MARK: Custom app methods
