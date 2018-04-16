@@ -27,6 +27,7 @@
 		E25CB1862084D528000142C0 /* player@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E25CB17A2084D528000142C0 /* player@2x.png */; };
 		E25CB1872084D528000142C0 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = E25CB17B2084D528000142C0 /* spark.png */; };
 		E25CB1882084D528000142C0 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25CB17C2084D528000142C0 /* Helper.swift */; };
+		E25CB18A2084E1E2000142C0 /* BuildingNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25CB1892084E1E1000142C0 /* BuildingNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		E25CB17A2084D528000142C0 /* player@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "player@2x.png"; sourceTree = "<group>"; };
 		E25CB17B2084D528000142C0 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		E25CB17C2084D528000142C0 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		E25CB1892084E1E1000142C0 /* BuildingNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				E25CB15A2084D493000142C0 /* GameScene.sks */,
 				E25CB15C2084D493000142C0 /* Actions.sks */,
 				E25CB15E2084D493000142C0 /* GameScene.swift */,
+				E25CB1892084E1E1000142C0 /* BuildingNode.swift */,
 				E25CB1602084D493000142C0 /* GameViewController.swift */,
 				E25CB1622084D493000142C0 /* Main.storyboard */,
 				E25CB1652084D4A1000142C0 /* Assets.xcassets */,
@@ -202,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E25CB15F2084D493000142C0 /* GameScene.swift in Sources */,
+				E25CB18A2084E1E2000142C0 /* BuildingNode.swift in Sources */,
 				E25CB1612084D493000142C0 /* GameViewController.swift in Sources */,
 				E25CB1592084D492000142C0 /* AppDelegate.swift in Sources */,
 				E25CB1882084D528000142C0 /* Helper.swift in Sources */,

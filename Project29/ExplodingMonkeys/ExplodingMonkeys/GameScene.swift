@@ -9,6 +9,13 @@
 import SpriteKit
 import GameplayKit
 
+// Enum for collision bitmask groups
+enum CollisionTypes: UInt32 {
+    case banana = 1
+    case building = 2
+    case player = 4
+}
+
 class GameScene: SKScene {
     
 
