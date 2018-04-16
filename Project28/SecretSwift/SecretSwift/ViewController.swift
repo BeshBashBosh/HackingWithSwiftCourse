@@ -5,6 +5,8 @@
 //  Created by Ben Hall on 13/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// Note: - KeychainWrapper.swift is a open-source (MIT license) class that make Keychain a lot easier
+//         essentially making its operation similar to UserDefaults.
 
 import UIKit
 
@@ -12,6 +14,33 @@ class ViewController: UIViewController {
 
     // MARK: - Outlet
     @IBOutlet var secret: UITextView!
+    
+    // MARK: - Actions
+    @IBAction func authenticateTapped(_ sender: UIButton) {
+    }
+    
+    // MARK: Custom app methods
+    // Unhides the textview and loads keychains text into it
+    func unlockSecretMessage() {
+        secret.isHidden = false // Unhide the text view
+        title = "Secret stuff!" // Change the navController title
+        
+        // Extract any text saved in the keychain protexted storage
+        if let text = KeychainWrapper.standard.string(forKey: "SecretMessage") {
+            secret.text = text // and add it to the text view
+        }
+    }
+    
+    // Writes text input in the text view to keychain protected storage
+    func saveSecretMessage() {
+        if !secret.isHidden { // check the text view is visible
+            _ = KeychainWrapper.standard.set(secret.text, forKey: "SecretMessage")
+            secret.resignFirstResponder() // bye bye keyboard (done editing, this view is no longer the focus)
+            secret.isHidden = true // hide the text view
+            title = "Nothing to see here" // Change navController title
+        }
+    }
+    
     
     // MARK: - Method to make text view adjust content and scroll insets when keyboard state changes
     @objc func adjustForKeyboard(notification: Notification) {
@@ -45,6 +74,11 @@ class ViewController: UIViewController {
                                        name: Notification.Name.UIKeyboardWillHide, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard),
                                        name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+        
+        // Give the navcontroller a title
+        title = "Nothing to see here"
+        
+        
         
     }
 
