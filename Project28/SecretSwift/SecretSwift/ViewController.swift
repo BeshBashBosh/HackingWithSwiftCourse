@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction func authenticateTapped(_ sender: UIButton) {
+        unlockSecretMessage()
     }
     
     // MARK: Custom app methods
@@ -32,7 +33,7 @@ class ViewController: UIViewController {
     }
     
     // Writes text input in the text view to keychain protected storage
-    func saveSecretMessage() {
+    @objc func saveSecretMessage() {
         if !secret.isHidden { // check the text view is visible
             _ = KeychainWrapper.standard.set(secret.text, forKey: "SecretMessage")
             secret.resignFirstResponder() // bye bye keyboard (done editing, this view is no longer the focus)
@@ -78,6 +79,9 @@ class ViewController: UIViewController {
         // Give the navcontroller a title
         title = "Nothing to see here"
         
+        // Watch for the app heading to background or multitasking mode. At that point, SAVE!
+        notificationCenter.addObserver(self, selector: #selector(saveSecretMessage),
+                                       name: Notification.Name.UIApplicationWillResignActive, object: nil)
         
         
     }
