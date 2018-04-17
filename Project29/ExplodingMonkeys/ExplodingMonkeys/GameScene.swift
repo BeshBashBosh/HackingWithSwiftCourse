@@ -16,7 +16,7 @@ enum CollisionTypes: UInt32 {
     case player = 4
 }
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - VC delegation
     weak var viewController: GameViewController!
@@ -159,8 +159,64 @@ class GameScene: SKScene {
 
     }
     
+    // Responsible for destroying player when hit by banana
+    func destroy(player: SKSpriteNode) {
+        // Create explosion (SKEmitterNode)
+        
+        // Remove destroyed player and banana from scene
+        
+        // 
+    }
+    
+    // Responsible for damaging a building when hit by banana
+    func bananaHit(building: BuildingNode, atPoint: CGPoint) {
+        
+    }
+    
+    // MARK: - PhysicsWorld Contact delegate methods
+    
+    // Called when some kind of collision occurred
+    func didBegin(_ contact: SKPhysicsContact) {
+        // Set variables that will associate which bodies contact with which
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        
+        // Will set the lowest ranking CollisionType category always to being the first body (banana = 1, building = 2, player = 4)
+        // Thus player/building will always be the second body, and banana will be the first
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        // Check we have a firstbody collision node
+        if let firstNode = firstBody.node {
+            // and a second node
+            if let secondNode = secondBody.node {
+                // Banana hit a building!
+                if firstNode.name == "banana" && secondNode.name == "building" {
+                    bananaHit(building: secondNode as! BuildingNode, atPoint: contact.contactPoint)
+                }
+                // Banana hit player1
+                if firstNode.name == "banana" && secondNode.name == "player1" {
+                    destroy(player: player1)
+                }
+                // Banana hit player2
+                if firstNode.name == "banana" && secondNode.name == "player2" {
+                    destroy(player: player2)
+                }
+            }
+        }
+        
+    }
+    
     // MARK: - SK lifecycle methods
     override func didMove(to view: SKView) {
+        // Make this GameScene the contactDelegate for the physicsWorld
+        physicsWorld.contactDelegate = self
+        
         // Create a background
         backgroundColor = UIColor(hue: 0.669, saturation: 0.99, brightness: 0.67, alpha: 1)
         
@@ -169,9 +225,12 @@ class GameScene: SKScene {
         
         // Create players
         createPlayers()
+        
+        // Need to determine what hits what
+        // banana <-> building
+        // banana <-> player1
+        // banana <-> player2
     }
-    
-
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
