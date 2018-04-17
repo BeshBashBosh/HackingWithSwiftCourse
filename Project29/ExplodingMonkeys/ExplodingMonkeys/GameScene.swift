@@ -84,6 +84,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(player2)
     }
     
+    func changePlayer() {
+        currentPlayer = currentPlayer == 1 ? 2 : 1
+        viewController.activatePlayer(number: currentPlayer)
+    }
+    
     // MARK: - Game methods
     
     // Responsible for actually launching projectile bananas from players
@@ -162,15 +167,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Responsible for destroying player when hit by banana
     func destroy(player: SKSpriteNode) {
         // Create explosion (SKEmitterNode)
+        let explosion = SKEmitterNode(fileNamed: "hitPlayer")!
+        explosion.position = player.position
+        addChild(player)
         
         // Remove destroyed player and banana from scene
+        player.removeFromParent()
+        banana?.removeFromParent()
         
-        // 
+        // Game over for one player, transition to a new game
+        DispatchQueue.main.async { [unowned self] in
+            let newGame = GameScene(size: self.size) // Create new GameScene with same size as current scene
+            newGame.viewController = self.viewController // Make sure connection to viewController UI is handed over (this one is weak(
+            self.viewController.currentGame = newGame // And make a strong connection between the VC and newGame
+            
+            self.changePlayer() // change the player from winner to loser
+            newGame.currentPlayer = self.currentPlayer // set new games current plater to the new one (loser gets to go first)
+            
+            // transition to new scene
+            let transition = SKTransition.doorway(withDuration: 1.5)
+            self.view?.presentScene(newGame, transition: transition)
+        }
     }
     
     // Responsible for damaging a building when hit by banana
-    func bananaHit(building: BuildingNode, atPoint: CGPoint) {
+    func bananaHit(building: BuildingNode, atPoint contactPoint: CGPoint) {
+        let buildingLocation = convert(contactPoint, to: bulding) // convert the contact point to building node coordinates
+        building.hitA(point: buildingLocation)
         
+        // Create an explosion at contact point
+        let explosion = SKEmitterNode(fileNamed: "hitBuilding")!
+        explosion.position = contactPoint
+        addChild(explosion)
+        
+        // Remove banana from sweet
+        banana.name = "" // this is done so that if banana hits more than one building at same time, only one explosion happens
+        banana?.removeFromParent()
+        banana = nil
+        
+        changePlayer() // Change the player for the next turn
     }
     
     // MARK: - PhysicsWorld Contact delegate methods
