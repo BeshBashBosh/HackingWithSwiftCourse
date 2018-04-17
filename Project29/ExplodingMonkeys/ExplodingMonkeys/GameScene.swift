@@ -176,7 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         banana?.removeFromParent()
         
         // Game over for one player, transition to a new game
-        DispatchQueue.main.async { [unowned self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [unowned self] in
             let newGame = GameScene(size: self.size) // Create new GameScene with same size as current scene
             newGame.viewController = self.viewController // Make sure connection to viewController UI is handed over (this one is weak(
             self.viewController.currentGame = newGame // And make a strong connection between the VC and newGame
@@ -192,7 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Responsible for damaging a building when hit by banana
     func bananaHit(building: BuildingNode, atPoint contactPoint: CGPoint) {
-        let buildingLocation = convert(contactPoint, to: bulding) // convert the contact point to building node coordinates
+        let buildingLocation = convert(contactPoint, to: building) // convert the contact point to building node coordinates
         building.hitA(point: buildingLocation)
         
         // Create an explosion at contact point
@@ -269,5 +269,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        // Remove bananas that fly off screen and start next player's turn
+        if banana != nil {
+            if banana.position.y < -1000 {
+                banana.removeFromParent()
+                banana = nil
+                changePlayer()
+            }
+        }
     }
 }
