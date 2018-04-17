@@ -15,6 +15,23 @@ class GameViewController: UIViewController {
     // MARK: - GameScene delegation
     var currentGame: GameScene!
     
+    // MARK: - UI Outlets
+    @IBOutlet var angleSlider: UISlider!
+    @IBOutlet var angleLabel: UILabel!
+    @IBOutlet var velocitySlider: UISlider!
+    @IBOutlet var velocityLabel: UILabel!
+    @IBOutlet var launchButton: UIButton!
+    @IBOutlet var playerNumber: UILabel!
+    
+    
+    // MARK: - UI Actions
+    @IBAction func angleChanged(_ sender: UISlider) {
+    }
+    @IBAction func velocityChanged(_ sender: UISlider) {
+    }
+    @IBAction func launch(_ sender: UIButton) {
+    }
+    
     // MARK: - VC Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
