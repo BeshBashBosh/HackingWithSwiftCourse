@@ -26,15 +26,51 @@ class GameViewController: UIViewController {
     
     // MARK: - UI Actions
     @IBAction func angleChanged(_ sender: UISlider) {
+        angleLabel.text = "Angle: \(Int(angleSlider.value))°" // shift+alt+8 for degree symbol
     }
     @IBAction func velocityChanged(_ sender: UISlider) {
+        velocityLabel.text = "Velocity \(Int(velocitySlider.value))"
     }
+    
+    // Launches a banana and hides interface so it cannot be used until turn finished
     @IBAction func launch(_ sender: UIButton) {
+        // Hide interface
+        angleSlider.isHidden = true
+        velocitySlider.isHidden = true
+        velocityLabel.isHidden = true
+        velocityLabel.isHidden = true
+        launchButton.isHidden = true
+        
+        // Launch banana!
+        currentGame.launch(angle: Int(angleSlider.value), velocity: Int(velocitySlider.value))
     }
+    
+    // MARK: - Game methods
+    func activatePlayer(number: Int) {
+        // Set the player number
+        if number == 1 {
+            playerNumber.text = "<<< PLAYER ONE"
+        } else {
+            playerNumber.text = "PLAYER TWO >>>"
+        }
+        
+        // Enable UI
+        angleSlider.isHidden = false
+        angleLabel.isHidden = false
+        velocitySlider.isHidden = false
+        velocityLabel.isHidden = false
+        launchButton.isHidden = false
+        
+    }
+    
     
     // MARK: - VC Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Update UI
+        angleChanged(angleSlider)
+        velocityChanged(velocitySlider)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'

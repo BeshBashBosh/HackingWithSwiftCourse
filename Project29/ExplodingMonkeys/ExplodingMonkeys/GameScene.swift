@@ -46,9 +46,10 @@ class GameScene: SKScene {
             
             buildings.append(building)
         }
-        
-
-        
+    }
+    
+    // MARK: - Game methods
+    func launch(angle: Int, velocity: Int) {
         
     }
     
