@@ -36,10 +36,11 @@ class GameViewController: UIViewController {
     @IBAction func launch(_ sender: UIButton) {
         // Hide interface
         angleSlider.isHidden = true
+        angleLabel.isHidden = true
         velocitySlider.isHidden = true
         velocityLabel.isHidden = true
-        velocityLabel.isHidden = true
         launchButton.isHidden = true
+        playerNumber.isHidden = true
         
         // Launch banana!
         currentGame.launch(angle: Int(angleSlider.value), velocity: Int(velocitySlider.value))
@@ -55,6 +56,7 @@ class GameViewController: UIViewController {
         }
         
         // Enable UI
+        playerNumber.isHidden = false
         angleSlider.isHidden = false
         angleLabel.isHidden = false
         velocitySlider.isHidden = false
