@@ -169,7 +169,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Create explosion (SKEmitterNode)
         let explosion = SKEmitterNode(fileNamed: "hitPlayer")!
         explosion.position = player.position
-        addChild(player)
+        addChild(explosion)
         
         // Remove destroyed player and banana from scene
         player.removeFromParent()
