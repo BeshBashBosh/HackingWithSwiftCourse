@@ -12,6 +12,10 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
+    // MARK: - GameScene delegation
+    var currentGame: GameScene!
+    
+    // MARK: - VC Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,6 +27,11 @@ class GameViewController: UIViewController {
                 
                 // Present the scene
                 view.presentScene(scene)
+                
+                // Now create hard-link to the GameScene in this VC
+                currentGame = scene as! GameScene
+                currentGame.viewController = self // This was create in the GameScene.swift as a weak property to avoid strong ref cycle (i.e. GVC keeps GS alive but not vice versa).
+                
             }
             
             view.ignoresSiblingOrder = true

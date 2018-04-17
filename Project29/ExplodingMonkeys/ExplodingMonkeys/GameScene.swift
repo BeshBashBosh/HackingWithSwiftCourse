@@ -18,6 +18,9 @@ enum CollisionTypes: UInt32 {
 
 class GameScene: SKScene {
     
+    // MARK: - VC delegation
+    weak var viewController: GameViewController!
+    
     // MARK: - Properties
     var buildings = [BuildingNode]()
     
