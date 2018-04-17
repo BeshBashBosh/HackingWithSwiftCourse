@@ -80,4 +80,30 @@ class BuildingNode: SKSpriteNode {
         return img
     }
     
+    
+    // This handles taking away chunks of the building when hit
+    func hitA(point: CGPoint) {
+        // 1. Find where building was hit (ALERT! SpriteKit coords from centre of node, CoreGraphics from botton left!)
+        let convertedPoint = CGPoint(x: point.x + size.width / 2.0, y: abs(point.y - size.height / 2.0))
+        
+        // 2. Create new CG context the size of current sprite
+        let renderer = UIGraphicsImageRenderer(size: size)
+        
+        let img = renderer.image { ctx in
+            // 3. Draw current building image in the context
+            currentImage.draw(at: CGPoint(x: 0, y: 0))
+            // 4. Create ellipse at collision point (32pts up and to left of collision, 64x64pts size, i.e. centered on collision)
+            ctx.cgContext.addEllipse(in: CGRect(x: convertedPoint.x - 32, y: convertedPoint.y - 32, width: 64, height: 64))
+            // 5. Set blend mode of ellipse and building to .clear which will cut it from the building
+            ctx.cgContext.setBlendMode(.clear)
+            ctx.cgContext.drawPath(using: .fill)
+        }
+        // 6. Convert contents of CG back to UIImage (saved in currentImage property) which will be used to update the image
+        texture = SKTexture(image: img)
+        currentImage = img
+        
+        // 7. configure physics again so per-pixel collision detection can occur
+        configurePhysics()
+        
+    }
 }
