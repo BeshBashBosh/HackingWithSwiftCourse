@@ -80,6 +80,13 @@ class SelectionViewController: UITableViewController {
         }
         
         cell.imageView?.image = rounded
+        
+        // Give dramatic shadow using UIBezierPath
+        cell.imageView?.layer.shadowColor = UIColor.black.cgColor
+        cell.imageView?.layer.shadowOpacity = 1
+        cell.imageView?.layer.shadowRadius = 10
+        cell.imageView?.layer.shadowOffset = CGSize.zero
+        cell.imageView?.layer.shadowPath = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 90, height: 90)).cgPath
 
 //        let renderer = UIGraphicsImageRenderer(size: original.size)
 //
