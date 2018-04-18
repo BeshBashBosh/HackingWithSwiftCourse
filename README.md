@@ -82,3 +82,5 @@ Project 28 - SecretSwift - Touch ID, device keychain
 
 Project 29 - ExplodingMonkeys - Mixing UIKit and SpriteKit, texture atlases, scene 
 transitions, destructible terrain
+
+Project 30 - Intruments - Profiling, shadows, image caching
