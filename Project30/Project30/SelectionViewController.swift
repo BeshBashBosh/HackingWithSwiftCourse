@@ -32,6 +32,8 @@ class SelectionViewController: UITableViewController {
 				}
 			}
 		}
+        
+        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +64,14 @@ class SelectionViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+		//let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+        // MARK: - Making sure a cell is dequeued and re-used or created, not just continuously created.
+        //         An alternative is commented out in viewDidLoad() that would work with just the original code
+        //         but has the limitations of only being able to use .default style.
+        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: "Cell")
+        if cell == nil {
+            cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+        }
 
 		// find the image for this cell, and load its thumbnail
 		let currentImage = items[indexPath.row % items.count]
