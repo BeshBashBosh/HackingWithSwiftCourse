@@ -5,6 +5,10 @@
 //  Created by Ben Hall on 16/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Change the art style?
+// TODO: - Track the score across scenes to know whose winning
+// TODO: - Game modes such as best of n rounds?, give the player a name?)
+// TODO: - Get banana explosion to damage all buildings the explosion would have touched.
 
 import SpriteKit
 import GameplayKit
@@ -217,7 +221,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var secondBody: SKPhysicsBody
         
         // Will set the lowest ranking CollisionType category always to being the first body (banana = 1, building = 2, player = 4)
-        // Thus player/building will always be the second body, and banana will be the first
+        // Thus player/building will always be the second body, and banana w§1ill be the first
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
             firstBody = contact.bodyA
             secondBody = contact.bodyB
