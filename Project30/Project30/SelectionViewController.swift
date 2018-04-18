@@ -69,21 +69,32 @@ class SelectionViewController: UITableViewController {
 		let imageRootName = currentImage.replacingOccurrences(of: "Large", with: "Thumb")
 		let path = Bundle.main.path(forResource: imageRootName, ofType: nil)!
 		let original = UIImage(contentsOfFile: path)!
+        
+        let renderRect = CGRect(origin: CGPoint.zero, size: CGSize(width: 90, height: 90))
+        let renderer = UIGraphicsImageRenderer(size: renderRect.size)
+        
+        let rounded = renderer.image { ctx in
+            ctx.cgContext.addEllipse(in: renderRect)
+            ctx.cgContext.clip()
+            original.draw(in: renderRect)
+        }
+        
+        cell.imageView?.image = rounded
 
-		let renderer = UIGraphicsImageRenderer(size: original.size)
-
-		let rounded = renderer.image { ctx in
-            ctx.cgContext.setShadow(offset: CGSize.zero, blur: 200, color: UIColor.black.cgColor)
-			ctx.cgContext.fillEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
-            ctx.cgContext.setShadow(offset: CGSize.zero, blur: 0, color: nil)
-            
-            ctx.cgContext.addEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
-			ctx.cgContext.clip() // This clips the image to the shape defined by the context
-
-			original.draw(at: CGPoint.zero)
-		}
-
-		cell.imageView?.image = rounded
+//        let renderer = UIGraphicsImageRenderer(size: original.size)
+//
+//        let rounded = renderer.image { ctx in
+//            ctx.cgContext.setShadow(offset: CGSize.zero, blur: 200, color: UIColor.black.cgColor)
+//            ctx.cgContext.fillEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
+//            ctx.cgContext.setShadow(offset: CGSize.zero, blur: 0, color: nil)
+//
+//            ctx.cgContext.addEllipse(in: CGRect(origin: CGPoint.zero, size: original.size))
+//            ctx.cgContext.clip() // This clips the image to the shape defined by the context
+//
+//            original.draw(at: CGPoint.zero)
+//        }
+//
+//        cell.imageView?.image = rounded
 
         // Rendering layer shadows to a view is not a fast process. Core animation (above) can do this
 		// give the images a nice shadow to make them look a bit more dramatic
