@@ -9,7 +9,7 @@
 import UIKit
 
 class ImageViewController: UIViewController {
-	var owner: SelectionViewController!
+	weak var owner: SelectionViewController!
 	var image: String!
 	var animTimer: Timer!
 
@@ -35,6 +35,7 @@ class ImageViewController: UIViewController {
 		imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
 
 		// schedule an animation that does something vaguely interesting
+        // MARK: - This is creating a strong reference cycle between the timer and viewcontroller
 		animTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { timer in
 			// do something exciting with our image
 			self.imageView.transform = CGAffineTransform.identity
@@ -49,7 +50,11 @@ class ImageViewController: UIViewController {
         super.viewDidLoad()
 
 		title = image.replacingOccurrences(of: "-Large.jpg", with: "")
-		let original = UIImage(named: image)!
+		//let original = UIImage(named: image)! // This will load an image into the cache so it can be used again but will bloat the app when it comes to ram
+        // load image once (no cache)
+        // Need the full path for this
+        let path = Bundle.main.path(forResource: image, ofType: nil)!
+        let original = UIImage(contentsOfFile: path)!
 
 		let renderer = UIGraphicsImageRenderer(size: original.size)
 
@@ -83,4 +88,9 @@ class ImageViewController: UIViewController {
 		// tell the parent view controller that it should refresh its table counters when we go back
 		owner.dirty = true
 	}
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        animTimer.invalidate()
+    }
 }
