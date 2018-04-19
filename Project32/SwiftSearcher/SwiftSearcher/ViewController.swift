@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class ViewController: UITableViewController {
 
@@ -29,6 +30,17 @@ class ViewController: UITableViewController {
         return titleString
     }
     
+    // Will present the HwS tutorial for each project in TableView cells within an SFSafariViewController
+    func showTutorial(_ which: Int) {
+        if let url = URL(string: "https://www.hackingwithswift.com/read/\(which + 1)") {
+            let config = SFSafariViewController.Configuration() // set-up configuration of SFSafariVC
+            config.entersReaderIfAvailable = true // Enable Reader mode
+            
+            let vc = SFSafariViewController(url: url, configuration: config)
+            present(vc, animated: true)
+        }
+    }
+    
     // MARK: - TableView methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return projects.count
@@ -40,6 +52,11 @@ class ViewController: UITableViewController {
         //cell.textLabel?.text = "\(project[0]): \(project[1])" // set cells text to project
         cell.textLabel?.attributedText = makeAttributedString(title: project[0], subtitle: project[1])
         return cell // return cell
+    }
+    
+    // cell tapped, do something!
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        showTutorial(indexPath.row)
     }
     
     // MARK: - VC Lifecycle methods
