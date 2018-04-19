@@ -84,3 +84,5 @@ Project 29 - ExplodingMonkeys - Mixing UIKit and SpriteKit, texture atlases, sce
 transitions, destructible terrain
 
 Project 30 - Intruments - Profiling, shadows, image caching
+
+Project 31 - MultiBrowser - UIStackView, multitasking for iPad, size classes
