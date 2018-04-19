@@ -122,6 +122,16 @@ class ViewController: UIViewController, UIWebViewDelegate, UITextFieldDelegate, 
         title = webView.request?.url?.absoluteString ?? "nil"
     }
     
+    // MARK: - Size Class methods
+    // This watches for changes in the size class of the app. Manipulating this allows us to adjust the apps for better UI
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.horizontalSizeClass == .compact { // if compact horizontal mode, stack webviews vertically (rows)
+            stackView.axis = .vertical
+        } else {
+            stackView.axis = .horizontal // otherwise stack them horizontally (columns)
+        }
+    }
+    
     // MARK: - VC Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
