@@ -6,6 +6,7 @@
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
 
+
 // NOTE: - WHEN ADDING A SUBVIEW TO A UISTACKVIEW, USE addArrangeSubview() NOT addSubview()
 //         stack views have their own subviews that they arrange so subviews should instead be
 //         added to the ArrangeSubview array to be managed separately to the stackviews native subviews
@@ -21,8 +22,6 @@ class ViewController: UIViewController, UIWebViewDelegate, UITextFieldDelegate, 
     @IBOutlet var textField: UITextField!
     @IBOutlet var stackView: UIStackView!
     
-    // MARK: - Actions
-    
     // MARK: - Cutom Methods
     func setDefaultTitle() {
         title = "MultiBrowser"
@@ -37,6 +36,14 @@ class ViewController: UIViewController, UIWebViewDelegate, UITextFieldDelegate, 
         // set the active webview
         activeWebView = webView
         webView.layer.borderWidth = 3 // Set a border around active webview
+        
+        // Update UI with new site
+        updateUI(for: webView)
+    }
+   
+    func updateUI(for webView: UIWebView) {
+        title = webView.stringByEvaluatingJavaScript(from: "document.title") // set navbar title to that of website
+        textField.text = webView.request?.url?.absoluteString ?? "" // set textfield to that of website
     }
     
     // MARK: - Selector methods
@@ -119,7 +126,9 @@ class ViewController: UIViewController, UIWebViewDelegate, UITextFieldDelegate, 
     
     // MARK: - WebView delegate methods
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        title = webView.request?.url?.absoluteString ?? "nil"
+        if webView == activeWebView {
+            updateUI(for: webView)
+        }
     }
     
     // MARK: - Size Class methods
