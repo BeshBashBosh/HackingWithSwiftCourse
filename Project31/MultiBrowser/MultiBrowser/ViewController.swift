@@ -10,6 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: - Outlets
+    @IBOutlet var textField: UITextField!
+    @IBOutlet var stackView: UIStackView!
+    
+    // MARK: - Actions
+    
+    
+    // MARK: - VC Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
