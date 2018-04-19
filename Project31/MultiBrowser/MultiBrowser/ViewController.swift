@@ -59,7 +59,31 @@ class ViewController: UIViewController, UIWebViewDelegate, UITextFieldDelegate, 
     }
     
     @objc func deleteWebView() {
-        
+        // check if webview selected
+        if let webView = activeWebView {
+            // Find which of the stackview webviews this is
+            if let index = stackView.arrangedSubviews.index(of: webView) {
+                // remove from stackview
+                stackView.removeArrangedSubview(webView)
+                // remove webview from superview hierarchy
+                webView.removeFromSuperview()
+                
+                // if no more webview exist set navbar title back to default
+                if stackView.arrangedSubviews.count == 0 {
+                    setDefaultTitle()
+                } else {
+                    // set webview following this as active webview
+                    // if the index removed was at end of stackview, set to previous webview, else we can use the same index
+                    // as removed webview
+                    let currentIndex = (Int(index) == stackView.arrangedSubviews.count) ? stackView.arrangedSubviews.count - 1 : Int(index)
+                    
+                    // grab the webview at next index and set as active
+                    if let newSelectedWebView = stackView.arrangedSubviews[currentIndex] as? UIWebView {
+                        selectWebView(newSelectedWebView)
+                    }
+                }
+            }
+        }
     }
     
     // Change the active webview on tap of its view within the stackview
@@ -81,6 +105,7 @@ class ViewController: UIViewController, UIWebViewDelegate, UITextFieldDelegate, 
         if let webView = activeWebView, let address = textField.text { // unwrap the activeWebView (if it exists) and grab the address entered in the textfield
             if let url = URL(string: address) { // check this text is a url
                 webView.loadRequest(URLRequest(url: url)) // load input url
+                //title = textField.text
             } else { // alert invalid url
                 let ac = UIAlertController(title: "Invalid URL", message: "Please enter a valid url", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "OK", style: .default))
@@ -90,6 +115,11 @@ class ViewController: UIViewController, UIWebViewDelegate, UITextFieldDelegate, 
         
         textField.resignFirstResponder() // get the textfield to vanish
         return true
+    }
+    
+    // MARK: - WebView delegate methods
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        title = webView.request?.url?.absoluteString ?? "nil"
     }
     
     // MARK: - VC Lifecycle methods
