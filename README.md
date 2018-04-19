@@ -86,3 +86,6 @@ transitions, destructible terrain
 Project 30 - Intruments - Profiling, shadows, image caching
 
 Project 31 - MultiBrowser - UIStackView, multitasking for iPad, size classes
+
+Project 32 - SwiftSearcher - Core Spotlight, SFSafariViewController, 
+NSAttributedString, Dynamic Type, automatic UITableViewCell sizing
