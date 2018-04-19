@@ -5,7 +5,9 @@
 //  Created by Ben Hall on 19/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
-
+// TODO: - User has to input https:// for app to work. Change this
+// TODO: - Clear button in textfield
+// TODO: - Have an onborading view when at default mode (i.e. no webviews yet)
 
 // NOTE: - WHEN ADDING A SUBVIEW TO A UISTACKVIEW, USE addArrangeSubview() NOT addSubview()
 //         stack views have their own subviews that they arrange so subviews should instead be
