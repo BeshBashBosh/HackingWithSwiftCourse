@@ -89,3 +89,6 @@ Project 31 - MultiBrowser - UIStackView, multitasking for iPad, size classes
 
 Project 32 - SwiftSearcher - Core Spotlight, SFSafariViewController, 
 NSAttributedString, Dynamic Type, automatic UITableViewCell sizing
+
+Project 33 - WhatIsThatWhistle - CloudKit, CKRecord, CKQuery, CKQuerySubscription, 
+AVAudioRecorder, and push messages
