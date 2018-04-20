@@ -5,6 +5,10 @@
 //  Created by Ben Hall on 19/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Convert projects array to hold bustom subclass rather than just array (i.e. a Project class/struct)
+// TODO: - Right-click on NSAttributedStringKey.font -> Jump to Definition, then check out other NSAttributes that can be manipulated.
+// TODO: - Handle user changing their Dynamic Type Size (subscribe to UIContentSizeCategoryDidChange notification in NotificationCenter to check for this change whilst app in use and handle it by refreshing UI).
+
 
 import UIKit
 // SafariWebViews
