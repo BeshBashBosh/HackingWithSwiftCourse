@@ -7,13 +7,33 @@
 //
 
 import UIKit
+import CoreSpotlight // So we can interact with spotlight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    // This is called when responding to a deep link (ie user entering app from spotlight search)
+    // Called after app has finished launching
+    // continue userActivity tells us where the deep-link has come from and thus how to respond in the app.
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        
+        // check to see if we have come from spotlight index click
+        if userActivity.activityType == CSSearchableItemActionType {
+            // Grab the unique identifier stored in the spotlight index item
+            if let uniqueIdentifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
+                // Do some VC juggling to load user into favorited project straight away
+                if let navController = window?.rootViewController as? UINavigationController { // Gets the nav controller
+                    if let viewController = navController.topViewController as? ViewController { // get the VC on the top stack of the nav controller (this will be out TableView
+                        viewController.showTutorial(Int(uniqueIdentifier)!) // call vc's showTutorial(which:) method to go straight to its SafariVC
+                    }
+                }
+            }
+        }
+        return true
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true

@@ -7,7 +7,11 @@
 //
 
 import UIKit
+// SafariWebViews
 import SafariServices
+// Spotlight integration
+import CoreSpotlight // heavy lifting for indexing items in spotlight
+import MobileCoreServices // for identifying what type of data we want to store
 
 class ViewController: UITableViewController {
 
@@ -42,12 +46,40 @@ class ViewController: UITableViewController {
         }
     }
     
+    // MARK: - Custom methods for Spotlight integration
+    // Looks inside projects to find project info to index in spotlight
     func index(item: Int) {
+        let project = projects[item] // get the project
         
+        // Set the attribute set for the spotlight index
+        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+        attributeSet.title = project[0]
+        attributeSet.contentDescription = project[1]
+        
+        // Create the spotlight index item from this attribute set
+        let item = CSSearchableItem(uniqueIdentifier: "\(item)", domainIdentifier: "com.beshbashbosh",
+                                    attributeSet: attributeSet)
+        // indexed items are stored for about a month. Can extend this (difficult to test) using:
+        item.expirationDate = Date.distantFuture
+        // Index the item! Trailiing closure to report error...
+        CSSearchableIndex.default().indexSearchableItems([item]) { error in
+            if let error = error {
+                print("Indexing error: \(error.localizedDescription)")
+            } else {
+                print("Search item successfully indexed!")
+            }
+        }
     }
     
+    // Removes indexed items from spotlight search
     func deindex(item: Int) {
-        
+        CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: ["\(item)"]) { error in
+            if let error = error {
+                print("Deindexing error: \(error.localizedDescription)")
+            } else {
+                print("Search item successfully removed!")
+            }
+        }
     }
     
     // MARK: - TableView methods
