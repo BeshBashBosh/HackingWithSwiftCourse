@@ -7,11 +7,24 @@
 //
 
 import UIKit
+import AVFoundation // Audio-Visual apple framework
 
 class RecordWhistleViewController: UIViewController {
 
     // MARK: - Properties
     var stackView: UIStackView!
+    var recordButton: UIButton!
+    var recordingSession: AVAudioSession! // Handles a recording session
+    var whistleRecorder: AVAudioRecorder! // Does the actual data acquisition
+    
+    // MARK: - Custom Methods
+    func loadRecordingUI() {
+        
+    }
+    
+    func loadFailUI() {
+        
+    }
     
     // MARK: - VC Lifecycle methods
     // Do all view loading in code
@@ -39,6 +52,31 @@ class RecordWhistleViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        // Navbar setup
+        title = "Record your whistle"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Record", style: .plain,
+                                                           target: nil, action: nil)
+        
+        // Set-up recording session
+        recordingSession = AVAudioSession.sharedInstance()
+        
+        // Attempt requesting recording priveleges
+        do {
+            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async {
+                    if allowed {
+                        self.loadRecordingUI()
+                    } else {
+                        self.loadFailUI()
+                    }
+                }
+            }
+        } catch {
+            self.loadFailUI()
+        }
     }
 
     override func didReceiveMemoryWarning() {
