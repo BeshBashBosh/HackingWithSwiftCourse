@@ -17,10 +17,20 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
     var recordingSession: AVAudioSession! // Handles a recording session
     var whistleRecorder: AVAudioRecorder! // Does the actual data acquisition
     
+    var playButton: UIButton! // Button to replay recordings
+    var whistlePlayer: AVAudioPlayer!
+    
     // MARK: - Actions
     @objc func recordTapped() {
         if whistleRecorder == nil {
             startRecording()
+            // Started recording so hide the play button (if it shown)
+            if !playButton.isHidden {
+                UIView.animate(withDuration: 0.35) { [unowned self] in
+                    self.playButton.isHidden = true
+                    self.playButton.alpha = 0
+                }
+            }
         } else {
             finishRecording(success: true)
         }
@@ -28,6 +38,23 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
     
     @objc func nextTapped() {
         
+    }
+    
+    // Playback of recording
+    @objc func playTapped() {
+        let audioURL = RecordWhistleViewController.getWhistleURL() // Get where the recording was saved
+        
+        do {
+            whistlePlayer = try AVAudioPlayer(contentsOf: audioURL) // try to read the contents of the URL
+            whistlePlayer.play() // Play it!
+        } catch {
+            // Failed, alert the user
+            let ac = UIAlertController(title: "Playback Failed",
+                                       message: "There was a problem playing the audio recording, please try again.",
+                                       preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
     }
     
     // MARK: - Custom Methods
@@ -40,6 +67,16 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
         recordButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1) // What font is the button?
         recordButton.addTarget(self, action: #selector(recordTapped), for: .touchUpInside) // What does pressing the button do?
         stackView.addArrangedSubview(recordButton) // Add button to stackView
+        
+        // Add the replay button
+        playButton = UIButton()
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        playButton.setTitle("Tap to Play", for: .normal)
+        playButton.isHidden = true // Start play button as hidden... (THIS REMOVES THE VIEW FROM TAKING UP SPACE IN THE STACKVIEW)
+        playButton.alpha = 0 // and completely transparent. (THIS STOPS THE VIEW FROM BEING VISIBLE AT START WHEN WE ANIMATE IT IN)
+        playButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+        playButton.addTarget(self, action: #selector(playTapped), for: .touchUpInside)
+        stackView.addArrangedSubview(playButton)
     }
     
     // Create a UI telling the user recording not possible
@@ -103,6 +140,14 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
                                        preferredStyle: .alert) // invoke alert controller alerting user recording failed
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             present(ac, animated: true)
+        }
+        
+        // Finished recording so now display the replay button (animate it)
+        if playButton.isHidden {
+            UIView.animate(withDuration: 0.35) { [unowned self] in
+                self.playButton.isHidden = false
+                self.playButton.alpha = 1
+            }
         }
     }
     
