@@ -36,8 +36,10 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    // Pushes the next VC to the user (SelectGenreVC)
     @objc func nextTapped() {
-        
+        let vc = SelectGenreViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // Playback of recording

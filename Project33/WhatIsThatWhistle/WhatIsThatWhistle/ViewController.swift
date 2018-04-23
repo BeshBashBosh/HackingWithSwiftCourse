@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: - Properties
+    static var isDirty = true
+    
     // MARK: - Selector methods
     // Pushes a RecordWhistleViewController to user to record a whistle
     @objc func addWhistle() {
