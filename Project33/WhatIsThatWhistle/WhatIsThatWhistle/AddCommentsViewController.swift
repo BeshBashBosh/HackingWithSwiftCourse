@@ -67,6 +67,16 @@ class AddCommentsViewController: UIViewController, UITextViewDelegate {
     }
     
 
+    // MARK: - TextView Delegate methods
+    // This will be called when user starts interacting with the text view.
+    // If the current text in the view is the placeholder upon user interaction, remove it!
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == placeholder {
+            textView.text = ""
+        }
+    }
+    
+    
     /*
     // MARK: - Navigation
 
