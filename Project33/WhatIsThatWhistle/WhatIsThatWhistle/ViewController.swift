@@ -116,9 +116,9 @@ class ViewController: UITableViewController {
                                NSAttributedStringKey.foregroundColor: UIColor.purple]
         let subtitleAttributes = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.subheadline)]
         
-        let titleString = NSMutableAttributedString(string: "(\title)", attributes: titleAttributes)
+        let titleString = NSMutableAttributedString(string: "\(title)", attributes: titleAttributes)
         if subtitle.count > 0 { // may not be a comment
-            let subtitleString = NSMutableAttributedString(string: "\(subtitle)", attributes: subtitleAttributes)
+            let subtitleString = NSMutableAttributedString(string: " \(subtitle)", attributes: subtitleAttributes)
             titleString.append(subtitleString)
         }
         
