@@ -10,14 +10,28 @@ import UIKit
 
 class MyGenresViewController: UITableViewController {
 
+    // MARK: - Properties
+    var myGenres: [String]!
+    
+    // MARK: - VC Lifecycle MEthods
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        // Check if user has already set the genres and restore if so, if not create empty array
+        let defaults = UserDefaults.standard
+        if let savedGenres = defaults.object(forKey: "myGenres") as? [String] {
+            myGenres = savedGenres
+        } else {
+            myGenres = [String]()
+        }
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        // Navbar set-up
+        title = "Notify me about..."
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain,
+                                                            target: self, action: #selector(saveTapped))
+        // Register re-use cell for tableView
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,68 +42,59 @@ class MyGenresViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return SelectGenreViewController.genres.count
     }
 
-    /*
+    // Define how cell is displayed
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        // dequeue a cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        // get the genre of dequeued cell
+        let genre = SelectGenreViewController.genres[indexPath.row]
+        cell.textLabel?.text = genre
+        
+        // If users myGenres array contains this cell, add a checkmark to the cell
+        if myGenres.contains(genre) {
+            cell.accessoryType = .checkmark
+        } else { // else no checkmark
+            cell.accessoryType = .none
+        }
+        
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    // Define what happens when cell tapped
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Get the cell at the indexpath
+        if let cell = tableView.cellForRow(at: indexPath) {
+            let selectedGenre = SelectGenreViewController.genres[indexPath.row] // get the genre this cell corresponds to
+            
+            if cell.accessoryType == .none { // if no checkmark, add a checkmark and add to users list of genre specialities
+                cell.accessoryType = .checkmark
+                myGenres.append(selectedGenre)
+            } else { // else remove from user's genre specialities
+                cell.accessoryType = .none
+                if let index = myGenres.index(of: selectedGenre) {
+                    myGenres.remove(at: index)
+                }
+            }
+        }
+        // Deselect the view
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    // MARK: - Instance Methods
+    
+    
+    // MARK: - Selector Methods
+    @objc func saveTapped() {
+        
     }
-    */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

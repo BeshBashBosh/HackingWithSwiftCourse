@@ -22,6 +22,12 @@ class ViewController: UITableViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    // Push genre selecting VC to user
+    @objc func selectGenre() {
+        let vc = MyGenresViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // MARK: - VC Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +39,9 @@ class ViewController: UITableViewController {
                                                             action: #selector(addWhistle))
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: nil,
                                                            action: nil)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Genres", style: .plain,
+                                                           target: self, action: #selector(selectGenre))
         
         // Register re-use id for cell
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
