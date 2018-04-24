@@ -70,6 +70,14 @@ class ViewController: UITableViewController {
         return cell
     }
     
+    // Push the ResultsTableViewController to the user of row selection
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = ResultsTableViewController()
+        // pass the whistle to this vc
+        vc.whistle = whistles[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // MARK: - Custom Methods
     // Every time VC shown reload table with any new iCloud entries that may have been added
     func loadWhistles() {
