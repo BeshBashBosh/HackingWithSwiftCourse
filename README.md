@@ -92,3 +92,6 @@ NSAttributedString, Dynamic Type, automatic UITableViewCell sizing
 
 Project 33 - WhatIsThatWhistle - CloudKit, CKRecord, CKQuery, CKQuerySubscription, 
 AVAudioRecorder, and push messages
+
+Project 34 - FourInARow - GameplayKit, GKMinmaxStrategist, GKGameModel, UIStackView, 
+map()
