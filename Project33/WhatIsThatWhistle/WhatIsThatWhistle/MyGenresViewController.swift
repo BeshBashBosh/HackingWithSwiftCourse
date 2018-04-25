@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class MyGenresViewController: UITableViewController {
 
@@ -92,8 +93,60 @@ class MyGenresViewController: UITableViewController {
     
     
     // MARK: - Selector Methods
+    // Add user specialist genres to local storage and subscribe them to iCloud push notifications
     @objc func saveTapped() {
+        let defaults = UserDefaults.standard
+        defaults.set(myGenres, forKey: "myGenres")
         
+        let database = CKContainer.default().publicCloudDatabase
+        
+        database.fetchAllSubscriptions { [unowned self] subscriptions, error in
+            if error == nil {
+                if let subscriptions = subscriptions {
+                    
+                    // Delete existing subscriptions to stop duplication errors
+                    for subscription in subscriptions {
+                        database.delete(withSubscriptionID: subscription.subscriptionID) { str, error in
+                            if error != nil { // handle deletion error
+                                DispatchQueue.main.async {
+                                    let ac = UIAlertController(title: "Deletion Error", message: "There was an error deleting your notification subscription: \(error!.localizedDescription)", preferredStyle: .alert)
+                                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                                    self.present(ac, animated: true)
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Subscribe to CK push notifs for selected genres
+                    for genre in self.myGenres {
+                        let predicate = NSPredicate(format: "genre = %@", genre)
+                        let subscription = CKQuerySubscription(recordType: "Whistles", predicate: predicate, options: .firesOnRecordCreation)
+                        
+                        let notification = CKNotificationInfo()
+                        notification.alertBody = "There's a new whistle in the \(genre) genre"
+                        notification.soundName = "default"
+                        
+                        subscription.notificationInfo = notification
+                        
+                        database.save(subscription) { result, error in
+                            if let error = error { // handle error
+                                DispatchQueue.main.async {
+                                    let ac = UIAlertController(title: "Subscription Error", message: "There was a problem signing up for notifications: \(error.localizedDescription)", preferredStyle: .alert)
+                                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                                    self.present(ac, animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+            } else { // handle error
+                DispatchQueue.main.async {
+                    let ac = UIAlertController(title: "Fetch Error", message: "There was an error fetching your notification subscriptions: \(error!.localizedDescription)", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(ac, animated: true)
+                }
+            }
+        }
     }
 
 
