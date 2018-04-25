@@ -10,6 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // MARK: - Outlets
+    @IBOutlet var columnButtons: [UIButton]!
+    
+    // MARK: - Actions
+    @IBAction func makeMove(_ sender: UIButton) {
+    }
+    
+    
+    // MARK: - VC Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
