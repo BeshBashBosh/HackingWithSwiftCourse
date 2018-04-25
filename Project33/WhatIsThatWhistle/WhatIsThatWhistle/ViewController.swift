@@ -5,6 +5,17 @@
 //  Created by Ben Hall on 20/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Thorough testing, playing downloaded audio stopped working, and when it did it only plays through call speaker.
+// TODO: - A check for if there are any record types to receive. If not error shown that is not useful to user. Simplest solution is to create a
+//         dummy one in iCloud dashboard, and when parsing remove it from view.
+// TODO: - Are we actually signing up for notifications? Need two devices to test this really.
+// TODO: - Tableview in VC.swift (here) not reloading with new entries when coming from SubmitVC. Haven't identified why yet.
+// TODO: - Add retry button to fetch iCloud results if it fails?
+// TODO: - Make Whistle.swift class conform to NSCoding so it can be encoded and stored
+// TODO: - Edit AddCommentsVC to correctly adjust textview when keyboard appears
+// TODO: - Restict number of line breaks in comments, or trim them in the VC table view.
+// TODO: - Better error alerts and handling
+
 
 import UIKit
 import CloudKit

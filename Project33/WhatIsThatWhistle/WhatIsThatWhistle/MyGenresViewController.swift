@@ -127,7 +127,7 @@ class MyGenresViewController: UITableViewController {
                         notification.soundName = "default"
                         
                         subscription.notificationInfo = notification
-                        
+ 
                         database.save(subscription) { result, error in
                             if let error = error { // handle error
                                 DispatchQueue.main.async {
@@ -135,7 +135,7 @@ class MyGenresViewController: UITableViewController {
                                     ac.addAction(UIAlertAction(title: "OK", style: .default))
                                     self.present(ac, animated: true)
                                 }
-                            }
+                            } 
                         }
                     }
                 }

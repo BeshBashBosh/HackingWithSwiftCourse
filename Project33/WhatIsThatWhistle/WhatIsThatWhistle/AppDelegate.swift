@@ -7,15 +7,42 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
-
+    // MARK: - UNUserNotificationCenter Delegate methods
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
+    
+    // MARK: - App lifecycle methods
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // MARK: - Request authorization, and register user for remote push notifications
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { [unowned self] granted, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    let ac = UIAlertController(title: "Authorization Error", message: "An error occurred whilst requesting push-notification authorization: \(error.localizedDescription)", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.window?.rootViewController?.present(ac, animated: true)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    application.registerForRemoteNotifications()
+                }
+            }
+            
+        }
+        
+        // MARK: - Set app to be delegate of UNUserNotificationCenterDelegate so notifs still happen when app is in foreground
+        UNUserNotificationCenter.current().delegate = self
+        
+        
         return true
     }
 

@@ -10,10 +10,10 @@
 		E2D00AFD208DF32E00C5BE55 /* SelectGenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D00AFC208DF32E00C5BE55 /* SelectGenreViewController.swift */; };
 		E2D00AFF208DF5A300C5BE55 /* AddCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D00AFE208DF5A300C5BE55 /* AddCommentsViewController.swift */; };
 		E2D00B01208DFA1900C5BE55 /* SubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D00B00208DFA1900C5BE55 /* SubmitViewController.swift */; };
-		E2D00B05208E163700C5BE55 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2D00B04208E163700C5BE55 /* CloudKit.framework */; };
 		E2D00B07208E2BC800C5BE55 /* Whistle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D00B06208E2BC800C5BE55 /* Whistle.swift */; };
 		E2D00B2B208F479B00C5BE55 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D00B2A208F479B00C5BE55 /* ResultsTableViewController.swift */; };
 		E2D00B2D208F78A700C5BE55 /* MyGenresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D00B2C208F78A700C5BE55 /* MyGenresViewController.swift */; };
+		E2EA30E32090A4F800DCC79A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2EA30E22090A4F800DCC79A /* CloudKit.framework */; };
 		E2F590D72089F5F700A74319 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F590D62089F5F700A74319 /* AppDelegate.swift */; };
 		E2F590D92089F5F700A74319 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F590D82089F5F700A74319 /* ViewController.swift */; };
 		E2F590DC2089F5F700A74319 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F590DA2089F5F700A74319 /* Main.storyboard */; };
@@ -27,10 +27,10 @@
 		E2D00AFE208DF5A300C5BE55 /* AddCommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentsViewController.swift; sourceTree = "<group>"; };
 		E2D00B00208DFA1900C5BE55 /* SubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitViewController.swift; sourceTree = "<group>"; };
 		E2D00B02208E153D00C5BE55 /* WhatIsThatWhistle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WhatIsThatWhistle.entitlements; sourceTree = "<group>"; };
-		E2D00B04208E163700C5BE55 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		E2D00B06208E2BC800C5BE55 /* Whistle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Whistle.swift; sourceTree = "<group>"; };
 		E2D00B2A208F479B00C5BE55 /* ResultsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewController.swift; sourceTree = "<group>"; };
 		E2D00B2C208F78A700C5BE55 /* MyGenresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGenresViewController.swift; sourceTree = "<group>"; };
+		E2EA30E22090A4F800DCC79A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		E2F590D32089F5F700A74319 /* WhatIsThatWhistle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatIsThatWhistle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F590D62089F5F700A74319 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2F590D82089F5F700A74319 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -46,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2D00B05208E163700C5BE55 /* CloudKit.framework in Frameworks */,
+				E2EA30E32090A4F800DCC79A /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,7 +56,7 @@
 		E2D00B03208E163700C5BE55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E2D00B04208E163700C5BE55 /* CloudKit.framework */,
+				E2EA30E22090A4F800DCC79A /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
