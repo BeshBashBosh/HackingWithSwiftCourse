@@ -26,9 +26,13 @@ class Board: NSObject {
     
     // MARK: - Instance Properties
     var slots = [ChipColor]()
+    var currentPlayer: Player
     
     // MARK: - Inits
     override init() {
+        // Set the initial player
+        self.currentPlayer = Player.allPlayers[0]
+        
         // Set all slots available on the board to have no chips in them
         for _ in 0 ..< Board.width * Board.height {
             slots.append(.none)
