@@ -183,6 +183,11 @@ class ViewController: UIViewController {
     
     // Makes the AI move for best column determined from columnForAIMove method
     func makeAIMove(in column: Int) {
+        // re-enable buttons (disabled in startAIMove)
+        columnButtons.forEach { $0.isEnabled = true }
+        // disable AI thinking spinner
+        navigationItem.leftBarButtonItem = nil
+        
         if let row = board.nextEmptySlot(in: column) {
             board.add(chip: board.currentPlayer.chip, in: column)
             self.addChip(inColumn: column, row: row, color: board.currentPlayer.color)
@@ -193,6 +198,13 @@ class ViewController: UIViewController {
     
     // Kicks off the AI's move with above methds
     func startAIMove() {
+        // disable columnButtons whilst AI 'thinks' so that user can't keep placing pieces
+        columnButtons.forEach { $0.isEnabled = false }
+        // add a spinner to show AI is thinking
+        let spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        spinner.startAnimating()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: spinner)
+        
         // 1. Dispatch columnForAIMove to background thread
         DispatchQueue.global().async { [unowned self] in
             // 2. Get current time, then run columnForAIMove
