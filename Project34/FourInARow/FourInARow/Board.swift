@@ -37,9 +37,6 @@ class Board: NSObject {
         super.init()
     }
     
-
-    
-    
     // MARK: - Instance methods
     
     // Gets what chip type exists at a particular column and row
@@ -72,5 +69,15 @@ class Board: NSObject {
         if let row = nextEmptySlot(in: column) {
             set(chip: chip, in: column, row: row)
         }
+    }
+
+    // Check for whether the board is full - NOT IMPLEMENTED
+    func isFull() -> Bool {
+        return false
+    }
+    
+    // Check for whether a player has won - NOT IMPLEMENTED
+    func isWin(for player: Player) -> Bool {
+        return false
     }
 }
