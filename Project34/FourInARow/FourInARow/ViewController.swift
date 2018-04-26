@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         let column = sender.tag
         
         if let row = board.nextEmptySlot(in: column) {
-            board.add(chip: .red, in: column) // add chip to board model
+            board.add(chip: board.currentPlayer.chip, in: column) // add chip to board model
             self.addChip(inColumn: column, row: row, color: board.currentPlayer.color) // sync UI to model
             self.continueGame() // advance the game
         }
