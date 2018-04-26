@@ -95,3 +95,6 @@ AVAudioRecorder, and push messages
 
 Project 34 - FourInARow - GameplayKit, GKMinmaxStrategist, GKGameModel, UIStackView, 
 map()
+
+Project 35 - RNG - GameplayKit, GKRandomSource, GKARC4RandomSource, 
+GKRandomDistribution, GKShuffledDistribution, GKGaussianDistribution
