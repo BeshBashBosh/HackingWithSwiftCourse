@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import GameplayKit
 
 class ViewController: UIViewController {
 
     // MARK: - Properties
     var placedChips = [[UIView]]()
     var board: Board!
+    
+    // MARK: - Gameplay kit AI
+    var strategist: GKMinmaxStrategist!
     
     // MARK: - Outlets
     @IBOutlet var columnButtons: [UIButton]!
@@ -38,6 +42,14 @@ class ViewController: UIViewController {
             placedChips.append([UIView]())
         }
         
+        // Create the GK ai strategist
+        strategist = GKMinmaxStrategist()
+        strategist.maxLookAheadDepth = 7 // how many turns ahead the strategist will look
+        // what to do if a tiebreaker between two equally good moves
+        // if nil will pick the first occurring best move
+        // if wanted AI to randomly select best move, could do .randomSource = GKArc4RandomSource()
+        strategist.randomSource = GKARC4RandomSource()
+        
         // Reset the board
         resetBoard()
     }
@@ -54,6 +66,10 @@ class ViewController: UIViewController {
     func resetBoard() {
         // Create new instance of the board
         board = Board()
+        
+        // Feed the GK strategist AI some data, in this case the gameModel (or Board instance here!)
+        strategist.gameModel = board
+        
         self.updateUI() // update the title of the view
         
         // Remove any already existing chips from play
@@ -146,6 +162,53 @@ class ViewController: UIViewController {
     // Update the UI state with user guiding information
     func updateUI() {
         title = "\(board.currentPlayer.name)'s Turn"
+        
+        // Kick off the AI move!!
+        if board.currentPlayer.chip == .black {
+            startAIMove()
+        }
+    }
+    
+    
+    // MARK: - GK AI MinmaxStrategist related methods
+    // This will evaluate the best move to make and either return what column this is in, or nil
+    // if none can be found. Will run this method on background thread as it may take a while to compute
+    func columnForAIMove() -> Int? {
+        if let aiMove = strategist.bestMove(for: board.currentPlayer) as? Move {
+            return aiMove.column
+        }
+        
+        return nil
+    }
+    
+    // Makes the AI move for best column determined from columnForAIMove method
+    func makeAIMove(in column: Int) {
+        if let row = board.nextEmptySlot(in: column) {
+            board.add(chip: board.currentPlayer.chip, in: column)
+            self.addChip(inColumn: column, row: row, color: board.currentPlayer.color)
+            
+            self.continueGame()
+        }
+    }
+    
+    // Kicks off the AI's move with above methds
+    func startAIMove() {
+        // 1. Dispatch columnForAIMove to background thread
+        DispatchQueue.global().async { [unowned self] in
+            // 2. Get current time, then run columnForAIMove
+            let strategistTime = CFAbsoluteTimeGetCurrent()
+            guard let column = self.columnForAIMove() else { return }
+            
+            // 3. Get time again, compare difference, subtract value from 1 to form a delay value
+            let delta = CFAbsoluteTimeGetCurrent() - strategistTime
+            let aiTimeCeiling = 1.0
+            let delay = aiTimeCeiling - delta // delay exists to wait at least 1s before move is made as not to confuse real player.
+            
+            // 4. Run makeAIMove(in:) on main thread after delay to execute move
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                self.makeAIMove(in: column)
+            }
+        }
     }
     
     
