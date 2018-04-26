@@ -65,19 +65,29 @@ class Board: NSObject {
         return nil
     }
     
+    // Check to see if a move is possible within a specific column
     func canMove(in column: Int) -> Bool {
         return nextEmptySlot(in: column) != nil
     }
     
+    // Add a chip to the model board in the next empty slot within a spiecified column
     func add(chip: ChipColor, in column: Int) {
         if let row = nextEmptySlot(in: column) {
             set(chip: chip, in: column, row: row)
         }
     }
 
-    // Check for whether the board is full - NOT IMPLEMENTED
+    // Check for whether the board is full
     func isFull() -> Bool {
-        return false
+        // Check each column on the board to see if it is full of chips
+        for column in 0 ..< Board.width {
+            // If a move can be made, the board is not full
+            if canMove(in: column) {
+                return false
+            }
+        }
+        
+        return true
     }
     
     // Check for whether a player has won - NOT IMPLEMENTED
