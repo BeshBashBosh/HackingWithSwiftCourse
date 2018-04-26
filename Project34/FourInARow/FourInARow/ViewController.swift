@@ -6,6 +6,11 @@
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
 
+// TODO: - Improve scoring system (see Board.swift model) to take into account number of moves to make win happen (for example) to make AI better
+// TODO: - Add a 1P/2P mode
+// TODO: - Could make AI difficulties
+// TODO: - Could change chips to a UIImageView with own graphics
+
 import UIKit
 import GameplayKit
 
