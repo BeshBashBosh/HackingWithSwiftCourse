@@ -22,8 +22,9 @@ class ViewController: UIViewController {
         let column = sender.tag
         
         if let row = board.nextEmptySlot(in: column) {
-            board.add(chip: .red, in: column)
-            self.addChip(inColumn: column, row: row, color: .red)
+            board.add(chip: .red, in: column) // add chip to board model
+            self.addChip(inColumn: column, row: row, color: .red) // sync UI to model
+            self.continueGame() // advance the game
         }
     }
     
@@ -53,6 +54,7 @@ class ViewController: UIViewController {
     func resetBoard() {
         // Create new instance of the board
         board = Board()
+        self.updateUI() // update the title of the view
         
         // Remove any already existing chips from play
         for i in 0 ..< placedChips.count {
