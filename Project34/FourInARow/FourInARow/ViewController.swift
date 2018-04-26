@@ -92,6 +92,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // Determine the position a chip should be placed in
     func positionForChip(inColumn column: Int, row: Int) -> CGPoint {
         // 1. Extract UIButton representing input column
         let button = columnButtons[column]
@@ -112,5 +113,39 @@ class ViewController: UIViewController {
         return CGPoint(x: xOffset, y: yOffset)
     }
 
+    // Progress the game. Called each turn and ends the game if necessary
+    func continueGame() {
+        // 1. Create gameOverTitle optional string
+        var gameOverTitle: String? = nil
+        // 2. If game over or board full, gameOverTitle updated to include relevant status message
+        if board.isWin(for: board.currentPlayer) {
+            gameOverTitle = "\(board.currentPlayer.name) wins!"
+        } else if board.isFull() {
+            gameOverTitle = "Draw!"
+        }
+        
+        // 3. If game over (won or drawn), show alert controller that resets board when dismissed
+        if gameOverTitle != nil {
+            let ac = UIAlertController(title: gameOverTitle, message: nil, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "Play Again", style: .default) { [unowned self] (action) in
+                self.resetBoard()
+            }
+            ac.addAction(alertAction)
+            present(ac, animated: true)
+            
+            return // exit method now!
+        }
+        
+        // 4. Otherwise change current player of game, update UI with player
+        board.currentPlayer = board.currentPlayer.opponent
+        updateUI()
+        
+    }
+    // Update the UI state with user guiding information
+    func updateUI() {
+        title = "\(board.currentPlayer.name)'s Turn"
+    }
+    
+    
 }
 
