@@ -76,6 +76,56 @@ arc4.dropValues(1024)
 // IMPORTANT NOT: APPLE STILL RECOMMENDS NOT USING THIS FOR CRYPTOGRAPHIC PURPOSES.
 
 
+// MARK: - Gameplay Kit Random distributions
+
+// Say we wanted to simulate random rolls of a 6-sided die, could use RandomInt(min:max:) method above.
+// BUT... GK defines random distributions that each have a 6-sided die built-in to the API, e.g.
+
+let d6 = GKRandomDistribution.d6()
+print(d6.nextInt())
+
+// ... or even a 20 sided device
+let d20 = GKRandomDistribution.d20()
+print(d20.nextInt())
+
+//... or a 11,539(!!!) sided die...
+let crazyDie = GKRandomDistribution(lowestValue: 1, highestValue: 11539)
+print(crazyDie.nextInt())
+
+// so technically the last one has nothing to do with a dice but more a distribution of random values
+// Care must be taken with the .nextInt(upperBound:) class method on a bounded distribution as it will crash code if upperBound is outside of the
+// defined distributions highestValue.
+
+// Can set the random source type of distro with:
+let rand = GKMersenneTwisterRandomSource()
+let distribution = GKRandomDistribution(randomSource: rand, lowestValue: 10, highestValue: 20)
+print(distribution.nextInt())
+
+// GK also provides two other distributions
+//     1) GKShuffledDistribution - ensures sequences repeat less often (anti-clustering distro)
+//                               - Will cycle through every unique value before repeating
+//     2) GKGaussianDistribution - ensures results naturally form a bell curve with results near to the mean occurring more frequently
+// e.g.
+
+let shuffled = GKShuffledDistribution.d6()
+print(shuffled.nextInt())
+print(shuffled.nextInt())
+print(shuffled.nextInt())
+print(shuffled.nextInt())
+print(shuffled.nextInt())
+print(shuffled.nextInt())
+print(shuffled.nextInt())
+
+let gauss = GKGaussianDistribution(randomSource: mersenne, mean: 5, deviation: 2)
+print(gauss.nextInt())
+print(gauss.nextInt())
+print(gauss.nextInt())
+print(gauss.nextInt())
+print(gauss.nextInt())
+print(gauss.nextInt())
+
+
+
 
 
 
