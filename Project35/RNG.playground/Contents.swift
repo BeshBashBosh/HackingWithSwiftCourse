@@ -49,3 +49,52 @@ print(GKRandomSource.sharedRandom().nextInt(upperBound: 6))
 print(GKRandomSource.sharedRandom().nextBool())
 
 
+// MARK: - Deterministic GKRandomSource
+
+// As noted above, since GKRandomSource() is not deterministic (cannot determine its output), it is not possible to use it for synchronising states over a
+// network. For example, if a game had a feature related to RNG in die rolls, if they didn't get what they wanted, they could quit app and roll again, thus
+// being able to easily cheat.
+
+// GameplayKit has three ways of generating deterministic random values
+// Why 3? Such form of RNG is difficult, so have options for:
+//      1) Simple and fast - GKLinearCongruentialRandomSource - high performance, low randomness
+//      2) Complex and slow - GKMersenneTwisterRandomSource - low performance, high randomness
+//      3) a middle between 1+2 - GKARC4RandomSource - good performance, good randomness
+// In reality, unless generating vast quantities of random numbers all above have similar performance
+
+// Examples:
+let arc4 = GKARC4RandomSource()
+print(arc4.nextInt(upperBound: 20))
+
+let mersenne = GKMersenneTwisterRandomSource()
+print(mersenne.nextInt(upperBound: 20))
+
+// NOTE: APPLE RECOMMENDS FORCE FLUSHING ARC4 RNG BEFORE USING FOR ANYTHING IMPORTANT OTHERWISE IT GENERATES PREDICTABLE SEQUENCES.
+//       API GUIDELINES SUGGEST DROPPING AT LEAST THE FIRST 769 VALUES. MOST ROUND TO MORE PLEASING VALUE OF 1024. e.g.
+arc4.dropValues(1024)
+
+// IMPORTANT NOT: APPLE STILL RECOMMENDS NOT USING THIS FOR CRYPTOGRAPHIC PURPOSES.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
