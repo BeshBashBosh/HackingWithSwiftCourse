@@ -124,6 +124,30 @@ print(gauss.nextInt())
 print(gauss.nextInt())
 print(gauss.nextInt())
 
+// MARK: - Randomised Shuffling
+// Many apps will implement the Fisher-Yates shuffle extension to Arrays by Nate Cook:
+extension Array {
+    mutating func shuffle() {
+        for i in 0..<(count - 1) {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            swapAt(i, j)
+        }
+    }
+}
+
+var lotteryBalls = [Int](1...49)
+lotteryBalls.shuffle()
+
+// GK offers a similar version. The difference is that it does not shuffle in place
+let lottoBalls = [Int](1...49)
+let shuffledBalls = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: lottoBalls)
+
+// You could cheat at this lottery by making it deterministic and seeding it...
+let fixedLotteryBalls = [Int](1...49)
+let fixedShuffledBalls = GKMersenneTwisterRandomSource(seed: 1001).arrayByShufflingObjects(in: fixedLotteryBalls)
+// this will maked fixedShuffledBalls be the same each time (so long as seed doesn't change).
+
+
 
 
 
