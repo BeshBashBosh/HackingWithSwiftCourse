@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E2D867602093515100BC5DED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D8675F2093515100BC5DED /* AppDelegate.swift */; };
 		E2D867622093515200BC5DED /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E2D867612093515200BC5DED /* GameScene.sks */; };
-		E2D867642093515200BC5DED /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E2D867632093515200BC5DED /* Actions.sks */; };
 		E2D867662093515200BC5DED /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D867652093515200BC5DED /* GameScene.swift */; };
 		E2D867682093515200BC5DED /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D867672093515200BC5DED /* GameViewController.swift */; };
 		E2D8676B2093515300BC5DED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2D867692093515300BC5DED /* Main.storyboard */; };
@@ -51,7 +50,6 @@
 		E2D8675C2093515100BC5DED /* CrashyPlane.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrashyPlane.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2D8675F2093515100BC5DED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2D867612093515200BC5DED /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		E2D867632093515200BC5DED /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		E2D867652093515200BC5DED /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		E2D867672093515200BC5DED /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		E2D8676A2093515300BC5DED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -122,7 +120,6 @@
 			children = (
 				E2D8675F2093515100BC5DED /* AppDelegate.swift */,
 				E2D867612093515200BC5DED /* GameScene.sks */,
-				E2D867632093515200BC5DED /* Actions.sks */,
 				E2D867652093515200BC5DED /* GameScene.swift */,
 				E2D867672093515200BC5DED /* GameViewController.swift */,
 				E2D867692093515300BC5DED /* Main.storyboard */,
@@ -263,7 +260,6 @@
 				E2D867AC2093523600BC5DED /* player-2@2x.png in Resources */,
 				E2D8676D2093517600BC5DED /* Assets.xcassets in Resources */,
 				E2D867702093517600BC5DED /* LaunchScreen.storyboard in Resources */,
-				E2D867642093515200BC5DED /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +419,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RDUR75H7KL;
 				INFOPLIST_FILE = CrashyPlane/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -430,7 +427,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.beshbashbosh.CrashyPlane;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -441,6 +438,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RDUR75H7KL;
 				INFOPLIST_FILE = CrashyPlane/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -448,7 +446,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.beshbashbosh.CrashyPlane;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
