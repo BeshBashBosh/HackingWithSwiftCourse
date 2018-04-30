@@ -32,6 +32,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = CGPoint(x: frame.width / 5, y: frame.height * 0.75)
         addChild(player)
         
+        // Add some contact physics
+        player.physicsBody = SKPhysicsBody(texture: playerTexture, size: playerTexture.size()) // "pixel-perfect" collision hitbox
+        player.physicsBody?.contactTestBitMask = player.physicsBody!.collisionBitMask //The player can collide with anything (the default for collisionBitMask), so tell us when that happens
+        player.physicsBody?.isDynamic = true
+        // player.physicsBody?.collisionBitMask = 0 // this will make the player bounce off NOTHING. So player can report that it contacts with anything, but won't actually collide with anything. We only want the former.s
+        
         // Animate the player texture
         let frame2 = SKTexture(imageNamed: "player-2")
         let frame3 = SKTexture(imageNamed: "player-3")
