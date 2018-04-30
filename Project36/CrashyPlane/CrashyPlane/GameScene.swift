@@ -9,6 +9,12 @@
 import SpriteKit
 import GameplayKit
 
+enum GameState {
+    case showingLogo
+    case playing
+    case dead
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Instance Properties
@@ -22,6 +28,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     var backgroundMusic: SKAudioNode!
+    
+    // Game state properties
+    var logo: SKSpriteNode!
+    var gameOver: SKSpriteNode!
+    var gameState = GameState.showingLogo
     
     // MARK: - Composed Methods
     
@@ -37,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Add some contact physics
         player.physicsBody = SKPhysicsBody(texture: playerTexture, size: playerTexture.size()) // "pixel-perfect" collision hitbox
         player.physicsBody?.contactTestBitMask = player.physicsBody!.collisionBitMask //The player can collide with anything (the default for collisionBitMask), so tell us when that happens
-        player.physicsBody?.isDynamic = true
+        player.physicsBody?.isDynamic = false // BEN HALL - changed for sake of gameState. Will be reactivated once game started
         player.physicsBody?.collisionBitMask = 0 // this will make the player bounce off NOTHING. So player can report that it contacts with anything, but won't actually collide with anything. We only want the former.s
         
         // Animate the player texture
@@ -234,6 +245,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // Create Gamelogos
+    func createLogos() {
+        logo = SKSpriteNode(imageNamed: "logo")
+        logo.position = CGPoint(x: frame.midX, y: frame.midY)
+        addChild(logo)
+        
+        gameOver = SKSpriteNode(imageNamed: "gameover")
+        gameOver.position = CGPoint(x: frame.midX, y: frame.midY)
+        gameOver.alpha = 0
+        addChild(gameOver)
+    }
+    
     // MARK: - SKScene methods
     override func didMove(to view: SKView) {
         // CREATE THE PHYSICS!!
@@ -242,6 +265,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Create some background music!
         startBGM()
+        
+        // Create logos to be used by the gamestate
+        createLogos()
         
         // Use composed methods to build this up
         
@@ -258,7 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createGround()
         
         // 5. Create rock obstacles to be avoided
-        startRocks()
+        //startRocks() // BEN HALL - Moved to take into account gameState. Called once game has actually started
         
         // 6. Create a score label
         createScore()
