@@ -243,8 +243,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    // Respond to user touches
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
+        player.physicsBody?.velocity = CGVector(dx: 0, dy: 0) // remove any existing upward velocity when player touches screen and applying...
+        player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20)) // every time player touches screen, give it a shove upwards
+    }
+    
+    // Any custom logic to do each frame of the game?
+    override func update(_ currentTime: TimeInterval) {
+        // Apply a small rotation to plane based on vertical velocity to give a nice bit of visual flare
+        let rotation = player.physicsBody!.velocity.dy * 0.001 // rotation based on 1000th of player vertical velocity
+        let rotate = SKAction.rotate(byAngle: rotation, duration: 0.1) // happening at sub frame rate so will appear to be continuosly happening
+        player.run(rotate)
     }
 
 }
