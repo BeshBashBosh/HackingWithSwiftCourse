@@ -13,10 +13,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Instance Properties
     var player: SKSpriteNode!
-    var scoreLabel : SKLabelNode!
+    var scoreLabel: SKLabelNode!
     
     var score = 0 {
         didSet {
+            print(scoreLabel.text!)
             scoreLabel.text = "SCORE: \(score)"
         }
     }
@@ -180,7 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // 4. Position rocks just off right edge of screen, animating them to the left edge.
         //    When off left edge, remove from scene
-        let rockGap: CGFloat = 70 // the width of a gap between rocks player has to pass through
+        let rockGap: CGFloat = 150//70 // the width of a gap between rocks player has to pass through
         
         topRock.position = CGPoint(x: xPosition, y: yPosition + topRock.size.height)
         bottomRock.position = CGPoint(x: xPosition, y: yPosition - rockGap)
@@ -214,12 +215,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Create score label node
     func createScore() {
-        let scoreLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
+        scoreLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
         scoreLabel.fontSize = 24
         
         scoreLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 60)
         scoreLabel.text = "SCORE: 0"
-        scoreLabel.fontColor = .black
+        scoreLabel.fontColor = UIColor.black
         
         addChild(scoreLabel)
     }
@@ -252,6 +253,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
+    }
+    
+    // How to handle collisions
+    func didBegin(_ contact: SKPhysicsContact) {
+        // Score zone has a name so can identify that as player avoiding obstacle and incrememnt the score
+        if contact.bodyA.node?.name == "scoreDetect" || contact.bodyB.node?.name == "scoreDetect" {
+            if contact.bodyA.node == player {
+                contact.bodyB.node?.removeFromParent()
+            } else {
+                contact.bodyA.node?.removeFromParent()
+            }
+            
+            let sound = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
+            run(sound)
+            
+            score += 1
+            
+            return
+        }
+        
+        guard contact.bodyA.node != nil && contact.bodyB.node != nil else { return }
+        
+        // If we got to this point, the player has collided with a bad area, that means game over!
+        if contact.bodyA.node == player || contact.bodyB.node == player {
+            // Create an explosion
+            if let explosion = SKEmitterNode(fileNamed: "PlayerExplosion") {
+                explosion.position = player.position
+                addChild(explosion)
+            }
+            
+            // Play explosion sound
+            let sound = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
+            run(sound)
+            
+            // Remove player from game
+            player.removeFromParent()
+            // Halt the game
+            speed = 0
+        }
     }
     
     // Respond to user touches
