@@ -101,3 +101,6 @@ GKRandomDistribution, GKShuffledDistribution, GKGaussianDistribution
 
 Project 36 - CrashyPlane - SKAudioNode, GameplayKit randomization, and the guard 
 keyword
+
+Project 37 - PsychicTester - CAEmitterLayer, CAGradientLayer, IBDesignable, 
+transition(with:), 3D Touch, WatchKit
