@@ -5,6 +5,12 @@
 //  Created by Ben Hall on 27/04/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - Solve multiple scoring occurring when avoiding obstacles (per-pixel multiple contacts registering?) - FIXED
+// TODO: - Scale of scene changing when new game starts?
+// TODO: - Implement new obstacles (trees?, moving obstacles?)
+// TODO: - Difficulty ramping up over time (e.g. gap getting smaller, more obstacles, gravity increasing?)
+// TODO: - Secondary scoring system (e.g. passing through hoops?)
+// TODO: - Universal support (e.g. iPad?)
 
 import SpriteKit
 import GameplayKit
@@ -20,12 +26,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Instance Properties
     var player: SKSpriteNode!
     var scoreLabel: SKLabelNode!
+    
     var score = 0 {
         didSet {
-            print(scoreLabel.text!)
             scoreLabel.text = "SCORE: \(score)"
         }
     }
+
     
     var backgroundMusic: SKAudioNode!
     
@@ -43,6 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player = SKSpriteNode(texture: playerTexture)
         player.zPosition = 10
         player.position = CGPoint(x: frame.width / 5, y: frame.height * 0.75)
+        player.name = "player"
         addChild(player)
         
         // Add some contact physics
@@ -50,6 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.contactTestBitMask = player.physicsBody!.collisionBitMask //The player can collide with anything (the default for collisionBitMask), so tell us when that happens
         player.physicsBody?.isDynamic = false // BEN HALL - changed for sake of gameState. Will be reactivated once game started
         player.physicsBody?.collisionBitMask = 0 // this will make the player bounce off NOTHING. So player can report that it contacts with anything, but won't actually collide with anything. We only want the former.s
+        player.physicsBody?.usesPreciseCollisionDetection = true
         
         // Animate the player texture
         let frame2 = SKTexture(imageNamed: "player-2")
@@ -295,26 +304,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // How to handle collisions
     func didBegin(_ contact: SKPhysicsContact) {
-        // Score zone has a name so can identify that as player avoiding obstacle and incrememnt the score
-        if contact.bodyA.node?.name == "scoreDetect" || contact.bodyB.node?.name == "scoreDetect" {
-            if contact.bodyA.node == player {
-                contact.bodyB.node?.removeFromParent()
+        let bodyA = contact.bodyA.node
+        let bodyB = contact.bodyB.node
+
+        guard bodyA?.parent != nil && bodyB?.parent != nil else { return }
+        
+        if bodyA?.name == "scoreDetect" || bodyB?.name == "scoreDetect" {
+            if bodyA == player {
+                bodyB?.removeFromParent()
             } else {
-                contact.bodyA.node?.removeFromParent()
+                bodyA?.removeFromParent()
             }
             
             let sound = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
             run(sound)
-            
             score += 1
-            
             return
+            
         }
         
-        guard contact.bodyA.node != nil && contact.bodyB.node != nil else { return }
-        
         // If we got to this point, the player has collided with a bad area, that means game over!
-        if contact.bodyA.node == player || contact.bodyB.node == player {
+        if bodyA == player || bodyB == player {
             // Create an explosion
             if let explosion = SKEmitterNode(fileNamed: "PlayerExplosion") {
                 explosion.position = player.position
