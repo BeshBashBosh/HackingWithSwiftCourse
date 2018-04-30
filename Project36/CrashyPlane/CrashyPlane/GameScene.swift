@@ -168,6 +168,22 @@ class GameScene: SKScene {
         
     }
     
+    // Creates a sequence of rocks using createRocks() method continuously
+    func startRocks() {
+        // Action for creating a pair of rocks in scene
+        let create = SKAction.run { [unowned self] in
+            self.createRocks()
+        }
+        // Action for waiting between rock creation
+        let wait = SKAction.wait(forDuration: 3)
+        // Create a "create" -> "wait" sequence of actions...
+        let sequence = SKAction.sequence([create, wait])
+        // ... that will run indefinitely
+        let repeatForever = SKAction.repeatForever(sequence)
+        // And run!
+        run(repeatForever)
+    }
+    
     // MARK: - SKScene methods
     override func didMove(to view: SKView) {
         // Use composed methods to build this up
