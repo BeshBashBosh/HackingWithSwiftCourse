@@ -36,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody = SKPhysicsBody(texture: playerTexture, size: playerTexture.size()) // "pixel-perfect" collision hitbox
         player.physicsBody?.contactTestBitMask = player.physicsBody!.collisionBitMask //The player can collide with anything (the default for collisionBitMask), so tell us when that happens
         player.physicsBody?.isDynamic = true
-        // player.physicsBody?.collisionBitMask = 0 // this will make the player bounce off NOTHING. So player can report that it contacts with anything, but won't actually collide with anything. We only want the former.s
+        player.physicsBody?.collisionBitMask = 0 // this will make the player bounce off NOTHING. So player can report that it contacts with anything, but won't actually collide with anything. We only want the former.s
         
         // Animate the player texture
         let frame2 = SKTexture(imageNamed: "player-2")
@@ -155,6 +155,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //    obstacle unscathed. Essentially, touch rectangle, score a point!
         let rockCollision = SKSpriteNode(color: .red, size: CGSize(width: 32, height: frame.height))
         rockCollision.name = "scoreDetect"
+        
+        // Add physics to the collidables
+        topRock.physicsBody = SKPhysicsBody(texture: rockTexture, size: rockTexture.size())
+        topRock.physicsBody?.isDynamic = false
+        bottomRock.physicsBody = SKPhysicsBody(texture: rockTexture, size: rockTexture.size())
+        bottomRock.physicsBody?.isDynamic = false
+        rockCollision.physicsBody = SKPhysicsBody(rectangleOf: rockCollision.size)
+        rockCollision.physicsBody?.isDynamic = false
         
         addChild(bottomRock)
         addChild(topRock)
