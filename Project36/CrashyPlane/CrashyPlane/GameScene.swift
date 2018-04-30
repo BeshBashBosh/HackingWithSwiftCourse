@@ -144,9 +144,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let rockTexture = SKTexture(imageNamed: "rock")
         
         let bottomRock = SKSpriteNode(texture: rockTexture)
+        // Add some physics to sprite
+        bottomRock.physicsBody = SKPhysicsBody(texture: bottomRock.texture!, size: bottomRock.texture!.size())
+        bottomRock.physicsBody?.isDynamic = false
+        // and some positioning/scaling
         bottomRock.zPosition = -20 // behind the ground sprites
         
         let topRock = SKSpriteNode(texture: rockTexture)
+        // Add some physics to sprite
+        topRock.physicsBody = SKPhysicsBody(texture: topRock.texture!, size: topRock.texture!.size())
+        topRock.physicsBody?.isDynamic = false
+        // and some positioning/scaling
         topRock.zPosition = -20
         topRock.zRotation = .pi
         topRock.xScale = -1.0 // normally this scales the node horizontally. Here, a value of -1 inverts it!
@@ -155,12 +163,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //    obstacle unscathed. Essentially, touch rectangle, score a point!
         let rockCollision = SKSpriteNode(color: .red, size: CGSize(width: 32, height: frame.height))
         rockCollision.name = "scoreDetect"
-        
-        // Add physics to the collidables
-        topRock.physicsBody = SKPhysicsBody(texture: rockTexture, size: rockTexture.size())
-        topRock.physicsBody?.isDynamic = false
-        bottomRock.physicsBody = SKPhysicsBody(texture: rockTexture, size: rockTexture.size())
-        bottomRock.physicsBody?.isDynamic = false
+        // Add some physics to sprite
         rockCollision.physicsBody = SKPhysicsBody(rectangleOf: rockCollision.size)
         rockCollision.physicsBody?.isDynamic = false
         
