@@ -14,13 +14,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Instance Properties
     var player: SKSpriteNode!
     var scoreLabel: SKLabelNode!
-    
     var score = 0 {
         didSet {
             print(scoreLabel.text!)
             scoreLabel.text = "SCORE: \(score)"
         }
     }
+    
+    var backgroundMusic: SKAudioNode!
     
     // MARK: - Composed Methods
     
@@ -225,11 +226,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(scoreLabel)
     }
     
+    // Create background music
+    func startBGM() {
+        if let musicURL = Bundle.main.url(forResource: "music", withExtension: "m4a") {
+            backgroundMusic = SKAudioNode(url: musicURL)
+            addChild(backgroundMusic)
+        }
+    }
+    
     // MARK: - SKScene methods
     override func didMove(to view: SKView) {
         // CREATE THE PHYSICS!!
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
         physicsWorld.contactDelegate = self
+        
+        // Create some background music!
+        startBGM()
         
         // Use composed methods to build this up
         
