@@ -174,7 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // 2. Create large red rectangle, positioned just after rocks, will track if player has succesfully passed through
         //    obstacle unscathed. Essentially, touch rectangle, score a point!
-        let rockCollision = SKSpriteNode(color: .red, size: CGSize(width: 32, height: frame.height))
+        let rockCollision = SKSpriteNode(color: .clear, size: CGSize(width: 32, height: frame.height))
         rockCollision.name = "scoreDetect"
         // Add some physics to sprite
         rockCollision.physicsBody = SKPhysicsBody(rectangleOf: rockCollision.size)

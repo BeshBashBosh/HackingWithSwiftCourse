@@ -27,9 +27,9 @@ class GameViewController: UIViewController {
             
             view.ignoresSiblingOrder = true
             
-            view.showsFPS = true
-            view.showsNodeCount = true
-            view.showsPhysics = true // this shows blue lines around all game physics in scene for debugging purposes
+            //view.showsFPS = true
+            //view.showsNodeCount = true
+            //view.showsPhysics = true // this shows blue lines around all game physics in scene for debugging purposes
         }
     }
 
