@@ -334,8 +334,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Respond to user touches
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.physicsBody?.velocity = CGVector(dx: 0, dy: 0) // remove any existing upward velocity when player touches screen and applying...
-        player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20)) // every time player touches screen, give it a shove upwards
+        switch gameState {
+        case .showingLogo:
+            gameState = .playing // change the state to playing mode
+            
+            // Fadeout logo, wait, activate the player physics and generation of obstacles, remove logo
+            let fadeOut = SKAction.fadeOut(withDuration: 0.5)
+            let wait = SKAction.wait(forDuration: 0.5)
+            let activatePlayer = SKAction.run { [unowned self] in
+                self.player.physicsBody?.isDynamic = true
+                self.startRocks()
+            }
+            let remove = SKAction.removeFromParent()
+            
+            // Run above sequence of events
+            let sequence = SKAction.sequence([fadeOut, wait, activatePlayer, remove])
+            logo.run(sequence)
+            
+        case .playing:
+            player.physicsBody?.velocity = CGVector(dx: 0, dy: 0) // remove any existing upward velocity when player touches screen and applying...
+            player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20)) // every time player touches screen, give it a shove upwards
+            
+        case .dead:
+            break
+        }
+        
+
+        
+        
     }
     
     // Any custom logic to do each frame of the game?
