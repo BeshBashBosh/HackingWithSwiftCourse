@@ -13,7 +13,13 @@ class GameScene: SKScene {
     
     // MARK: - Instance Properties
     var player: SKSpriteNode!
+    var scoreLabel : SKLabelNode!
     
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "SCORE: \(score)"
+        }
+    }
     
     // MARK: - Composed Methods
     
@@ -184,6 +190,18 @@ class GameScene: SKScene {
         run(repeatForever)
     }
     
+    // Create score label node
+    func createScore() {
+        let scoreLabel = SKLabelNode(fontNamed: "Optima-ExtraBlack")
+        scoreLabel.fontSize = 24
+        
+        scoreLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 60)
+        scoreLabel.text = "SCORE: 0"
+        scoreLabel.fontColor = .black
+        
+        addChild(scoreLabel)
+    }
+    
     // MARK: - SKScene methods
     override func didMove(to view: SKView) {
         // Use composed methods to build this up
@@ -199,6 +217,12 @@ class GameScene: SKScene {
         
         // 4. Create infinitely scrolling ground
         createGround()
+        
+        // 5. Create rock obstacles to be avoided
+        startRocks()
+        
+        // 6. Create a score label
+        createScore()
         
     }
     
