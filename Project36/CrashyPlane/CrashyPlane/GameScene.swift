@@ -120,6 +120,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // 2. node 1 (second loop iter) to the right of first node
             let backgroundHorizPosition = (groundTexture.size().width / 2.0 + (groundTexture.size().width * CGFloat(i)))
             ground.position = CGPoint(x: backgroundHorizPosition, y: groundTexture.size().height / 2)
+            
+            // Add some physics hitbox to ground
+            ground.physicsBody = SKPhysicsBody(texture: ground.texture!, size: ground.texture!.size())
+            ground.physicsBody?.isDynamic = false
+            
             addChild(ground)
             
             let moveLeft = SKAction.moveBy(x: -groundTexture.size().width,
