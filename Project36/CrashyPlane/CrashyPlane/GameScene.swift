@@ -121,6 +121,53 @@ class GameScene: SKScene {
         }
     }
     
+    // Create nodes for rocks that player needs to avoid
+    func createRocks() {
+        // 1. Create top and bottom rock nodes, same node, one rotated
+        let rockTexture = SKTexture(imageNamed: "rock")
+        
+        let bottomRock = SKSpriteNode(texture: rockTexture)
+        bottomRock.zPosition = -20 // behind the ground sprites
+        
+        let topRock = SKSpriteNode(texture: rockTexture)
+        topRock.zPosition = -20
+        topRock.zRotation = .pi
+        topRock.xScale = -1.0 // normally this scales the node horizontally. Here, a value of -1 inverts it!
+        
+        // 2. Create large red rectangle, positioned just after rocks, will track if player has succesfully passed through
+        //    obstacle unscathed. Essentially, touch rectangle, score a point!
+        let rockCollision = SKSpriteNode(color: .red, size: CGSize(width: 32, height: frame.height))
+        rockCollision.name = "scoreDetect"
+        
+        addChild(bottomRock)
+        addChild(topRock)
+        addChild(rockCollision)
+        
+        // 3. Use GameplayKit to generate random numbers in a range determining where the safe gap in rocks should be
+        let xPosition = frame.width + topRock.frame.width
+        
+        let max = Int(frame.height / 3)
+        let rng = GKRandomDistribution(lowestValue: -50, highestValue: max)
+        let yPosition = CGFloat(rng.nextInt())
+        
+        // 4. Position rocks just off right edge of screen, animating them to the left edge.
+        //    When off left edge, remove from scene
+        let rockGap: CGFloat = 70 // the width of a gap between rocks player has to pass through
+        
+        topRock.position = CGPoint(x: xPosition, y: yPosition + topRock.size.height)
+        bottomRock.position = CGPoint(x: xPosition, y: yPosition - rockGap)
+        rockCollision.position = CGPoint(x: xPosition + (rockCollision.size.width * 2), y: frame.midY)
+        
+        let endPosition = frame.width + (topRock.frame.width * 2)
+        
+        let moveAction = SKAction.moveBy(x: -endPosition, y: 0, duration: 6.2)
+        let moveSequence = SKAction.sequence([moveAction, SKAction.removeFromParent()])
+        topRock.run(moveSequence)
+        bottomRock.run(moveSequence)
+        rockCollision.run(moveSequence)
+        
+    }
+    
     // MARK: - SKScene methods
     override func didMove(to view: SKView) {
         // Use composed methods to build this up
