@@ -325,6 +325,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let sound = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
             run(sound)
             
+            // Proceed gameState to .dead
+            gameOver.alpha = 1 // make gameOver node opaque
+            gameState = .dead
+            backgroundMusic.run(SKAction.stop()) // Stop background music
+            
             // Remove player from game
             player.removeFromParent()
             // Halt the game
@@ -356,7 +361,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20)) // every time player touches screen, give it a shove upwards
             
         case .dead:
-            break
+            // Create a fresh new gamescene!
+            let scene = GameScene(fileNamed: "GameScene")!
+            let transition = SKTransition.moveIn(with: .right, duration: 1)
+            self.view?.presentScene(scene, transition: transition)
         }
         
 
@@ -366,6 +374,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Any custom logic to do each frame of the game?
     override func update(_ currentTime: TimeInterval) {
+        // Upon instantiating a new game scene from .dead gameState in touchesBegan, this method may be called before didMove(to:) which
+        // instantiates the player sprite. guard here until player exists!
+        guard player != nil else { return }
+        
         // Apply a small rotation to plane based on vertical velocity to give a nice bit of visual flare
         let rotation = player.physicsBody!.velocity.dy * 0.001 // rotation based on 1000th of player vertical velocity
         let rotate = SKAction.rotate(byAngle: rotation, duration: 0.1) // happening at sub frame rate so will appear to be continuosly happening
