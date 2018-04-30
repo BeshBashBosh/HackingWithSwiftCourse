@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Instance Properties
     var player: SKSpriteNode!
@@ -204,6 +204,10 @@ class GameScene: SKScene {
     
     // MARK: - SKScene methods
     override func didMove(to view: SKView) {
+        // CREATE THE PHYSICS!!
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
+        physicsWorld.contactDelegate = self
+        
         // Use composed methods to build this up
         
         // 1. Create and animate player texture
@@ -223,6 +227,8 @@ class GameScene: SKScene {
         
         // 6. Create a score label
         createScore()
+        
+        
         
     }
     
