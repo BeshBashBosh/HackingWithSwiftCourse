@@ -55,6 +55,7 @@
                     </view>
                     <connections>
                         <outlet property="cardContainer" destination="BnT-dL-fa4" id="ekx-pN-ue1"/>
+                        <outlet property="gradientView" destination="w6p-e6-mDx" id="Qck-oD-HO7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

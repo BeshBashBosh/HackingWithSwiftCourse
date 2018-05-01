@@ -77,6 +77,37 @@ class ViewController: UIViewController {
         allCards.append(card)
     }
     
+    // Creates particle effects!!
+    func createParticles() {
+        // Since this isn't SceneKit, but rather UIKit, SKEmitterNode is not available.
+        // Instead we use a subclass of CoreAnimation, CAEmitterLayer
+        let particleEmitter = CAEmitterLayer()
+        
+        particleEmitter.emitterPosition = CGPoint(x: view.frame.width / 2.0, y: -50) // set position
+        particleEmitter.emitterShape = kCAEmitterLayerLine // set type of emitter
+        particleEmitter.emitterSize = CGSize(width: view.frame.width, height: 1) // set size of emitter
+        particleEmitter.renderMode = kCAEmitterLayerAdditive // set particles to be additive (layered particles brighter)
+        
+        // Create the emitter cell
+        let cell = CAEmitterCell()
+        // Set the emitters properties
+        cell.birthRate = 2 // how often particles emitted
+        cell.lifetime = 5.0 // how long the particles last once emitted
+        cell.velocity = 100 // how fast the particles are emitted
+        cell.velocityRange = 50 // the variation on the particle emission velocity
+        cell.emissionLongitude = .pi // the angle at which the particles are emitted
+        cell.spinRange = 5 // the variation in the spin of emitted particle
+        cell.scale = 0.5 // how much the particle scales by
+        cell.scaleRange = 0.25 // the variation in the particle's scale amount
+        cell.color = UIColor(white: 1, alpha: 0.1).cgColor // the color of emitted particle
+        cell.alphaSpeed = -0.025 // the speed at which the alpha level changes
+        cell.contents = UIImage(named: "particle")?.cgImage // the actual look of the particle
+        particleEmitter.emitterCells = [cell] // add this particle to the particle emitter
+        
+        // Add the particle emitter as a sublayer to the gradientView (stars will stay behind view in foreground of gradientLayer)
+        gradientView.layer.addSublayer(particleEmitter)
+    }
+    
     // MARK: - objc methods
     @objc func loadCards() {
         // Make the view user interactable
@@ -120,6 +151,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // Generate particle effects
+        self.createParticles()
         
         // Generate and load the Zener cards
         self.loadCards()
