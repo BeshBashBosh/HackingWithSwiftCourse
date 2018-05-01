@@ -188,6 +188,32 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    // MARK: - 3D Touch
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        
+        // Get first touch
+        guard let touch = touches.first else { return }
+        // Find where the touch occurred
+        let location = touch.location(in: cardContainer)
+        
+        // Find which, if any card this is over
+        for card in allCards {
+            // see if cards frame contains the touch
+            if card.view.frame.contains(location) {
+                // check if the view/device has forceTouchCapability
+                if view.traitCollection.forceTouchCapability == .available {
+                    // is the force being applied by the touch == to the maximum registerable by force touch?
+                    if touch.force == touch.maximumPossibleForce {
+                        // if yes, cheat the correct card to view
+                        card.front.image = UIImage(named: "cardStar")
+                        card.isCorrect = true
+                    }
+                }
+            }
+        }
+        
+    }
 
 }
 
