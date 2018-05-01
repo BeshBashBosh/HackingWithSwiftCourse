@@ -10,8 +10,8 @@ import UIKit
 
 @IBDesignable class GradientView: UIView {
     // Set top and bottom colors of Gradient and make them inspectable in IB
-    @IBInspectable var topColor: UIColor = .white
-    @IBInspectable var bottomColor: UIColor = .black
+    @IBInspectable var topColor: UIColor = UIColor.white
+    @IBInspectable var bottomColor: UIColor = UIColor.black
     
     // This tells iOS that when it requests what kind of layer it is we want a CAGradientLayer
     override class var layerClass: AnyClass {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14111" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_9" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -14,24 +14,44 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PsychicTester" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="812" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BnT-dL-fa4">
-                                <rect key="frame" x="166" y="17" width="480" height="320"/>
+                            <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w6p-e6-mDx" customClass="GradientView" customModule="PsychicTester" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="812" height="375"/>
+                                <subviews>
+                                    <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BnT-dL-fa4">
+                                        <rect key="frame" x="166" y="27" width="480" height="320"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="320" id="1Qj-3A-Xuq"/>
+                                            <constraint firstAttribute="width" constant="480" id="Ntd-Ym-3LC"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="320" id="1Qj-3A-Xuq"/>
-                                    <constraint firstAttribute="width" constant="480" id="Ntd-Ym-3LC"/>
+                                    <constraint firstItem="BnT-dL-fa4" firstAttribute="centerY" secondItem="w6p-e6-mDx" secondAttribute="centerY" id="ETp-Hs-eFC"/>
+                                    <constraint firstItem="BnT-dL-fa4" firstAttribute="centerX" secondItem="w6p-e6-mDx" secondAttribute="centerX" id="hVY-Rj-GGp"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="topColor">
+                                        <color key="value" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="BnT-dL-fa4" firstAttribute="centerY" secondItem="Uee-0j-aNJ" secondAttribute="centerY" id="eVy-Tz-pDx"/>
-                            <constraint firstItem="BnT-dL-fa4" firstAttribute="centerX" secondItem="Uee-0j-aNJ" secondAttribute="centerX" id="uRt-Ue-ird"/>
+                            <constraint firstAttribute="trailing" secondItem="w6p-e6-mDx" secondAttribute="trailing" id="03x-35-PjA"/>
+                            <constraint firstItem="w6p-e6-mDx" firstAttribute="top" secondItem="hBe-RR-FJE" secondAttribute="top" id="1JE-4c-10I"/>
+                            <constraint firstItem="w6p-e6-mDx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="CMo-Tg-bFd"/>
+                            <constraint firstAttribute="bottom" secondItem="w6p-e6-mDx" secondAttribute="bottom" id="lTp-TP-ukd"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Uee-0j-aNJ"/>
+                        <viewLayoutGuide key="safeArea" id="hBe-RR-FJE"/>
                     </view>
                     <connections>
                         <outlet property="cardContainer" destination="BnT-dL-fa4" id="ekx-pN-ue1"/>
@@ -39,6 +59,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="110.83743842364532" y="117.59999999999999"/>
         </scene>
     </scenes>
 </document>

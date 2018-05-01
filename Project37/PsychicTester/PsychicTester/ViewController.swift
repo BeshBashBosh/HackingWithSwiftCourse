@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     
     // MARK: - Outlets
     @IBOutlet var cardContainer: UIView!
+    @IBOutlet var gradientView: GradientView!
     
     // MARK: -  Instance methods
     func cardTapped(_ tapped: CardViewController) {
@@ -122,6 +123,13 @@ class ViewController: UIViewController {
         
         // Generate and load the Zener cards
         self.loadCards()
+        
+        // Animate background color of the view shifting between red and blue
+        view.backgroundColor = .red
+        UIView.animate(withDuration: 20, delay: 0, options: [.allowUserInteraction, .autoreverse, .repeat],
+                       animations: {
+                        self.view.backgroundColor = .blue
+        })
 
     }
 
