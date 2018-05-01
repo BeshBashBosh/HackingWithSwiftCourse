@@ -9,12 +9,14 @@
 import UIKit
 import GameplayKit
 import AVFoundation
+import WatchConnectivity // responsible for connectivity between iOS and watchOS apps
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, WCSessionDelegate {
+    
     // MARK: - Instance properties
     var allCards = [CardViewController]()
     var music: AVAudioPlayer!
+    var lastMessage: CFAbsoluteTime = 0 // will be used to track time last message sent to apple watch
     
     // MARK: - Outlets
     @IBOutlet var cardContainer: UIView!
@@ -121,6 +123,28 @@ class ViewController: UIViewController {
         }
     }
     
+    // Custom methods for communicating between iOS app and WatchOS app
+    func sendWatchMessage() {
+        // Set a reference time
+        let currentTime = CFAbsoluteTimeGetCurrent()
+        
+        // if less than half a second has passed exit
+        if lastMessage + 0.5 > currentTime {
+            return
+        }
+        
+        // send message to watch if reachable
+        if (WCSession.default.isReachable) {
+            // in this case the message we send doesn't matter, we want to
+            // just buzz the watch, but, the format is to send a dictionary
+            let message = ["Message": "World World"]
+            WCSession.default.sendMessage(message, replyHandler: nil)
+        }
+        
+        // update rate limiting property
+        lastMessage = CFAbsoluteTimeGetCurrent()
+    }
+    
     // MARK: - objc methods
     @objc func loadCards() {
         // Make the view user interactable
@@ -180,6 +204,17 @@ class ViewController: UIViewController {
         
         // Start BGM
         playMusic()
+        
+        // MARK: - Starting AppleWatch Connectivity session
+        // Check if AppleWatch connectivity is available
+        if (WCSession.isSupported()) {
+            // start a session
+            let session = WCSession.default
+            // set this VC to be the delegate
+            session.delegate = self
+            // activate it
+            session.activate()
+        }
 
     }
 
@@ -210,10 +245,26 @@ class ViewController: UIViewController {
                         card.isCorrect = true
                     }
                 }
+                
+                // If touch does happen to be over the actual real card,
+                // send a buzz to the apple watch app if it can.
+                if card.isCorrect {
+                    self.sendWatchMessage()
+                }
             }
         }
         
     }
 
+    // MARK: - Apple Watch WCSessionDelegate protocol conformity methods
+    // Not actually going to use these in this app but have to include the nibs for conformity
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+    }
 }
 
