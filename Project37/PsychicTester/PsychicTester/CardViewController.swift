@@ -18,6 +18,13 @@ class CardViewController: UIViewController {
     
     var isCorrect = false // bool for whether card is correct or not
     
+    // MARK: - objc methods
+    // Pushes a card tap from here to the delegate VC (which must also have a cardTapped() method
+    @objc func cardTapped() {
+        delegate.cardTapped(self)
+    }
+    
+    // MARK: - VC Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,7 +49,12 @@ class CardViewController: UIViewController {
         UIView.animate(withDuration: 0.2) {
             self.back.alpha = 1
         }
-
+        
+        
+        // Set up a TapGestrureRecgonizer
+        let tap = UITapGestureRecognizer(target: self, action: #selector(cardTapped)) // set-up a tap gesture
+        back.isUserInteractionEnabled = true // enable user interaction to back of card
+        back.addGestureRecognizer(tap) // add gesture recognizer to back of card
         
         
 

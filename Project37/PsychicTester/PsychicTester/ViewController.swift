@@ -100,6 +100,7 @@ class ViewController: UIViewController {
         
         // Generate and load the Zener cards
         self.loadCards()
+
     }
 
     override func didReceiveMemoryWarning() {
