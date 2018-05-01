@@ -18,6 +18,26 @@ class ViewController: UIViewController {
     @IBOutlet var cardContainer: UIView!
     
     // MARK: -  Instance methods
+    func cardTapped(_ tapped: CardViewController) {
+        // If the view is user interactable continue, if not exit
+        guard view.isUserInteractionEnabled == true else { return }
+        // Set user interaction of the view to false so that only one card can be tapped until view
+        // interaction is re-enabled (in loadCards)
+        view.isUserInteractionEnabled = false
+        
+        // Loop through each card shown on screen
+        for card in allCards {
+            // Find the card that was tapped
+            if card == tapped {
+                card.wasTapped() // perform animation
+                card.perform(#selector(card.wasntTapped), with: nil, afterDelay: 1) // perform delayed animation
+            } else {
+                card.wasntTapped() // perform animation
+            }
+        }
+        // After delay reload the cards
+        perform(#selector(self.loadCards), with: nil, afterDelay: 2)
+    }
     
     // Removes any existing cards from this VC
     private func removeCards() {
@@ -58,6 +78,8 @@ class ViewController: UIViewController {
     
     // MARK: - objc methods
     @objc func loadCards() {
+        // Make the view user interactable
+        view.isUserInteractionEnabled = true
         
         // Remove any existing cards
         self.removeCards()

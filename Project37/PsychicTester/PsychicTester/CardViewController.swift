@@ -24,6 +24,23 @@ class CardViewController: UIViewController {
         delegate.cardTapped(self)
     }
     
+    // Animate card to shrink and dissapear
+    @objc func wasntTapped() {
+        UIView.animate(withDuration: 0.7) {
+            self.view.transform = CGAffineTransform(scaleX: 0.00001, y: 0.00001)
+            self.view.alpha = 0
+        }
+    }
+    
+    // Animate card to flip over, with back of card becoming hidden, and front being shown
+    @objc func wasTapped() {
+        UIView.transition(with: view, duration: 0.7, options: [.transitionFlipFromRight],
+                          animations: { [unowned self] in
+                            self.back.isHidden = true
+                            self.front.isHidden = false
+        })
+    }
+    
     // MARK: - VC Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
