@@ -8,11 +8,13 @@
 
 import UIKit
 import GameplayKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
     // MARK: - Instance properties
     var allCards = [CardViewController]()
+    var music: AVAudioPlayer!
     
     // MARK: - Outlets
     @IBOutlet var cardContainer: UIView!
@@ -108,6 +110,17 @@ class ViewController: UIViewController {
         gradientView.layer.addSublayer(particleEmitter)
     }
     
+    // Start BGM
+    func playMusic() {
+        if let musicURL = Bundle.main.url(forResource: "PhantomFromSpace", withExtension: "mp3") {
+            if let audioPlayer = try? AVAudioPlayer(contentsOf: musicURL) {
+                music = audioPlayer
+                music.numberOfLoops = -1
+                music.play()
+            }
+        }
+    }
+    
     // MARK: - objc methods
     @objc func loadCards() {
         // Make the view user interactable
@@ -164,6 +177,9 @@ class ViewController: UIViewController {
                        animations: {
                         self.view.backgroundColor = .blue
         })
+        
+        // Start BGM
+        playMusic()
 
     }
 
