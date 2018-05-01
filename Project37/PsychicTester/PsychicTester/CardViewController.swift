@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GameplayKit
 
 class CardViewController: UIViewController {
 
@@ -41,6 +42,25 @@ class CardViewController: UIViewController {
         })
     }
     
+    // Give the cards a subtle wiggle
+    @objc func wiggle() {
+        // Generate random value between 0 and 3, 25% of the time...
+        if GKRandomSource.sharedRandom().nextInt(upperBound: 4) == 1 {
+            // ... animating the card back by slightly increasing it's size and then reducing it
+            // NOTE: .allowUserInteraction is an option so that the card can still be clicked even when wiggling
+            UIView.animate(withDuration: 0.2, delay: 0, options: .allowUserInteraction, animations: {
+                self.back.transform = CGAffineTransform(scaleX: 1.01, y: 1.01)
+            }) { _ in
+                self.back.transform = CGAffineTransform.identity
+            }
+            // recursively call this again
+            perform(#selector(wiggle), with: nil, afterDelay: 8)
+        } else {
+            // recursively call this method
+            perform(#selector(wiggle), with: nil, afterDelay: 8)
+        }
+    }
+    
     // MARK: - VC Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +93,8 @@ class CardViewController: UIViewController {
         back.isUserInteractionEnabled = true // enable user interaction to back of card
         back.addGestureRecognizer(tap) // add gesture recognizer to back of card
         
-        
+        // Wiggle the card!
+        perform(#selector(wiggle), with: nil, afterDelay: 1)
 
         // Do any additional setup after loading the view.
     }
