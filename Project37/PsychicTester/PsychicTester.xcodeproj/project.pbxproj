@@ -22,6 +22,7 @@
 		E2749A4F20977D5E00487BA6 /* PhantomFromSpace.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E2749A4D20977D5E00487BA6 /* PhantomFromSpace.mp3 */; };
 		E2749A5020977D5E00487BA6 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = E2749A4E20977D5E00487BA6 /* README.txt */; };
 		E2749A522097827300487BA6 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2749A512097827300487BA6 /* CardViewController.swift */; };
+		E2749A542098721C00487BA6 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2749A532098721C00487BA6 /* GradientView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		E2749A4D20977D5E00487BA6 /* PhantomFromSpace.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = PhantomFromSpace.mp3; sourceTree = "<group>"; };
 		E2749A4E20977D5E00487BA6 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		E2749A512097827300487BA6 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		E2749A532098721C00487BA6 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				E2749A1E20977CDC00487BA6 /* LaunchScreen.storyboard */,
 				E2749A2120977CDC00487BA6 /* Info.plist */,
 				E2749A4C20977D5E00487BA6 /* Content */,
+				E2749A532098721C00487BA6 /* GradientView.swift */,
 			);
 			path = PsychicTester;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 			files = (
 				E2749A1820977CCD00487BA6 /* ViewController.swift in Sources */,
 				E2749A1620977CCD00487BA6 /* AppDelegate.swift in Sources */,
+				E2749A542098721C00487BA6 /* GradientView.swift in Sources */,
 				E2749A522097827300487BA6 /* CardViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
