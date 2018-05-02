@@ -107,3 +107,5 @@ transition(with:), 3D Touch, WatchKit
 
 Project 38 - GitHubCommit - Core Data, NSPersistentContainer, NSFetchRequest, 
 NSSortDescriptor, NSFetchedResultsController, DateFormatter
+
+Project 39 - UnitTest - XCTest, measure(), filter(), sort(), NSCountedSet
