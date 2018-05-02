@@ -50,8 +50,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     // MARK: - Communication with iOS app methods
-    // Will be called when message is received from iOS app
-    func session(_ session: WCSession, didReceiveMessageData messageData: Data) {
+    // Will be called when message is received from iOS app    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         WKInterfaceDevice().play(.click)
     }
     
