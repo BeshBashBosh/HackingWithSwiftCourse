@@ -97,6 +97,32 @@ class ViewController: UITableViewController {
         // Parse the Date() entry
         let formatter = ISO8601DateFormatter()
         commit.date = formatter.date(from: json["commit"]["committer"]["date"].stringValue) ?? Date()
+        
+        // Attach/create author for each Commit object
+        var commitAuthor: Author!
+        
+        // Check if author for commit already exists
+        let authorRequest = Author.createFetchRequest() // create fetch request
+        authorRequest.predicate = NSPredicate(format: "name == %@", json["commit"]["committer"]["name"].stringValue)
+        
+        if let authors = try? container.viewContext.fetch(authorRequest) {
+            if authors.count > 0 {
+                // BONZA! WE ALREADY HAVE THIS AUTHOR!
+                commitAuthor = authors[0]
+            }
+        }
+        
+        // Check to see if commitAuthor is still nil
+        if commitAuthor == nil {
+            // No author found - Create them!
+            let author = Author(context: container.viewContext)
+            author.name = json["commit"]["committer"]["name"].stringValue
+            author.email = json["commit"]["committer"]["email"].stringValue
+            commitAuthor = author
+        }
+        
+        // Set the author, either saved or new
+        commit.author = commitAuthor
     }
     
     // Creates request to database and fetches results
@@ -192,7 +218,7 @@ class ViewController: UITableViewController {
         
         let commit = commits[indexPath.row]
         cell.textLabel!.text = commit.message
-        cell.detailTextLabel!.text = commit.date.description
+        cell.detailTextLabel!.text = "By \(commit.author.name) on \(commit.date.description)"
         
         return cell
     }
