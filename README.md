@@ -104,3 +104,6 @@ keyword
 
 Project 37 - PsychicTester - CAEmitterLayer, CAGradientLayer, IBDesignable, 
 transition(with:), 3D Touch, WatchKit
+
+Project 38 - GitHubCommit - Core Data, NSPersistentContainer, NSFetchRequest, 
+NSSortDescriptor, NSFetchedResultsController, DateFormatter
