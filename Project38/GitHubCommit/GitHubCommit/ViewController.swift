@@ -59,8 +59,11 @@ class ViewController: UITableViewController {
         // Set up connection to database and its container
         self.connectToContainer()
         
-    }
+        let commit = Commit()
+        
 
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
