@@ -15,14 +15,40 @@ class ViewController: UITableViewController {
     var container: NSPersistentContainer! // manages connection to SQLite database
     
     // MARK: - Custom methods
+    // Helper for creating alerts
     func createAlertWith(title: String?, message: String?) {
         let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
     }
     
-    // MARK: - CoreData custom methods
+    // Uses SwiftyJSON to parse data collected
+    @objc private func fetchCommits() {
+        // Grab data from online resource (GitHub API)
+        if let data = try? String(contentsOf: URL(string: "https://api.github.com/repos/apple/swift/commits?per_page=100")!) {
+            // Parse the data received into JSON
+            let jsonCommits = JSON(parseJSON: data)
+            // Parse this JSON into an array of JSON entries for counting how many entries accessed
+            let jsonCommitArray = jsonCommits.arrayValue
+            
+            print("Received \(jsonCommitArray.count) new commits.")
+            
+            // Above done on background thread, now we want to dispatch UI stuff back to main thread
+            DispatchQueue.main.async { [unowned self] in
+                for jsonCommit in jsonCommitArray {
+                    // create a Commit entry to the data within the GHCommit data model container
+                    let commit = Commit(context: self.container.viewContext)
+                    // Pass to custom function that parses the JSON into the Commit instance
+                    self.configure(commit: commit, usingJSON: jsonCommit)
+                }
+                
+                // Save any changes to database should they exist
+                self.saveContext()
+            }
+        }
+    }
     
+    // MARK: - CoreData custom methods
     // Connects to persistent container and permanent storage
     private func connectToContainer() {
         // Create a persistent container for database with name of Core Data model file created
@@ -51,6 +77,18 @@ class ViewController: UITableViewController {
         }
     }
     
+    // Parses JSON object into Commit instance
+    private func configure(commit: Commit, usingJSON json: JSON) {
+        // Extract simple string types
+        commit.sha = json["sha"].stringValue
+        commit.message = json["commit"]["message"].stringValue
+        commit.url = json["html_url"].stringValue
+        
+        // Parse the Date() entry
+        let formatter = ISO8601DateFormatter()
+        commit.date = formatter.date(from: json["commit"]["committer"]["date"].stringValue) ?? Date()
+    }
+    
     // MARK: - Default VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +97,8 @@ class ViewController: UITableViewController {
         // Set up connection to database and its container
         self.connectToContainer()
         
-        let commit = Commit()
+        // Fetch GitHub commits to be added to database and do so in the backrgound!
+        performSelector(inBackground: #selector(fetchCommits), with: nil)
         
 
     }
