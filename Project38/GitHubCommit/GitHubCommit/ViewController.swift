@@ -45,6 +45,9 @@ class ViewController: UITableViewController {
                 
                 // Save any changes to database should they exist
                 self.saveContext()
+                
+                // Load results in tableView
+                self.loadSavedData()
             }
         }
     }
@@ -90,6 +93,27 @@ class ViewController: UITableViewController {
         commit.date = formatter.date(from: json["commit"]["committer"]["date"].stringValue) ?? Date()
     }
     
+    // Creates request to database and fetches results
+    private func loadSavedData() {
+        // Create a fetch request from the database object type
+        let request = Commit.createFetchRequest()
+        // Describe how to sort fetched results (by date descending)
+        let sort = NSSortDescriptor(key: "date", ascending: false)
+        // Add sort options to request
+        request.sortDescriptors = [sort]
+        
+        do {
+            // Attempt fetch request
+            self.commits = try container.viewContext.fetch(request)
+            print("Got \(commits.count) commits")
+            // Reload the tableView with results if it worked and should have returned array of results
+            tableView.reloadData()
+        } catch {
+            // Error in fetching, present alert to user
+            self.createAlertWith(title: "DB Fetch Error", message: "There was an error fetching from the database. \(error.localizedDescription)")
+        }
+    }
+    
     // MARK: - Default VC Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +124,9 @@ class ViewController: UITableViewController {
         
         // Fetch GitHub commits to be added to database and do so in the backrgound!
         performSelector(inBackground: #selector(fetchCommits), with: nil)
-        
+
+        // Load saved data from DB and present in VC
+        self.loadSavedData()
 
     }
     
