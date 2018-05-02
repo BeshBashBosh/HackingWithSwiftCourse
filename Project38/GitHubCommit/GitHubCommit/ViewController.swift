@@ -9,12 +9,14 @@
 import UIKit
 import CoreData
 
-class ViewController: UITableViewController {
+class ViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     // MARK: - Properties
     var container: NSPersistentContainer! // manages connection to SQLite database
     var commits = [Commit]() // will store Commit objects extracted from CoreData DB.
     var commitPredicate: NSPredicate? // Will allow us to filter our DB requests
+    
+    var fetchedResultsController: NSFetchedResultsController<Commit>!
     
     // MARK: - Custom methods
     // Helper for creating alerts
@@ -130,26 +132,51 @@ class ViewController: UITableViewController {
     
     // Creates request to database and fetches results
     private func loadSavedData() {
-        // Create a fetch request from the database object type
-        let request = Commit.createFetchRequest()
-        // Describe how to sort fetched results (by date descending)
-        let sort = NSSortDescriptor(key: "date", ascending: false)
-        // Add sort options to request
-        request.sortDescriptors = [sort]
-        // Add filtering predicate to the request
-        request.predicate = commitPredicate
+        if fetchedResultsController == nil {
+            let request = Commit.createFetchRequest()
+            let sort = NSSortDescriptor(key: "date", ascending: false)
+            request.sortDescriptors = [sort]
+            request.fetchBatchSize = 20
+            
+            fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
+                                                                  managedObjectContext: container.viewContext,
+                                                                  sectionNameKeyPath: nil, cacheName: nil)
+            fetchedResultsController.delegate = self
+        }
+        
+        fetchedResultsController.fetchRequest.predicate = commitPredicate
         
         do {
-            // Attempt fetch request
-            self.commits = try container.viewContext.fetch(request)
-            print("Got \(commits.count) commits")
-            // Reload the tableView with results if it worked and should have returned array of results
+            try fetchedResultsController.performFetch()
             tableView.reloadData()
         } catch {
-            // Error in fetching, present alert to user
-            self.createAlertWith(title: "DB Fetch Error", message: "There was an error fetching from the database. \(error.localizedDescription)")
+            print("Fetch failed")
         }
+        
+        // PRE NSFetchedResultsController Implementation
+//        // Create a fetch request from the database object type
+//        let request = Commit.createFetchRequest()
+//        // Describe how to sort fetched results (by date descending)
+//        let sort = NSSortDescriptor(key: "date", ascending: false)
+//        // Add sort options to request
+//        request.sortDescriptors = [sort]
+//        // Add filtering predicate to the request
+//        request.predicate = commitPredicate
+//
+//        do {
+//            // Attempt fetch request
+//            self.commits = try container.viewContext.fetch(request)
+//            print("Got \(commits.count) commits")
+//            // Reload the tableView with results if it worked and should have returned array of results
+//            tableView.reloadData()
+//        } catch {
+//            // Error in fetching, present alert to user
+//            self.createAlertWith(title: "DB Fetch Error", message: "There was an error fetching from the database. \(error.localizedDescription)")
+//        }
+        
+        
     }
+
     
     // Change predicate filter on fetched request results
     @objc func changeFilter() {
@@ -192,6 +219,7 @@ class ViewController: UITableViewController {
         present(ac, animated: true)
     }
     
+    // Extract the date of the last retrieved commit (if any exist) or return date in past to retrieve all commits
     private func getNewestCommitDate() -> String {
         let formatter = ISO8601DateFormatter() // create instance of dateformatter (ISO8601)
         
