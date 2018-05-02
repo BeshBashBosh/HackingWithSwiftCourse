@@ -13,6 +13,7 @@
 		E293D2DA2099A90B00C7D3BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E293D2D92099A90B00C7D3BB /* Assets.xcassets */; };
 		E293D2DD2099A90B00C7D3BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E293D2DB2099A90B00C7D3BB /* LaunchScreen.storyboard */; };
 		E293D2E52099A9A600C7D3BB /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293D2E42099A9A500C7D3BB /* SwiftyJSON.swift */; };
+		E293D2E72099B20800C7D3BB /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293D2E62099B20800C7D3BB /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		E293D2DC2099A90B00C7D3BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E293D2DE2099A90C00C7D3BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E293D2E42099A9A500C7D3BB /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		E293D2E62099B20800C7D3BB /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				E293D2D22099A8F300C7D3BB /* AppDelegate.swift */,
 				E293D2D42099A8F300C7D3BB /* ViewController.swift */,
 				E293D2D62099A8F400C7D3BB /* Main.storyboard */,
+				E293D2E62099B20800C7D3BB /* DetailViewController.swift */,
 				E293D2D92099A90B00C7D3BB /* Assets.xcassets */,
 				E293D2DB2099A90B00C7D3BB /* LaunchScreen.storyboard */,
 				E293D2DE2099A90C00C7D3BB /* Info.plist */,
@@ -141,6 +144,7 @@
 				E293D2E52099A9A600C7D3BB /* SwiftyJSON.swift in Sources */,
 				E293D2D52099A8F400C7D3BB /* ViewController.swift in Sources */,
 				E293D2D32099A8F300C7D3BB /* AppDelegate.swift in Sources */,
+				E293D2E72099B20800C7D3BB /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
