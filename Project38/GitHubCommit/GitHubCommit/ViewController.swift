@@ -26,8 +26,11 @@ class ViewController: UITableViewController {
     
     // Uses SwiftyJSON to parse data collected
     @objc private func fetchCommits() {
+        // Get date of most recent retireved commits
+        let newestCommitDate = getNewestCommitDate()
+        
         // Grab data from online resource (GitHub API)
-        if let data = try? String(contentsOf: URL(string: "https://api.github.com/repos/apple/swift/commits?per_page=100")!) {
+        if let data = try? String(contentsOf: URL(string: "https://api.github.com/repos/apple/swift/commits?per_page=100&since=\(newestCommitDate)")!) {
             // Parse the data received into JSON
             let jsonCommits = JSON(parseJSON: data)
             // Parse this JSON into an array of JSON entries for counting how many entries accessed
@@ -187,6 +190,29 @@ class ViewController: UITableViewController {
         
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(ac, animated: true)
+    }
+    
+    private func getNewestCommitDate() -> String {
+        let formatter = ISO8601DateFormatter() // create instance of dateformatter (ISO8601)
+        
+        // Create fetch request on Commit managed object
+        let newest = Commit.createFetchRequest()
+        // sort request by date in descending order (i.e. newest first)
+        let sort = NSSortDescriptor(key: "date", ascending: false)
+        newest.sortDescriptors = [sort]
+        // get only the first result
+        newest.fetchLimit = 1
+        
+        // Attempt fetch request
+        if let commits = try? container.viewContext.fetch(newest) {
+            // If commit found extract the timestamp + 1s as a string
+            if commits.count > 0 {
+                return formatter.string(from: commits[0].date.addingTimeInterval(1))
+            }
+        }
+        
+        // Otherwise set the date as some point in the past
+        return formatter.string(from: Date(timeIntervalSince1970: 0))
     }
     
     // MARK: - Default VC Methods
