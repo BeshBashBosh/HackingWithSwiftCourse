@@ -144,7 +144,8 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             // Create Commit managed object fetch request
             let request = Commit.createFetchRequest()
             // Apply sorting description
-            let sort = NSSortDescriptor(key: "date", ascending: false)
+            //let sort = NSSortDescriptor(key: "date", ascending: false)
+            let sort = NSSortDescriptor(key: "author.name", ascending: true) // use NSFetchedResultsController options for section title headers and cells arranged by author name!
             request.sortDescriptors = [sort]
             // Only fetch in batches of 20 at a time
             request.fetchBatchSize = 20
@@ -153,7 +154,7 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             // and the GHCommit container context
             fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
                                                                   managedObjectContext: container.viewContext,
-                                                                  sectionNameKeyPath: nil, cacheName: nil)
+                                                                  sectionNameKeyPath: "author.name", cacheName: nil)
             // Set NSFetchedResultsControllerDelegate to this VC
             fetchedResultsController.delegate = self
         }
@@ -195,7 +196,6 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
         
     }
 
-    
     // Change predicate filter on fetched request results
     @objc func changeFilter() {
         let ac = UIAlertController(title: "Filter commits...", message: nil, preferredStyle: .actionSheet)
@@ -330,6 +330,12 @@ class ViewController: UITableViewController, NSFetchedResultsControllerDelegate 
             //tableView.deleteRows(at: [indexPath], with: .fade) // delete from tableView
             self.saveContext() // save to context
         }
+    }
+    
+    // Setting title for section headers
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        // This will set section header for each commit authors name!
+        return fetchedResultsController.sections![section].name
     }
     
     // MARK: - NSFetchedResultsViewController methods
