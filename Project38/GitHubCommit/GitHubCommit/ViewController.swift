@@ -13,6 +13,7 @@ class ViewController: UITableViewController {
 
     // MARK: - Properties
     var container: NSPersistentContainer! // manages connection to SQLite database
+    var commits = [Commit]() // will store Commit objects extracted from CoreData DB.
     
     // MARK: - Custom methods
     // Helper for creating alerts
@@ -108,6 +109,27 @@ class ViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    // MARK: Default TableVC methods
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return commits.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Commit", for: indexPath)
+        
+        let commit = commits[indexPath.row]
+        cell.textLabel!.text = commit.message
+        cell.detailTextLabel!.text = commit.date.description
+        
+        return cell
+    }
+    
+    
+    
 
 }
 
