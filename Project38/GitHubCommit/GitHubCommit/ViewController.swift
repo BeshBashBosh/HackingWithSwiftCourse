@@ -239,6 +239,16 @@ class ViewController: UITableViewController {
         }
     }
     
+    // Commit insertion or deletion of row by user
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let commit = commits[indexPath.row] // extract the Commit object
+            container.viewContext.delete(commit) // delete from the GHCommit container context
+            commits.remove(at: indexPath.row) // remove from VC instance parameter array
+            tableView.deleteRows(at: [indexPath], with: .fade) // delete from tableView
+            self.saveContext() // save to context
+        }
+    }
 
 }
 
