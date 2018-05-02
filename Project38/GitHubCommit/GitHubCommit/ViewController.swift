@@ -5,6 +5,12 @@
 //  Created by Ben Hall on 02/05/2018.
 //  Copyright © 2018 BeshBashBosh. All rights reserved.
 //
+// TODO: - FUN: Create new xcode project with this template (i.e. Master-Detail) but with "Use Core Data" checkbox enabled and study it.
+// TODO: - TRICKY: Use "url" entry of Commit entity to load a WKWebView of the commit on github rather than commit info in label
+// TODO: - TAXING: Refactor getNewestCommitDate() to use UserDefault to fix bug of user deleting most recent entry results
+// in losing most recent date
+// TODO: - MAYHEM: showAuthorCommits() method in DetailViewController that will show another TableVC listing other commits by the author. Tip: Author entity -> commits relationship -> ordered -> recreate NSManagedObject subclasses.
+
 
 import UIKit
 import CoreData
