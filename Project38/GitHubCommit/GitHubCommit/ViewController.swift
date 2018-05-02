@@ -60,6 +60,11 @@ class ViewController: UITableViewController {
         
         // Load saved database if exists, or create otherwise
         self.container.loadPersistentStores { [unowned self] (storeDescription, error) in
+            // set the policy for merging duplicate entries allowinf Core Data to allow updates on objects
+            // e.g. in this app, if two objects exists with different messages but the same sha entry,
+            // the database (stored version) is overwritted by the newly obtained (in-memory) version.
+            self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            
             if let error = error {
                 self.createAlertWith(title: "DB Error.", message: "Could not connect to or create database. Please try again: \(error.localizedDescription)")
             }
