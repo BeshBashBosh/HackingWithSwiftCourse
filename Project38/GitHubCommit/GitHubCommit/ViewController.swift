@@ -14,6 +14,7 @@ class ViewController: UITableViewController {
     // MARK: - Properties
     var container: NSPersistentContainer! // manages connection to SQLite database
     var commits = [Commit]() // will store Commit objects extracted from CoreData DB.
+    var commitPredicate: NSPredicate? // Will allow us to filter our DB requests
     
     // MARK: - Custom methods
     // Helper for creating alerts
@@ -106,6 +107,8 @@ class ViewController: UITableViewController {
         let sort = NSSortDescriptor(key: "date", ascending: false)
         // Add sort options to request
         request.sortDescriptors = [sort]
+        // Add filtering predicate to the request
+        request.predicate = commitPredicate
         
         do {
             // Attempt fetch request
@@ -117,6 +120,41 @@ class ViewController: UITableViewController {
             // Error in fetching, present alert to user
             self.createAlertWith(title: "DB Fetch Error", message: "There was an error fetching from the database. \(error.localizedDescription)")
         }
+    }
+    
+    // Change predicate filter on fetched request results
+    @objc func changeFilter() {
+        let ac = UIAlertController(title: "Filter commits...", message: nil, preferredStyle: .actionSheet)
+        
+        // 1 - Fixes only
+        // NOTE: "message CONTAINS[c] 'thing'" is like == but searches message for whether it contains thing.
+        //       [c] is predicate-speak for CASE-INSENSITIVE
+        ac.addAction(UIAlertAction(title: "Show only fixes", style: .default) { [unowned self] _ in
+            self.commitPredicate = NSPredicate(format: "message CONTAINS[c] 'fix'")
+            self.loadSavedData()
+        })
+        
+        // 2 - Begins with...
+        ac.addAction(UIAlertAction(title: "Ignore Pull Requests", style: .default) { [unowned self] _ in
+            self.commitPredicate = NSPredicate(format: "NOT message BEGINSWITH 'Merge pull request'")
+            self.loadSavedData()
+        })
+        
+        // 3 - Filter by date
+        ac.addAction(UIAlertAction(title: "Show only recent", style: .default) { [unowned self] _ in
+            let twelveHoursAgo = Date().addingTimeInterval(-43200)
+            self.commitPredicate = NSPredicate(format: "date > %@", twelveHoursAgo as NSDate)
+            self.loadSavedData()
+        })
+        
+        // 4 - Default no filter
+        ac.addAction(UIAlertAction(title: "Show all commits", style: .default) { [unowned self] _ in
+            self.commitPredicate = nil
+            self.loadSavedData()
+        })
+        
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(ac, animated: true)
     }
     
     // MARK: - Default VC Methods
