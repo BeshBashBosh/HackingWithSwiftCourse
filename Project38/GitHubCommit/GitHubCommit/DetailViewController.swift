@@ -10,6 +10,9 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    // MARK: - Instance properties
+    var detailItem: Commit?
+    
     // MARK: - Outlets
     @IBOutlet var detailLabel: UILabel!
     
@@ -17,7 +20,10 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        if let detail = self.detailItem {
+            detailLabel.text = detail.message
+            // navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Commit 1/\(detail.author.commits.count)", style: .plain, target: self, action: #selector(showAuthorCommits))
+        }
     }
 
     override func didReceiveMemoryWarning() {

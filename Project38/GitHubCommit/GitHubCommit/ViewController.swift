@@ -173,7 +173,13 @@ class ViewController: UITableViewController {
             self.loadSavedData()
         })
         
-        // 4 - Default no filter
+        // 4 - Show only commits by particular author (Durian - Joe Groff an Apple Swift Engineer) using commit-author entity relationship
+        ac.addAction(UIAlertAction(title: "Show only Durian commits", style: .default) { [unowned self] _ in
+            self.commitPredicate = NSPredicate(format: "author.name == 'Joe Groff'")
+            self.loadSavedData()
+        })
+        
+        // 5 - Default no filter
         ac.addAction(UIAlertAction(title: "Show all commits", style: .default) { [unowned self] _ in
             self.commitPredicate = nil
             self.loadSavedData()
@@ -187,6 +193,8 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        // Filter nav bar button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(changeFilter))
         
         // Set up connection to database and its container
         self.connectToContainer()
@@ -223,7 +231,13 @@ class ViewController: UITableViewController {
         return cell
     }
     
-    
+    // Pass control to DetailViewController
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            vc.detailItem = self.commits[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
     
 
 }
