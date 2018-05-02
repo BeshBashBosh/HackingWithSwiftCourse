@@ -14,6 +14,7 @@
 		E293D2DD2099A90B00C7D3BB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E293D2DB2099A90B00C7D3BB /* LaunchScreen.storyboard */; };
 		E293D2E52099A9A600C7D3BB /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293D2E42099A9A500C7D3BB /* SwiftyJSON.swift */; };
 		E293D2E72099B20800C7D3BB /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E293D2E62099B20800C7D3BB /* DetailViewController.swift */; };
+		E293D2EA2099B5F900C7D3BB /* GHCommit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E293D2E82099B5F900C7D3BB /* GHCommit.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		E293D2DE2099A90C00C7D3BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E293D2E42099A9A500C7D3BB /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		E293D2E62099B20800C7D3BB /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		E293D2E92099B5F900C7D3BB /* GHCommit.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GHCommit.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				E293D2D22099A8F300C7D3BB /* AppDelegate.swift */,
 				E293D2D42099A8F300C7D3BB /* ViewController.swift */,
+				E293D2E82099B5F900C7D3BB /* GHCommit.xcdatamodeld */,
 				E293D2D62099A8F400C7D3BB /* Main.storyboard */,
 				E293D2E62099B20800C7D3BB /* DetailViewController.swift */,
 				E293D2D92099A90B00C7D3BB /* Assets.xcassets */,
@@ -141,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E293D2EA2099B5F900C7D3BB /* GHCommit.xcdatamodeld in Sources */,
 				E293D2E52099A9A600C7D3BB /* SwiftyJSON.swift in Sources */,
 				E293D2D52099A8F400C7D3BB /* ViewController.swift in Sources */,
 				E293D2D32099A8F300C7D3BB /* AppDelegate.swift in Sources */,
@@ -342,6 +346,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E293D2E82099B5F900C7D3BB /* GHCommit.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E293D2E92099B5F900C7D3BB /* GHCommit.xcdatamodel */,
+			);
+			currentVersion = E293D2E92099B5F900C7D3BB /* GHCommit.xcdatamodel */;
+			path = GHCommit.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E293D2C72099A8F300C7D3BB /* Project object */;
 }
