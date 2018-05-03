@@ -28,9 +28,26 @@ class UnitTestUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    // Test that initial table has loaded correctly
+    func testInitialStateIsCorrect() {
+        let table = XCUIApplication().tables
+        XCTAssertEqual(table.cells.count, 7, "There should be 7 rows initially")
+    }
+    
+    func testUserFilteringByString() {
+        
+        let app = XCUIApplication()
+        app.buttons["Search"].tap()
+        
+        let filterAlert = app.alerts
+   
+        let textField = filterAlert.textFields.element
+        textField.typeText("test")
+        
+        filterAlert.buttons["Filter"].tap()
+        
+        XCTAssertEqual(app.tables.cells.count, 56, "There should be 56 words matching 'test'")
+        
     }
     
 }
