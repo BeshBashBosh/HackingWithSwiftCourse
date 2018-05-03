@@ -29,7 +29,6 @@ class ViewController: UITableViewController {
         cell.textLabel!.text = word
         
         // Add word count to detail label
-        //cell.detailTextLabel!.text = "\(playData.wordsCount[word]!)"
         cell.detailTextLabel!.text = "\(playData.wordsCount.count(for: word))" // NSCountedSet method!
         
         return cell

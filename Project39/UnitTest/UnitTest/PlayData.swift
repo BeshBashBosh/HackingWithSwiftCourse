@@ -9,10 +9,11 @@
 
 import Foundation
 
-struct PlayData {
+class PlayData {
+    
     var allWords = [String]()
-    //var wordsCount = [String: Int]()
     var wordsCount: NSCountedSet!
+    private(set) var filteredWords = [String]()
     
     init() {
         if let path = Bundle.main.path(forResource: "plays", ofType: "txt") {
@@ -31,18 +32,24 @@ struct PlayData {
                 // extract unique words and reinit allWords property
                 allWords = sorted as! [String]
                 
-//                // Count up occurrence of unique words
-//                for word in allWords {
-//                    if wordsCount[word] == nil {
-//                        wordsCount[word] = 1
-//                    } else {
-//                        wordsCount[word]! += 1
-//                    }
-//                }
-//
-//                // Remove duplicate words from allWords array
-//                allWords = Array(wordsCount.keys)
             }
         }
+    }
+    
+    
+    func applyUserFilter(_ input: String) {
+        if let userNumber = Int(input) {
+            // a number!
+            // Filter out only words with at least this number of occurrences
+            self.applyFilter { self.wordsCount.count(for: $0) >= userNumber }
+        } else {
+            // a string!
+            // Filter out only words matching this string
+            self.applyFilter { $0.range(of: input, options: .caseInsensitive) != nil }
+        }
+    }
+    
+    func applyFilter(_ filter: (String) -> Bool) {
+        filteredWords = allWords.filter(filter)
     }
 }

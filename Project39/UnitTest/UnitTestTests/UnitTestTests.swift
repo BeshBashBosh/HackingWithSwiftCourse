@@ -46,4 +46,29 @@ class UnitTestTests: XCTestCase {
         XCTAssertEqual(playData.wordsCount.count(for: "fun"), 4, "Fun does not appear 4 times")
         XCTAssertEqual(playData.wordsCount.count(for: "mortal"), 41, "Mortal does not appear 41 times")
     }
+    
+    
+    func testApplyingFilter() {
+        let playData = PlayData()
+        
+        playData.applyUserFilter("100")
+        XCTAssertEqual(playData.filteredWords.count, 495, "Occurrence of a words occurring >=100 times is not 495")
+        
+        playData.applyUserFilter("1000")
+        XCTAssertEqual(playData.filteredWords.count, 55, "Occurrence of a words occurring >=1000 times is not 55")
+        
+        playData.applyUserFilter("10000")
+        XCTAssertEqual(playData.filteredWords.count, 1, "Occurrence of a words occurring >=10000 times is not 1")
+        
+        playData.applyUserFilter("test")
+        XCTAssertEqual(playData.filteredWords.count, 56, "'test' does not appear 56 times")
+        
+        playData.applyUserFilter("swift")
+        XCTAssertEqual(playData.filteredWords.count, 7, "'swift' does not appear 7 times")
+        
+        playData.applyUserFilter("objective-c")
+        XCTAssertEqual(playData.filteredWords.count, 0, "'objective-c' does not appear 0 times")
+        
+        
+    }
 }
