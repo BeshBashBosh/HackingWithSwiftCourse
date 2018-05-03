@@ -34,6 +34,8 @@ class PlayData {
                 
             }
         }
+        
+        self.applyUserFilter("swift")
     }
     
     
@@ -49,7 +51,7 @@ class PlayData {
         }
     }
     
-    func applyFilter(_ filter: (String) -> Bool) {
+    private func applyFilter(_ filter: (String) -> Bool) {
         filteredWords = allWords.filter(filter)
     }
 }
