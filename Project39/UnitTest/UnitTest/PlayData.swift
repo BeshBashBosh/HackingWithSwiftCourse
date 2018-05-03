@@ -17,6 +17,8 @@ struct PlayData {
             if let plays = try? String(contentsOfFile: path) {
                 // Use CharacterSet to separate read-in string by anything that isn't a letter or number (.inverted)
                 allWords = plays.components(separatedBy: CharacterSet.alphanumerics.inverted)
+                // Filter out blank characters
+                allWords = allWords.filter { $0 != "" }
             }
         }
     }
