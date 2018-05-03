@@ -29,6 +29,6 @@ class UnitTestTests: XCTestCase {
     func testAllWordsLoaded() {
         let playData = PlayData() // instantiate a playData object
         // if XCAssertEqual passes true, the test was a success!
-        XCTAssertEqual(playData.allWords.count, 384001, "allWords was not 384001") // XC Assertion test that the allWords property has 0 words
+        XCTAssertEqual(playData.allWords.count, 18440, "allWords was not 18440") // XC Assertion test that the allWords property has 0 words
     }
 }
