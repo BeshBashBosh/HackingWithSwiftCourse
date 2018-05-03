@@ -26,6 +26,14 @@ class UnitTestTests: XCTestCase {
     // Also the function should accept no params and have no return types.
     // XC then recognises such a method as a test that should be run on the code. This is identified by the
     // diamond shape in the gutter to the left. Hovering over this turns it to a play button that will run the test!
+    
+    // This XCTest measures the performance speed of particular code!
+    func testWordsLoadQuickly() {
+        measure {
+            _ = PlayData()
+        }
+    }
+    
     func testAllWordsLoaded() {
         let playData = PlayData() // instantiate a playData object
         // if XCAssertEqual passes true, the test was a success!
