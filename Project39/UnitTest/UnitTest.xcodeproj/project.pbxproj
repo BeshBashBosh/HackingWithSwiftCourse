@@ -15,6 +15,7 @@
 		E273BD52209A54F20015A696 /* UnitTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E273BD51209A54F20015A696 /* UnitTestTests.swift */; };
 		E273BD5D209A54F20015A696 /* UnitTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E273BD5C209A54F20015A696 /* UnitTestUITests.swift */; };
 		E273BD6B209A55700015A696 /* plays.txt in Resources */ = {isa = PBXBuildFile; fileRef = E273BD6A209A55700015A696 /* plays.txt */; };
+		E28FE51B209AF8F5003CE467 /* PlayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28FE51A209AF8F5003CE467 /* PlayData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		E273BD5C209A54F20015A696 /* UnitTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTestUITests.swift; sourceTree = "<group>"; };
 		E273BD5E209A54F20015A696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E273BD6A209A55700015A696 /* plays.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = plays.txt; path = ../../../Project38/GitHubCommit/GitHubCommit/plays.txt; sourceTree = "<group>"; };
+		E28FE51A209AF8F5003CE467 /* PlayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			children = (
 				E273BD3C209A54F00015A696 /* AppDelegate.swift */,
 				E273BD3E209A54F00015A696 /* ViewController.swift */,
+				E28FE51A209AF8F5003CE467 /* PlayData.swift */,
 				E273BD40209A54F00015A696 /* Main.storyboard */,
 				E273BD43209A54F20015A696 /* Assets.xcassets */,
 				E273BD45209A54F20015A696 /* LaunchScreen.storyboard */,
@@ -260,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E28FE51B209AF8F5003CE467 /* PlayData.swift in Sources */,
 				E273BD3F209A54F00015A696 /* ViewController.swift in Sources */,
 				E273BD3D209A54F00015A696 /* AppDelegate.swift in Sources */,
 			);

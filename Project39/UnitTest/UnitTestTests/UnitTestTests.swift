@@ -20,17 +20,15 @@ class UnitTestTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+
+    // MARK: - How to XCTest
+    // For XCTesting name testing functions by starting them with "test".
+    // Also the function should accept no params and have no return types.
+    // XC then recognises such a method as a test that should be run on the code. This is identified by the
+    // diamond shape in the gutter to the left. Hovering over this turns it to a play button that will run the test!
+    func testAllWordsLoaded() {
+        let playData = PlayData() // instantiate a playData object
+        // if XCAssertEqual passes true, the test was a success!
+        XCTAssertEqual(playData.allWords.count, 384001, "allWords was not 384001") // XC Assertion test that the allWords property has 0 words
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
