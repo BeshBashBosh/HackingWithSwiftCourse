@@ -11,7 +11,8 @@ import Foundation
 
 struct PlayData {
     var allWords = [String]()
-    var wordsCount = [String: Int]()
+    //var wordsCount = [String: Int]()
+    var wordsCount: NSCountedSet!
     
     init() {
         if let path = Bundle.main.path(forResource: "plays", ofType: "txt") {
@@ -23,17 +24,21 @@ struct PlayData {
                 // Filter out blank characters
                 allWords = allWords.filter { $0 != "" }
                 
-                // Count up occurrence of unique words
-                for word in allWords {
-                    if wordsCount[word] == nil {
-                        wordsCount[word] = 1
-                    } else {
-                        wordsCount[word]! += 1
-                    }
-                }
+                // Re-factored word occurrence property using NSCountedSet
+                wordsCount = NSCountedSet(array: allWords) // creates counted set of words, immediately de-duplicating entries and counting them all
+                allWords = wordsCount.allObjects as! [String] // extract unique words and reinit allWords property
                 
-                // Remove duplicate words from allWords array
-                allWords = Array(wordsCount.keys)
+//                // Count up occurrence of unique words
+//                for word in allWords {
+//                    if wordsCount[word] == nil {
+//                        wordsCount[word] = 1
+//                    } else {
+//                        wordsCount[word]! += 1
+//                    }
+//                }
+//
+//                // Remove duplicate words from allWords array
+//                allWords = Array(wordsCount.keys)
             }
         }
     }
