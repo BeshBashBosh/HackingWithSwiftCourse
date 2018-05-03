@@ -27,6 +27,10 @@ class ViewController: UITableViewController {
         
         let word = playData.allWords[indexPath.row]
         cell.textLabel!.text = word
+        
+        // Add word count to detail label
+        cell.detailTextLabel!.text = "\(playData.wordsCount[word]!)"
+        
         return cell
     }
     

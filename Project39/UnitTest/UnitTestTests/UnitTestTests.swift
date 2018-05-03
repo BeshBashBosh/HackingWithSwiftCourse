@@ -31,4 +31,11 @@ class UnitTestTests: XCTestCase {
         // if XCAssertEqual passes true, the test was a success!
         XCTAssertEqual(playData.allWords.count, 18440, "allWords was not 18440") // XC Assertion test that the allWords property has 0 words
     }
+    
+    func testWordCountsAreCorrect() {
+        let playData = PlayData()
+        XCTAssertEqual(playData.wordsCount["home"], 174, "Home does not appear 174 times")
+        XCTAssertEqual(playData.wordsCount["fun"], 4, "Fun does not appear 4 times")
+        XCTAssertEqual(playData.wordsCount["mortal"], 41, "Mortal does not appear 41 times")
+    }
 }
