@@ -26,7 +26,10 @@ struct PlayData {
                 
                 // Re-factored word occurrence property using NSCountedSet
                 wordsCount = NSCountedSet(array: allWords) // creates counted set of words, immediately de-duplicating entries and counting them all
-                allWords = wordsCount.allObjects as! [String] // extract unique words and reinit allWords property
+                // Sort words by count occurrence in the NSCountedSet
+                let sorted = wordsCount.allObjects.sorted { wordsCount.count(for: $0) > wordsCount.count(for: $1) }
+                // extract unique words and reinit allWords property
+                allWords = sorted as! [String]
                 
 //                // Count up occurrence of unique words
 //                for word in allWords {
