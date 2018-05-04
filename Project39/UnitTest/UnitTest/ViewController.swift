@@ -19,7 +19,8 @@ class ViewController: UITableViewController {
         ac.addTextField()
         
         ac.addAction(UIAlertAction(title: "Filter", style: .default) { [unowned self] _ in
-            let userInput = ac.textFields?[0].text ?? "0"
+            let textIn = ac.textFields?[0].text ?? "0"
+            let userInput = textIn == "" ? "0" : textIn // if no text entered act as if that was no filter.
             self.playData.applyUserFilter(userInput)
             self.tableView.reloadData()
         })

@@ -50,4 +50,33 @@ class UnitTestUITests: XCTestCase {
         
     }
     
+    func testFiltersQuickly() {
+        measure {
+            let app = XCUIApplication()
+            app.buttons["Search"].tap()
+            
+            let filterAlert = app.alerts
+            let textField = filterAlert.textFields.element
+            textField.typeText("1000")
+            
+            filterAlert.buttons["Filter"].tap()
+            
+            XCTAssertEqual(app.tables.cells.count, 55, "There should be 55 words that have an occurrence >= 1000")
+        }
+    }
+    
+    func testUserFilteringBy1000WordsOrMore() {
+        let app = XCUIApplication()
+        app.buttons["Search"].tap()
+        
+        let filterAlert = app.alerts
+        let textField = filterAlert.textFields.element
+        textField.typeText("1000")
+        
+        filterAlert.buttons["Filter"].tap()
+        
+        XCTAssertEqual(app.tables.cells.count, 55, "There should be 55 words that have an occurrence >= 1000")
+        
+    }
+    
 }
